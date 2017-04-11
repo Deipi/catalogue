@@ -1,0 +1,65 @@
+Dubalu Framework
+================
+
+Copyright (c) 2013-2016, deipi.com LLC. Todos los derechos reservados.
+
+La marca deipi.com, los logos de deipi.com, Dubalu y el logo de Dubalu son
+marcas de deipi.com LLC. Todas las otras marcas son propiedad de sus
+respectivos dueños.
+
+Licencia de Uso Único / Único Dominio (SUSDL)
+---------------------------------------------
+
+Todas las partes de la tecnología de la Plataforma Dubalu (la *TECNOLOGÍA*)
+contenida en los archivos, incluyendo, pero no limitándose, al software, los
+algoritmos, código en Python, código en C/C++, código Javascript, código CSS,
+código HTML, otras fuentes de código, textos, documentación, imágenes, íconos
+y diseños (los *ARCHIVOS*) son licenciados de acuerdo a esta licencia
+exceptuando los que explícitamente sean excluidos.
+
+**La Licencia de Uso Único / Único Dominio** (*SUSDL*) le concede a usted,
+el *LICENCIADO*, un derecho *no exclusivo* y *no transferible* de usar la
+*TECNOLOGÍA* sujeto a las **siguientes condiciones**:
+
+* **Que deipi.com LLC le haya concedido explícitamente esta licencia.**
+* Se le concede el uso único de la *TECNOLOGÍA* en un solo dominio.
+* Puede usar la *TECNOLOGÍA* para sus propios propósitos o para un tercero,
+  en cualquier forma, el uso de la *TECNOLOGÍA* es limitado a su uso en un
+  único dominio.
+* El uso en múltiples dominios requiere que obtenga una licencia *SUSDL* para
+  cada dominio o subdominio en el que desee utilizar la tecnología.
+* NO DEBE directa o indirectamente licenciar, sublicenciar, rentar, prestar,
+  vender, revender, regalar, reproducir o distribuir por ningún medio, en su
+  totalidad o en partes, la *TECNOLOGÍA*.
+
+Las mismas condiciones aplican a trabajos derivados de la *TECNOLOGÍA*.
+
+Las mismas condiciones aplican a trabajos creados basados en versiones de
+esta *TECNOLOGÍA* a través de ingeniería inversa.
+
+Trabajos derivados basados en la *TECNOLOGÍA* incluyen aquellos creados usando
+descripciones de los algoritmos y métodos implementados.
+
+* NO DEBE crear trabajos derivados en la *TECNOLOGÍA*.
+* NO DEBE hace ingeniería inversa de la *TECNOLOGÍA*.
+* NO DEBE incorporar la *TECNOLOGÍA* en ningún trabajo creado para reventa.
+* NO DEBE usar la *TECNOLOGÍA* para proveer servicios similares a aquellos que
+  la *TECNOLOGÍA* provee.
+
+No se le concede ninguna otra licencia, expresa o implícita, con respecto a
+cualquier parte de la *TECNOLOGÍA* o sus *ARCHIVOS*. *deipi.com LLC* mantiene
+toda la propiedad intelectual y los derechos de la *TECNOLOGÍA* contenida en
+los *ARCHIVOS*.
+
+Aún cuando *deipi.com LLC* ha revisado cuidadosamente esta *TECNOLOGÍA*,
+TODAS LAS PARTES DE LA *TECNOLOGÍA* SON DISTRIBUIDAS SIN NINGUNA GARANTIA.
+DEIPI.COM LLC RECHAZA CUALQUIER GARANTÍA O REPRESENTACIÓN, NI EXPRESA NI
+IMPLÍCITA, CON RESPECTO A ESTA *TECNOLOGÍA*, SU CALIDAD O SU CONFIABILIDAD,
+NO INFRACCIÓN DE LA PROPIEDAD INTELECTUAL, COMERCIALIZACIÓN, O IDONEIDAD
+PARA UN FIN DETERMINADO. COMO RESULTADO, ESTA *TECNOLOGÍA* ES "COMO ES" Y
+EL LICENCIADO ASUME TODOS LOS RIESGOS EN CUANTO A SU CALIDAD, SU PRECISIÓN
+O SUSTENTABILIDAD PARA CUALQUIER PROPOSITO EN PARTICULAR. BAJO NINGUNA
+CIRCUNSTANCIA DEIPI.COM SERÁ RESPONSABLE DE NINGÚN DAÑO YA SEA DIRECTO,
+INDIRECTO, INCIDENTAL O CONSECUENCIAL DERIVADO DE CUALQUIER DEFECTO U
+OMISIÓN EN NINGUNA DE LAS PARTES DE ESTA *TECNOLOGÍA*, incluso si se
+notificó de la posibilidad de dichos daños.

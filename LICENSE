@@ -1,0 +1,62 @@
+Dubalu Framework
+================
+
+Copyright (c) 2013-2017, deipi.com LLC. All rights reserved.
+
+deipi.com, the deipi.com logos, Dubalu and the Dubalu logo are
+trademarks of deipi.com LLC. All other trademarks are the property of
+their respective owners.
+
+Single Use / Single Domain License (SUSDL)
+------------------------------------------
+
+All parts of the Dubalu Framework technology (the *TECHNOLOGY*)
+contained in these files, including, but not limited to software,
+algorithms, Python code, C/C++ code, Javascript code, CSS code, HTML code,
+other source code, texts, documentation, images, icons and designs (the
+*FILES*) are licensed according to this license, unless otherwise stated.
+
+**The Single Use / Single Domain License** (*SUSDL*) grants you, the
+*LICENSEE*, a *non-exclusive* and *non-transferrable* right to use the
+*TECHNOLOGY* subject to the **following conditions**:
+
+* **You have been granted this license explicitly by deipi.com LLC.**
+* You are granted one single use of the *TECHNOLOGY* on one single domain.
+* You may use the *TECHNOLOGY* for your own purposes or for a client,
+  anyhow, use of the *TECHNOLOGY* is limited to one domain only.
+* Use on multiple domains, requires you to obtain one *SUSDL* for each
+  domain or subdomain you wish to use the *TECHNOLOGY* on.
+* You MUST NOT directly or indirectly license, sub-license, rent, lend,
+  sell, resell, provide for free, reproduce or distribute by any means,
+  in whole or in part, the *TECHNOLOGY*.
+
+The same applies to derivative works based on the *TECHNOLOGY*.
+
+The same applies to works based on reverse-engineered versions of this
+*TECHNOLOGY*.
+
+Derivative works based on the *TECHNOLOGY* includes descriptions of the
+algorithms and methods implemented.
+
+* You MUST NOT create derivative works based on the *TECHNOLOGY*.
+* You MUST NOT reverse-engineer the *TECHNOLOGY*.
+* You MUST NOT incorporate the *TECHNOLOGY* in any work created for resale.
+* You MUST NOT use the *TECHNOLOGY* to provide services similar to those
+  provided by the *TECHNOLOGY*.
+
+No other licenses, express or implied, are granted with respect to any
+of the *TECHNOLOGY* in these *FILES*. *deipi.com LLC* retains all
+intellectual property rights of the *TECHNOLOGY* and in the contained
+*FILES*.
+
+Even though *deipi.com LLC* has carefully reviewed this *TECHNOLOGY*,
+ALL PARTS OF THE *TECHNOLOGY* ARE DISTRIBUTED WITHOUT ANY WARRANTY.
+DEIPI.COM LLC MAKES NO WARRANTY OR REPRESENTATION, EITHER EXPRESS OR
+IMPLIED, WITH RESPECT TO THIS *TECHNOLOGY*, ITS QUALITY OR ACCURACY,
+NONINFRINGEMENT, MERCHANTABILITY, OR FITNESS FOR A PARTICULAR PURPOSE.
+AS A RESULT, THIS *TECHNOLOGY* IS DELIVERED "AS IS" AND THE LECENSEE
+ASSUMES THE ENTIRE RISK AS TO ITS QUALITY, ACCURACY OR SUITABILITY FOR
+ANY PARTICULAR PURPOSE. IN NO EVENT WILL DEIPI.COM LLC BE HELD LIABLE
+FOR DIRECT, INDIRECT, SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES
+RESULTING FROM ANY DEFECT OR INACCURACY IN ANY PART OF THIS *TECHNOLOGY*,
+even if advised of the possibility of such damages.
