@@ -35,11 +35,10 @@ const SimpleForm = (props) => {
       <div>
         <label>Precio</label>
         <div>
-          <Field name="price" component="input" type="text" placeholder="Precio"/>
+          <Field name="price" component="input" type="number" placeholder="Precio"/>
         </div>
       </div>
-     
-      
+           
       <div>
         <button type="submit" disabled={pristine || submitting}>Submit</button>
         <button type="button" disabled={pristine || submitting} onClick={reset}>Clear Values</button>
