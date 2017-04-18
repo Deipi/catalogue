@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import SimpleForm from '../components/products-form';
 import { connect } from 'react-redux';
-import submitEmploye from '../actions';
+import submitProducts from '../actions';
 
 
 
@@ -13,7 +13,7 @@ class SimpleFormContainer extends Component {
 
 	onSubmit(values) {
 		const { props: { dispatch } } = this;
-		dispatch(submitEmploye(values))
+		dispatch(submitProducts(values))
 	}
 
 	render(){
