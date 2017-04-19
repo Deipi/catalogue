@@ -1,25 +1,25 @@
 import React, { Component } from 'react';
 import SimpleForm from '../components/products-form';
 import { connect } from 'react-redux';
-import submitProducts from '../actions';
+import submitProduct from '../actions';
 
 
 
 class SimpleFormContainer extends Component {
 	constructor(props) {
 		super(props);
-		this.onSubmit = this.onSubmit.bind(this);
+		this.handleSubmit = this.handleSubmit.bind(this);
 	}
 
-	onSubmit(values) {
+	handleSubmit(values) {
 		const { props: { dispatch } } = this;
-		dispatch(submitProducts(values))
+		debugger;
+		console.log(values.toJS());
+		dispatch(submitProduct(values));
 	}
 
 	render(){
-		return (
-			<SimpleForm onSubmit={ this.onSubmit } />
-		);
+		return <SimpleForm actionSubmit={ this.handleSubmit } />;
 	}
 }
 
