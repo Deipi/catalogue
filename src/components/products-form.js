@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react';
 import { Field, FieldArray, reduxForm } from 'redux-form/immutable'
 import validate from './validate'
 import 'bootstrap/dist/css/bootstrap.css';
@@ -24,23 +24,24 @@ const renderMembers = ({ fields, meta: { touched, error, submitFailed } }) => (
       <button type="button" onClick={() => fields.push({})}>Agregar Variante</button>
       {(touched || submitFailed) && error && <span>{error}</span>}
     </li>
-    {fields.map((member, index) => (
+    {fields.map((variants, index) => (
       <li key={index}>
+      <h4>Variante #{index + 1}</h4>
         <button
           type="button"          
           onClick={() => fields.remove(index)}        > Eliminar</button>
-        <h4>Variante #{index + 1}</h4>
+        
         <Field
-          name={`${member}.size`}
+          name={`${variants}.size`}
           type="text"
-          component={size}
+          component={Size}
           label="Tamaño"
         />
 
         <Field
-          name={`${member}.color`}
+          name={`${variants}.color`}
           type="text"
-          component={color}
+          component={Color}
           label="Color"
         />
        
@@ -49,10 +50,13 @@ const renderMembers = ({ fields, meta: { touched, error, submitFailed } }) => (
   </ul>
 );
 
-const FieldArraysForm = props => {
-  const { handleSubmit, pristine, reset, submitting } = props;
+const NewProductForm = props => {
+  const { handleSubmit, actionSubmit, pristine, reset, submitting } = props;
+  console.log('HOLA MUNDO')
+  console.log(handleSubmit);    
+  console.log(actionSubmit);    
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={ handleSubmit(actionSubmit) }>
       <Field
         name="name"
         type="text"
@@ -61,9 +65,16 @@ const FieldArraysForm = props => {
       />
       <Field
         name="code"
-        type="text"
+        type="number"
         component={renderField}
         label="Código del producto"
+      />
+
+      <Field
+        name="price"
+        type="number"
+        component={renderField}
+        label="Precio del producto"
       />
       <Field
         name="description"
@@ -71,8 +82,9 @@ const FieldArraysForm = props => {
         component="textarea"
         placeholder="Descripción"
       />
+
       <Field name="tags" component={ Tags } type="text" placeholder="Tags"/>
-      <FieldArray name="members" component={renderMembers} />
+      <FieldArray name="variants" component={renderMembers} />
       <div>
         <button type="submit" disabled={submitting}>Guardar</button>
         <button type="button" disabled={pristine || submitting} onClick={reset}>
@@ -85,24 +97,29 @@ const FieldArraysForm = props => {
 
 
 
-var Tags = React.createClass({
-  displayName: 'Tags',
+class Tags extends Component{
+    constructor(props) {
+        super(props);
+
+        this.handleOnChange = this.handleOnChange.bind(this);
+        this.state = {
+            displayName: 'Tags',
+            multi: true,
+            multiValue: [],
+            options: [
+                { value: 'R', label: 'Ropa' },
+                { value: 'E', label: 'Electronica' },
+                { value: 'Z', label: 'Zapatos' }
+            ],
+            value: undefined
+        };
+    }
+
   propTypes: {
     hint: React.PropTypes.string,
     label: React.PropTypes.string
-  },
-  getInitialState () {
-    return {
-      multi: true,
-      multiValue: [],
-      options: [
-        { value: 'R', label: 'Ropa' },
-        { value: 'E', label: 'Electronica' },
-        { value: 'Z', label: 'Zapatos' }
-      ],
-      value: undefined
-    };
-  },
+  }
+
   handleOnChange (value) {
     const { multi } = this.state;
     if (multi) {
@@ -110,7 +127,8 @@ var Tags = React.createClass({
     } else {
       this.setState({ value });
     }
-  },
+  }
+
   render () {
     const { multi, multiValue, options, value } = this.state;
     return (
@@ -128,34 +146,39 @@ var Tags = React.createClass({
       </div>
     );
   }
-});
+}
 
-var size = React.createClass({
-  displayName: 'size',
-  propTypes: {
-    hint: React.PropTypes.string,
-    label: React.PropTypes.string
-  },
-  getInitialState () {
-    return {
-      multi: false,
-      multiValue: [],
-      options: [
-        { value: 'C', label: 'Chico' },
-        { value: 'M', label: 'Mediano' },
-        { value: 'G', label: 'Grande' }
-      ],
-      value: undefined
-    };
-  },
-  handleOnChange (value) {
-    const { multi } = this.state;
-    if (multi) {
-      this.setState({ multiValue: value });
-    } else {
-      this.setState({ value });
+class Size extends  Component{
+  constructor(props) {
+        super(props);
+        this.handleOnChange = this.handleOnChange.bind(this);
+        this.state = {
+            displayName: 'Size',
+            multi: false,
+            multiValue: [],
+            options: [
+                { value: 'C', label: 'Chico' },
+                { value: 'M', label: 'Mediano' },
+                { value: 'G', label: 'Grande' }
+            ],
+            value: undefined
+        };
     }
-  },
+
+    propTypes: {
+        hint: React.PropTypes.string,
+        label: React.PropTypes.string
+    }
+
+    handleOnChange (value) {
+        const { multi } = this.state;
+        if (multi) {
+          this.setState({ multiValue: value });
+        } else {
+          this.setState({ value });
+        }
+    }
+
   render () {
     const { multi, multiValue, options, value } = this.state;
     return (
@@ -173,10 +196,10 @@ var size = React.createClass({
       </div>
     );
   }
-});
+}
 
-var color = React.createClass({
-  displayName: 'color',
+var Color = React.createClass({
+  displayName: 'Color',
   propTypes: {
     hint: React.PropTypes.string,
     label: React.PropTypes.string
@@ -227,6 +250,6 @@ var color = React.createClass({
 
 export default reduxForm({
   form: 'fieldArrays', // a unique identifier for this form
-  validate,
-})(FieldArraysForm);
+  
+})(NewProductForm);
 
