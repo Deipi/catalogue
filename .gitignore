@@ -59,3 +59,5 @@ iambrass
 /docs/www
 /src/js/draft-wysiwyg/node_modules
 /nginx/available_vhosts/
+
+node_modules
