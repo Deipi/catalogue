@@ -1,13 +1,24 @@
 const validate = values => {
   const errors = {};
-  if (!values.clubName) {
-    errors.clubName = 'Required';
+  if (!values.get("name")) {
+    errors.name = 'Un Nombre es Obligatorio';
   }
-  if (!values.members || !values.members.length) {
+  if (!values.get("code")) {
+    errors.code = 'Un Código es Obligatorio';
+  }
+  if (!values.get("price")) {
+    errors.price = 'No hay un precio valido';
+  }
+
+  if (!values.get("tags")) {
+    errors.tags = 'No hay un precio valido';
+  }
+
+  if (!values.get("members") || !values.get("members").length) {
     errors.members = { _error: 'At least one member must be entered' };
   } else {
     const membersArrayErrors = [];
-    values.members.forEach((member, memberIndex) => {
+    values.get("members").forEach((member, memberIndex) => {
       const memberErrors = {};
       if (!member || !member.firstName) {
         memberErrors.firstName = 'Required';
