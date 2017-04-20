@@ -112,27 +112,33 @@ class Tags extends Component{
           multi={multi}
           options={options}
           onChange={this.handleOnChange}
+          placeholder="Tags"
           value={multi ? multiValue : value}
         />
+
         <div >{this.props.hint}</div>
-        
       </div>
     );
   }
 }
 
-class Size extends  Component{
+class Variants extends  Component{
   constructor(props) {
         super(props);
         this.handleOnChange = this.handleOnChange.bind(this);
         this.state = {
             displayName: 'Size',
-            multi: false,
-            multiValue: [],
+            multi: true,
+            multiValue: [
+                { value: 'T', label: 'Tamaño' },
+                { value: 'C', label: 'Color' }
+            ],
             options: [
-                { value: 'C', label: 'Chico' },
-                { value: 'M', label: 'Mediano' },
-                { value: 'G', label: 'Grande' }
+                { value: 'S', label: 'Sabor' },
+                { value: 'E', label: 'Estilo' },
+                { value: 'M', label: 'Material' },
+                { value: 'T', label: 'Tamaño' },
+                { value: 'C', label: 'Color' }
             ],
             value: undefined
         };
