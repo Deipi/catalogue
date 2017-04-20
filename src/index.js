@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
+import 'bootstrap/dist/css/bootstrap.css'
 import immutable from 'immutable';
 
 import { combineReducers } from 'redux-immutable';
