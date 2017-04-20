@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import SimpleForm from '../components/products-form';
 import { connect } from 'react-redux';
 import submitProduct from '../actions';
+import { formValueSelector } from 'redux-form/immutable';
 
 
 
@@ -23,4 +24,12 @@ class SimpleFormContainer extends Component {
 	}
 }
 
-export default connect()(SimpleFormContainer);
+const selector = formValueSelector('fieldArrays');
+
+export default connect(state => {
+	const variants = selector(state, 'variantsSelect');
+	debugger;
+	return {
+		variants: variants,
+	};
+})(SimpleFormContainer);
