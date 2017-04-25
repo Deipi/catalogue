@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Field, FieldArray, reduxForm, change } from 'redux-form/immutable'
-import validate from './validate'
+import validate from './validate';
+import {Size, Color, TagsSelect, VariansSelect} from './select-catalogues'
 
-import Select from 'react-select';
 import 'react-select/dist/react-select.css';
 import { Card, CardHeader, Button } from 'reactstrap';
 
@@ -16,40 +16,65 @@ const renderField = ({ input, label, type, meta: { touched, error } }) => (
   </div>
 );
 
-const renderSubProducts = ({variants, fields, meta: { touched, error, submitFailed } } ) => (
-    <ul >
-        <div style={{ float: 'left', background: '#f0f0' }}>
-            <li>
-                <Button type="button" onClick={() => fields.push({})}>Crear</Button>
-                {(touched || submitFailed) && error && <span>{error}</span>}
-            </li>
-        </div>
-        <div style={{ float: 'right'}}>
-            <Card>
-             <CardHeader>Subproductos</CardHeader>
-                {fields.map((ProductVariants, index) => (
-                    <div>
-                        <Card block>
-                            <li key={index}>
-                                <h4>Variante #{index + 1}</h4>                                
-                                {
-                                  variants ? variants.map(obj => {
-                                    return(
-                                      <div>                                        
-                                        <Field name={obj.label} type="text" component={ renderField } label={obj.label}/>                                      
-                                      </div>
-                                    );
-                                  }) : null
-                                }
-                                <Button type="button" onClick={() => fields.remove(index)}>Eliminar</Button>
-                            </li>
-                        </Card>
-                    </div>
-                ))}
-            </Card>
-        </div>
-    </ul>
-);
+class renderSubProducts extends React.Component{
+  constructor(props){
+    super(props);
+  }
+  render() {
+    const {variants, fields, meta: { touched, error, submitFailed } }=this.props;
+    return (
+      <ul>
+          <div style={{ float: 'left'}}>
+              <li>
+                  <Button type="button" onClick={(() => fields.push({}))}>Crear</Button>
+                  {(touched || submitFailed) && error && <span>{error}</span>}
+              </li>
+          </div>
+          <div style={{ float: 'right'}}>
+              <Card>
+               <CardHeader>Subproductos</CardHeader>
+                  {fields.map((ProductVariants, index) => (
+                      <div>
+                          <Card block>
+                              <li key={index}>
+                                  <h4>Variante #{index + 1}</h4>
+                                  {
+                                    variants ? variants.map(obj => {
+                                      let Objeto = obj.label.toUpperCase();
+
+                                      if(Objeto==='TAMAÑO'){
+                                        return(
+                                          <div>
+                                            <Field name={Objeto} type="text" component={ Size } label={Objeto}/>
+                                          </div>
+                                        );
+                                      }else if(Objeto==='COLOR'){
+                                        return(
+                                          <div>
+                                            <Field name={Objeto} type="text" component={ Color } label={Objeto}/>
+                                          </div>
+                                        );
+                                      }else{
+                                        return(
+                                          <div>
+                                            <Field name={ Objeto + index } type="text" component={ renderField } label={Objeto}/>
+                                          </div>
+                                        );
+                                      }
+                                    }) : null
+                                  }
+                                  <Button type="button" onClick={() => fields.remove(index)}>Eliminar</Button>
+                              </li>
+                          </Card>
+                      </div>
+                  ))}
+              </Card><br/>
+          </div>
+      </ul>
+
+  );
+  }
+}
 
 class NewProductForm extends React.Component{
     constructor(props){
@@ -66,11 +91,26 @@ class NewProductForm extends React.Component{
             <div>
                 <form onSubmit={ handleSubmit(actionSubmit) }>
                     <div style={{ float: 'left'}}>
-                        <Field name="name" type="text" component={ renderField } label="Nombre del producto"/>
-                        <Field name="code" type="number" component={renderField} label="Código del producto"/>
-                        <Field name="price" type="number" component={renderField} label="Precio del producto"/>
+                        <Field
+                          name="name"
+                          type="text"
+                          component={ renderField }
+                          label="Nombre del producto"
+                        />
+                        <Field
+                          name="code"
+                          type="number"
+                          component={renderField}
+                          label="Código del producto"
+                        />
+                        <Field
+                          name="price"
+                          type="number"
+                          component={renderField}
+                          label="Precio del producto"
+                        />
                         <label>Descripción</label><br/>
-                        <Field 
+                        <Field
                           name="description"
                           type="text"
                           component="textarea"
@@ -80,17 +120,21 @@ class NewProductForm extends React.Component{
                           name="tags"
                           type="input"
                           component={TagsSelect}
-                          />                            
+                        />
                         <label>Variantes</label>
-                        <Field name="ProductVariants" 
-                            component={ VariansSelect } 
-                            type="text" 
+                        <Field name="ProductVariants"
+                            component={ VariansSelect }
+                            type="text"
                             placeholder="Variantes"
                             onChangeAction={ this.onChangeActionVariants }
-                            />                            
-                    </div>                    
+                            />
+                    </div>
                     <div style={{ float: 'left'}}>
-                        <FieldArray name="variants" component={renderSubProducts} variants={ variants } />
+                        <FieldArray
+                          name="variants"
+                          component={renderSubProducts}
+                          variants={ variants }
+                        />
                     </div>
                     <div style={{float:'left'}}>
                         <Button type="submit" disabled={submitting}>Guardar</Button>
@@ -102,170 +146,8 @@ class NewProductForm extends React.Component{
     }
 }
 
-class VariansSelect extends Component{
-  constructor(props) {
-    super(props);
-    this.handleOnChange = this.handleOnChange.bind(this);
-    this.state = {
-        displayName: 'VariansSelect',
-        multi: true,
-        multiValue: [
-            { value: 'T', label: 'Tamaño' },
-            { value: 'C', label: 'Color' }
-        ],
-        options: [
-            { value: 'S', label: 'Sabor' },
-            { value: 'E', label: 'Estilo' },
-            { value: 'M', label: 'Material' },
-            { value: 'T', label: 'Tamaño' },
-            { value: 'C', label: 'Color' }
-        ],
-        value: undefined
-    };
-  }
-
-  propTypes: {
-  hint: React.PropTypes.string,
-  label: React.PropTypes.string
-  }
-
-  handleOnChange (value) {
-  const { multi } = this.state;
-  if (multi) {
-    this.setState({ multiValue: value });
-  } else {
-    this.setState({ value });
-  }
-  }
-
-  render () {
-  const { multi, multiValue, options, value } = this.state;
-  const{ onChangeAction} = this.props;
-  const { name } = this.props.input;
-  return (
-    <div >
-      <h3 >{this.props.label}</h3>
-      <Select.Creatable
-        multi={multi}
-        options={options}
-        onChange={(value, algo) => {this.handleOnChange(value); onChangeAction(value, name); } }
-        placeholder="VariansSelect"
-        value={multi ? multiValue : this.props.input.value}
-        name={this.props.input.name}
-        { ...this.props}
-      />
-
-      <div >{this.props.hint}</div>
-    </div>
-  );
-  }
-}
-
-class TagsSelect extends  Component{
-  constructor(props) {
-        super(props);
-        this.handleOnChange = this.handleOnChange.bind(this);
-        this.state = {
-            displayName: 'TagsSelect',
-            multi: true,
-            multiValue: [],
-            options: [
-                { value: 'R', label: 'Ropa' },
-                { value: 'E', label: 'Electronica' },
-                { value: 'Z', label: 'Zapatos' }
-            ],
-            value: undefined            
-        };
-    }
-
-    propTypes: {
-        hint: React.PropTypes.string,
-        label: React.PropTypes.string
-    }
-
-    handleOnChange (value) {
-        const { multi } = this.state;
-        if (multi) {
-          this.setState({ multiValue: value });
-        } else {
-          this.setState({ value });
-        }
-    }
-
-  render () {
-    const { multi, multiValue, options, value } = this.state;
-    return (
-      <div >
-        <h3 >{this.props.label}</h3>
-        <Select.Creatable
-          multi={multi}
-          options={options}
-          onChange={this.handleOnChange}
-          value={multi ? multiValue : value}
-          placeholder="Tags"
-        />
-        <div >{this.props.hint}</div>
-        
-      </div>
-    );
-  }
-}
-
-class Size extends Component{
-    constructor(props) {
-        super(props);
-
-        this.handleOnChange = this.handleOnChange.bind(this);
-        this.state = {
-            displayName: 'Size',
-            multi: false,
-            multiValue: [],
-            options: [
-                { value: 'C', label: 'Chico' },
-                { value: 'M', label: 'Mediano' },
-                { value: 'G', label: 'Grande' }
-            ],
-            value: undefined
-        };
-    }
-
-  propTypes: {
-    hint: React.PropTypes.string,
-    label: React.PropTypes.string
-  }
-
-  handleOnChange (value) {
-    const { multi } = this.state;
-    if (multi) {
-      this.setState({ multiValue: value });
-    } else {
-      this.setState({ value });
-    }
-  }
-
-  render () {
-    const { multi, multiValue, options, value } = this.state;
-    return (
-      <div >
-
-        <h3 >{this.props.label}</h3>
-        <Select.Creatable
-          multi={multi}
-          options={options}
-          onChange={this.handleOnChange}
-          placeholder="Tamaño"
-          value={multi ? multiValue : value}
-        />
-
-        <div >{this.props.hint}</div>
-      </div>
-    );
-  }
-}
-
-
 export default reduxForm({
   form: 'fieldArrays', // a unique identifier for this form
-  validate,
+  validate
 })(NewProductForm);
 
