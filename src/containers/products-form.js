@@ -28,7 +28,6 @@ const selector = formValueSelector('fieldArrays');
 
 export default connect(state => {
 	const variants = selector(state, 'variantsSelect');
-	debugger;
 	return {
 		variants: variants,
 	};
