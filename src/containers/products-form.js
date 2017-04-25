@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import SimpleForm from '../components/products-form';
 import { connect } from 'react-redux';
 import submitProduct from '../actions';
-import { formValueSelector } from 'redux-form/immutable';
-
-
+import { Field, reduxForm, formValueSelector } from 'redux-form'
 
 class SimpleFormContainer extends Component {
 	constructor(props) {
@@ -20,16 +18,24 @@ class SimpleFormContainer extends Component {
 	}
 
 	render(){
-		return <SimpleForm actionSubmit={ this.handleSubmit } />;
+		const { variants } = this.props;
+		return <SimpleForm variants={ variants } actionSubmit={ this.handleSubmit } />;
 	}
 }
 
-const selector = formValueSelector('fieldArrays');
+const selector = formValueSelector('fieldArrays') // <-- same as form name
 
-export default connect(state => {
-	const variants = selector(state, 'variantsSelect');
-	debugger;
+const getValues = state => {
+	const values = state.getIn([ 'form', 'fieldArrays', 'values' ] )
+
+	let variants = [];
+	if (values) {
+		variants = values.get('ProductVariants');
+	}
+
 	return {
-		variants: variants,
-	};
-})(SimpleFormContainer);
+		variants,
+	}
+}
+
+export default connect(getValues)(SimpleFormContainer);
