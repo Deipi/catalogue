@@ -27,7 +27,7 @@ const validate = values => {
       if (!member || !member.lastName) {
         memberErrors.lastName = 'Required';
         membersArrayErrors[memberIndex] = memberErrors;
-      }  
+      }
     });
     if (membersArrayErrors.length) {
       errors.members = membersArrayErrors;
