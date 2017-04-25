@@ -132,6 +132,7 @@ class Tags extends Component{
         super(props);
 
         this.handleOnChange = this.handleOnChange.bind(this);
+        this.validateNewOption = this.validateNewOption.bind(this);
         this.state = {
             displayName: 'Tags',
             multi: true,
@@ -159,6 +160,17 @@ class Tags extends Component{
     }
   }
 
+  validateNewOption(value) {
+    const { options, multiValue } = this.state;
+
+    if (value.label) {
+      if (options.filter(element => element.label.toUpperCase() === value.label.toUpperCase()).length || multiValue.filter(element => element.label.toUpperCase() === value.label.toUpperCase()).length) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   render () {
     const { multi, multiValue, options, value } = this.state;
     const { onChangeAction } = this.props;
@@ -171,6 +183,7 @@ class Tags extends Component{
           multi={multi}
           options={options}
           onChange={ (value, algo) => { this.handleOnChange(value); onChangeAction(value, name); } }
+          isValidNewOption={ this.validateNewOption }
           value={multi ? multiValue : this.props.input.value}
           name={ this.props.input.name }
           { ...this.props }
