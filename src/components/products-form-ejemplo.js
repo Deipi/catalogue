@@ -65,7 +65,10 @@ class NewProductForm extends React.Component {
   }
 
   render() {
-    const { handleSubmit, actionSubmit, pristine, reset, submitting, variants } = this.props;
+    const { handleSu
+
+
+      bmit, actionSubmit, pristine, reset, submitting, variants } = this.props;
     return (
       <form onSubmit={ handleSubmit(actionSubmit) }>
         <Field
