@@ -1,4 +1,5 @@
 const validate = values => {
+  debugger;
   const errors = {};
   if (!values.get("name")) {
     errors.name = 'Un Nombre es Obligatorio';

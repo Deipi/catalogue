@@ -148,57 +148,93 @@ export class TagsSelect extends  Component{
   }
 }
 
-export class Size extends Component{
-    constructor(props) {
-        super(props);
+const ERROR_STYLE = {
+    position: 'absolute',
+    zIndex: '3',
+    right: '11px',
+    top: '-9px',
+};
 
-        this.handleOnChange = this.handleOnChange.bind(this);
-        this.state = {
-            displayName: 'Size',
-            multi: false,
-            multiValue: [],
-            options: [
-                { value: 'C', label: 'Chico' },
-                { value: 'M', label: 'Mediano' },
-                { value: 'G', label: 'Grande' }
-            ],
-            value: undefined
-        };
+
+export const Size = (props) => {
+    const styleError = {};
+    let errorSpan = null;
+
+    if (props.meta.touched && props.meta.error) {
+        errorSpan = <span className="badge badge-danger" style={ ERROR_STYLE }>{ props.meta.error }</span>;
+        styleError.borderColor = 'darkred';
     }
 
-  propTypes: {
-    hint: React.PropTypes.string,
-    label: React.PropTypes.string
-  }
-
-  handleOnChange (value) {
-    const { multi } = this.state;
-    if (multi) {
-      this.setState({ multiValue: value });
-    } else {
-      this.setState({ value });
-    }
-  }
-
-  render () {
-    const { multi, multiValue, options, value } = this.state;
     return (
-      <div >
-
-        {this.props.label}
-        <Select.Creatable
-          multi={multi}
-          options={options}
-          onChange={this.handleOnChange}
-          placeholder="Tamaño"
-          value={multi ? multiValue : value}
-        />
-
-        <div >{this.props.hint}</div>
-      </div>
+        <div style={ { position: 'relative' } }>
+            { errorSpan }
+            <Select
+                noResultsText=""
+                required
+                autosize={ false }
+                style={ styleError }
+                name={ props.input.name }
+                value={ props.input.value }
+                onChange={ option => props.onChangeAction(option, props.input.name, props.index) }
+                options={ props.options }
+                className={ props.className }
+                { ...props }
+            />
+        </div>
     );
-  }
-}
+};
+
+// export class Size extends Component{
+//     constructor(props) {
+//         super(props);
+
+//         this.handleOnChange = this.handleOnChange.bind(this);
+//         this.state = {
+//             displayName: 'Size',
+//             multi: false,
+//             multiValue: [],
+//             options: [
+//                 { value: 'C', label: 'Chico' },
+//                 { value: 'M', label: 'Mediano' },
+//                 { value: 'G', label: 'Grande' }
+//             ],
+//             value: undefined
+//         };
+//     }
+
+//   propTypes: {
+//     hint: React.PropTypes.string,
+//     label: React.PropTypes.string
+//   }
+
+//   handleOnChange (value) {
+//     const { multi } = this.state;
+//     if (multi) {
+//       this.setState({ multiValue: value });
+//     } else {
+//       this.setState({ value });
+//     }
+//   }
+
+//   render () {
+//     const { multi, multiValue, options, value } = this.state;
+//     return (
+//       <div >
+
+//         {this.props.label}
+//         <Select.Creatable
+//           multi={multi}
+//           options={options}
+//           onChange={this.handleOnChange}
+//           placeholder="Tamaño"
+//           value={multi ? multiValue : value}
+//         />
+
+//         <div >{this.props.hint}</div>
+//       </div>
+//     );
+//   }
+// }
 
 export class Color extends Component{
     constructor(props) {

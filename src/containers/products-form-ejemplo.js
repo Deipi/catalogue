@@ -14,7 +14,7 @@ class SimpleFormContainer extends Component {
 
 	handleSubmit(values) {
 		const { props: { dispatch } } = this;
-		debugger;
+
 		console.log(values.toJS());
 		dispatch(submitProduct(values));
 	}

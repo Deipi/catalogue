@@ -18,8 +18,8 @@ class SimpleFormContainer extends Component {
 	}
 
 	render(){
-		const { variants } = this.props;
-		return <SimpleForm variants={ variants } actionSubmit={ this.handleSubmit } />;
+		const { variants, variantsArray } = this.props;
+		return <SimpleForm variantsArray={ variantsArray } variants={ variants } actionSubmit={ this.handleSubmit } />;
 	}
 }
 
@@ -29,12 +29,15 @@ const getValues = state => {
 	const values = state.getIn([ 'form', 'fieldArrays', 'values' ] )
 
 	let variants = [];
+	let variantsArray = {};
 	if (values) {
 		variants = values.get('ProductVariants');
+		variantsArray = values.get('variantsArray') ? values.get('variantsArray') : {};
 	}
 
 	return {
 		variants,
+		variantsArray,
 	}
 }
 

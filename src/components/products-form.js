@@ -21,7 +21,7 @@ class renderSubProducts extends React.Component{
     super(props);
   }
   render() {
-    const {variants, fields, meta: { touched, error, submitFailed } }=this.props;
+    const { onChangeActionArray, variants, fields, meta: { touched, error, submitFailed } }=this.props;
     return (
       <ul>
           <div style={{ float: 'left'}}>
@@ -39,19 +39,48 @@ class renderSubProducts extends React.Component{
                               <li key={index}>
                                   <h4>Variante #{index + 1}</h4>
                                   {
-                                    variants ? variants.map(obj => {
-                                      let Objeto = obj.label.toUpperCase();
+                                    variants ? variants.map(obj => {let Objeto = obj.label.toUpperCase();
 
                                       if(Objeto==='TAMAÑO'){
                                         return(
                                           <div>
-                                            <Field name={Objeto} type="text" component={ Size } label={Objeto}/>
+                                            <Field
+                                              name={ `size[${ index }]` }
+                                              type="text"
+                                              component={ Size }
+                                              label={ Objeto }
+                                              onChangeAction={ onChangeActionArray }
+                                              options={
+                                                [
+                                                  { value: 'C', label: 'Chico' },
+                                                  { value: 'M', label: 'Mediano' },
+                                                  { value: 'G', label: 'Grande' }
+                                                ]
+                                              }
+                                              index={ index }
+                                            />
                                           </div>
                                         );
                                       }else if(Objeto==='COLOR'){
                                         return(
                                           <div>
-                                            <Field name={Objeto} type="text" component={ Color } label={Objeto}/>
+                                            <Field
+                                              name={ `color[${ index }]` }
+                                              type="text"
+                                              component={ Size }
+                                              label={ Objeto }
+                                              onChangeAction={ onChangeActionArray }
+                                              options={
+                                                [
+                                                  { value: 'V', label: 'Verde' },
+                                                  { value: 'A', label: 'Azul' },
+                                                  { value: 'R', label: 'Rojo' },
+                                                  { value: 'M', label: 'Morado' },
+                                                  { value: 'B', label: 'Blanco' }
+                                                ]
+                                              }
+                                              index={ index }
+                                            />
                                           </div>
                                         );
                                       }else{
@@ -80,10 +109,20 @@ class NewProductForm extends React.Component{
     constructor(props){
         super(props);
         this.onChangeActionVariants = this.onChangeActionVariants.bind(this);
+        this.onChangeActionArray = this.onChangeActionArray.bind(this);
     }
     onChangeActionVariants(value, inputName){
-        const { dispatch } = this.props;
-        dispatch(change('fieldArrays', inputName, value, true))
+        const { dispatch, variantsArray } = this.props;
+        dispatch(change('fieldArrays', inputName, value, true));
+    }
+    onChangeActionArray(value, inputName, index){
+        const { dispatch, variantsArray } = this.props;
+
+        dispatch(change('fieldArrays', inputName, value, true));
+
+        const obj = { [inputName]: value.label };
+        variantsArray[`variant[${ index }]`] = Object.assign({}, variantsArray[`variant[${ index }]`], obj)
+        dispatch(change('fieldArrays', 'variantsArray', variantsArray, true))
     }
     render(){
         const { handleSubmit, actionSubmit, pristine, reset, submitting, variants } = this.props;
@@ -134,6 +173,7 @@ class NewProductForm extends React.Component{
                           name="variants"
                           component={renderSubProducts}
                           variants={ variants }
+                          onChangeActionArray={ this.onChangeActionArray }
                         />
                     </div>
                     <div style={{float:'left'}}>
@@ -148,6 +188,6 @@ class NewProductForm extends React.Component{
 
 export default reduxForm({
   form: 'fieldArrays', // a unique identifier for this form
-  validate
+  // validate
 })(NewProductForm);
 
