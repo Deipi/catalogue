@@ -121,7 +121,7 @@ class NewProductForm extends React.Component{
         dispatch(change('fieldArrays', inputName, value, true));
 
         const obj = { [inputName]: value.label };
-        variantsArray[`variant[${ index }]`] = Object.assign({}, variantsArray[`variant[${ index }]`], obj)
+        variantsArray[`variant[${ index + 1 }]`] = Object.assign({}, variantsArray[`variant[${ index + 1 }]`], obj)
         dispatch(change('fieldArrays', 'variantsArray', variantsArray, true))
     }
     render(){
@@ -188,6 +188,6 @@ class NewProductForm extends React.Component{
 
 export default reduxForm({
   form: 'fieldArrays', // a unique identifier for this form
-  // validate
+  validate
 })(NewProductForm);
 
