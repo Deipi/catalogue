@@ -86,7 +86,7 @@ class renderSubProducts extends React.Component{
                                       }else{
                                         return(
                                           <div>
-                                            <Field name={ Objeto + index } type="text" component={ renderField } label={Objeto}/>
+                                            <Field onChange={ onChangeActionArray } name={ Objeto + index } type="text" component={ renderField } label={Objeto}/>
                                           </div>
                                         );
                                       }
