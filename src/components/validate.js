@@ -1,6 +1,6 @@
 const validate = values => {
     const errors = {};
-    const variants = values.toJS().variantsArray;
+    const variants = values.toJS().variants;
     const combination = {};
 
     if (variants) {
@@ -24,8 +24,8 @@ const validate = values => {
     });
 
     if (errorInVariant) {
-        alert('error')
-        errors[errorInVariant] = "ERROR";
+        alert(errorInVariant)
+        //errors[errorInVariant] = "ERROR";
     }
 
 
@@ -36,12 +36,8 @@ const validate = values => {
   if (!values.get("code")) {
     errors.code = 'Un Código es Obligatorio';
   }
-  if (!values.get("price")) {
-    errors.price = 'No hay un precio valido';
-  }
-
-  if (!values.get("tags")) {
-    errors.tags = 'No hay un precio valido';
+  if (!values.get("amount")) {
+    errors.amount = 'No hay un precio valido';
   }
 
   return errors;

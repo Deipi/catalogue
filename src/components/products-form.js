@@ -135,7 +135,7 @@ class NewProductForm extends React.Component{
     onChangeActionArray(value, inputName, index){
         const { dispatch, variants } = this.props;
         dispatch(change('fieldArrays', inputName, value, true));
-        const obj = { [inputName]: value.label };
+        const obj = { [inputName]: value ? value.label : "" };
         variants[`variant[${ index }]`] = Object.assign({}, variants[`variant[${ index }]`], obj)
         dispatch(change('fieldArrays', 'variants', variants, true))
     }
@@ -188,7 +188,7 @@ class NewProductForm extends React.Component{
                     <div style={{ float: 'left'}}>
                         <FieldArray
                           name="variantsArray"
-                          component={renderSubProducts}
+                          component={ renderSubProducts }
                           variantsArray={ variantsArray }
                           onChangeActionArray={ this.onChangeActionArray }
                         />

@@ -14,12 +14,25 @@ class SimpleFormContainer extends Component {
 
     handleSubmit(values) {
         const { props: { dispatch} } = this;
-        dispatch(submitProduct(values.delete("ProductVariants").delete("variantsArray").delete("size").delete("color")));
-        /*values.get('variants').map(obj=>{
-            obj.name=values.get('name');
-            obj.code=values.get('code');
-        })
-        dispatch(actionCreate(values.get(variants)));*/
+        const variants = values.get('variants');
+        const valuesProduct = values.set('variants', {});
+        const valuesList = [valuesProduct.delete('size').delete('color').delete('ProductVariants').delete('variantsArray').toJS()];
+
+        Object.keys(variants).map(key => {
+            const subProduct = {};
+            subProduct.name = valuesProduct.get('name');
+            subProduct.code = valuesProduct.get('code');
+            subProduct.description = valuesProduct.get('description');
+            subProduct.tags = valuesProduct.get('tags');
+            subProduct.amount = valuesProduct.get('amount');
+            subProduct.variants = variants[key];
+
+            valuesList.push(subProduct);
+        });
+        dispatch(submitProduct(valuesList));
+
+        /*
+        dispatch(submitProduct(values.delete("ProductVariants").delete("variantsArray").delete("size").delete("color")));*/
     }
 
     render(){
