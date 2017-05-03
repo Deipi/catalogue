@@ -1,3 +1,5 @@
+//esto es el select
+
 import React, { Component } from 'react';
 import Select from 'react-select';
 import { connect } from 'react-redux';
