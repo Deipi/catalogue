@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Field, FieldArray, reduxForm, change } from 'redux-form/immutable'
 import validate from './validate';
-import {Size, Color, TagsSelect, VariansSelect} from './select-catalogues'
+import {VariantsDictionary, TagsSelect, VariansSelect} from './select-catalogues'
 
 import 'react-select/dist/react-select.css';
 import { Card, CardHeader, Button } from 'reactstrap';
@@ -20,8 +20,7 @@ class renderSubProducts extends React.Component{
   constructor(props){
     super(props);
   }
-  render() {
-    const { onChangeActionArray, variants, fields, meta: { touched, error, submitFailed } }=this.props;
+  render() {const { onChangeActionArray, variantsArray, fields, meta: { touched, error, submitFailed } }=this.props;
     return (
       <ul>
           <div style={{ float: 'left'}}>
@@ -39,7 +38,7 @@ class renderSubProducts extends React.Component{
                               <li key={index}>
                                   <h4>Variante #{index + 1}</h4>
                                   {
-                                    variants ? variants.map(obj => {let Objeto = obj.label.toUpperCase();
+                                    variantsArray ? variantsArray.map(obj => {let Objeto = obj.label.toUpperCase();
 
                                       if(Objeto==='TAMAÑO'){
                                         return(
@@ -47,9 +46,10 @@ class renderSubProducts extends React.Component{
                                             <Field
                                               name={ `size[${ index }]` }
                                               type="text"
-                                              component={ Size }
+                                              component={ VariantsDictionary }
                                               label={ Objeto }
                                               onChangeAction={ onChangeActionArray }
+                                              placeholder="Tamaño"
                                               options={
                                                 [
                                                   { value: 'C', label: 'Chico' },
@@ -58,6 +58,7 @@ class renderSubProducts extends React.Component{
                                                 ]
                                               }
                                               index={ index }
+                                              variantsArray={this.variantsArray}
                                             />
                                           </div>
                                         );
@@ -67,9 +68,10 @@ class renderSubProducts extends React.Component{
                                             <Field
                                               name={ `color[${ index }]` }
                                               type="text"
-                                              component={ Size }
+                                              component={ VariantsDictionary }
                                               label={ Objeto }
                                               onChangeAction={ onChangeActionArray }
+                                              placeholder="Color"
                                               options={
                                                 [
                                                   { value: 'V', label: 'Verde' },
@@ -80,13 +82,21 @@ class renderSubProducts extends React.Component{
                                                 ]
                                               }
                                               index={ index }
+                                              variantsArray={this.variantsArray}
                                             />
                                           </div>
                                         );
                                       }else{
                                         return(
                                           <div>
-                                            <Field name={ Objeto + index } type="text" component={ renderField } label={Objeto}/>
+                                            <Field
+                                                name={ `${Objeto}[${ index }]` }
+                                                type="text"
+                                                component={ renderField }
+                                                onChangeAction={ onChangeActionArray }
+                                                label={Objeto}
+                                                index={ index }
+                                            />
                                           </div>
                                         );
                                       }
@@ -108,24 +118,29 @@ class renderSubProducts extends React.Component{
 class NewProductForm extends React.Component{
     constructor(props){
         super(props);
+        this.onChangeActionTags = this.onChangeActionTags.bind(this);
         this.onChangeActionVariants = this.onChangeActionVariants.bind(this);
         this.onChangeActionArray = this.onChangeActionArray.bind(this);
     }
+
     onChangeActionVariants(value, inputName){
-        const { dispatch, variantsArray } = this.props;
+        const { dispatch } = this.props;
         dispatch(change('fieldArrays', inputName, value, true));
+    }
+    onChangeActionTags(value, inputName){
+        const { dispatch } = this.props;
+        const w=value.map(obj=>obj.label)
+        dispatch(change('fieldArrays', inputName, w, true));
     }
     onChangeActionArray(value, inputName, index){
-        const { dispatch, variantsArray } = this.props;
-
+        const { dispatch, variants } = this.props;
         dispatch(change('fieldArrays', inputName, value, true));
-
         const obj = { [inputName]: value.label };
-        variantsArray[`variant[${ index }]`] = Object.assign({}, variantsArray[`variant[${ index }]`], obj)
-        dispatch(change('fieldArrays', 'variantsArray', variantsArray, true))
+        variants[`variant[${ index }]`] = Object.assign({}, variants[`variant[${ index }]`], obj)
+        dispatch(change('fieldArrays', 'variants', variants, true))
     }
     render(){
-        const { handleSubmit, actionSubmit, pristine, reset, submitting, variants } = this.props;
+        const { handleSubmit, actionSubmit, pristine, reset, submitting, variantsArray } = this.props;
         return (
             <div>
                 <form onSubmit={ handleSubmit(actionSubmit) }>
@@ -143,7 +158,7 @@ class NewProductForm extends React.Component{
                           label="Código del producto"
                         />
                         <Field
-                          name="price"
+                          name="amount"
                           type="number"
                           component={renderField}
                           label="Precio del producto"
@@ -156,9 +171,11 @@ class NewProductForm extends React.Component{
                           placeholder="Descripción"
                         />
                         <Field
-                          name="tags"
-                          type="input"
-                          component={TagsSelect}
+                            name="tags"
+                            component={ TagsSelect }
+                            type="text"
+                            placeholder="Tags"
+                            onChangeAction={ this.onChangeActionTags }
                         />
                         <label>Variantes</label>
                         <Field name="ProductVariants"
@@ -170,9 +187,9 @@ class NewProductForm extends React.Component{
                     </div>
                     <div style={{ float: 'left'}}>
                         <FieldArray
-                          name="variants"
+                          name="variantsArray"
                           component={renderSubProducts}
-                          variants={ variants }
+                          variantsArray={ variantsArray }
                           onChangeActionArray={ this.onChangeActionArray }
                         />
                     </div>
@@ -188,6 +205,6 @@ class NewProductForm extends React.Component{
 
 export default reduxForm({
   form: 'fieldArrays', // a unique identifier for this form
-  // validate
+   validate
 })(NewProductForm);
 

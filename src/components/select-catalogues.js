@@ -82,11 +82,11 @@ class VariansSelectComponent extends Component{
   }
 }
 
-////////////////////////////////////////////////////////////////////
 
 export const VariansSelect = connect()(VariansSelectComponent);
 
 export class TagsSelect extends  Component{
+
   constructor(props) {
         super(props);
         this.handleOnChange = this.handleOnChange.bind(this);
@@ -105,19 +105,21 @@ export class TagsSelect extends  Component{
     }
 
     propTypes: {
-        hint: React.PropTypes.string,
-        label: React.PropTypes.string
-    }
+  hint: React.PropTypes.string,
+  label: React.PropTypes.string
+  }
 
-    handleOnChange (value) {
-        const { multi } = this.state;
-        if (multi) {
-          this.setState({ multiValue: value });
-        } else {
-          this.setState({ value });
-        }
+
+  handleOnChange (value) {
+    const { multi } = this.state;
+    if (multi) {
+      this.setState({ multiValue: value });
+    } else {
+      this.setState({ value });
     }
-    validateNewOption(value) {
+  }
+
+  validateNewOption(value) {
     const { options, multiValue } = this.state;
 
     if (value.label) {
@@ -129,19 +131,42 @@ export class TagsSelect extends  Component{
     }
   }
 
+
+
   render () {
+
     const { multi, multiValue, options, value } = this.state;
+    const{ onChangeAction} = this.props;
+    const { name } = this.props.input;
+
+    const styleError = {};
+    let errorSpan = null;
+
+    if (this.props.meta.touched && this.props.meta.error) {
+        errorSpan = <span className="badge badge-danger" style={ ERROR_STYLE }>{ this.props.meta.error }</span>;
+        styleError.borderColor = 'darkred';
+    }
+
+
     return (
       <div >
         <h3 >{this.props.label}</h3>
         <Select.Creatable
+          noResultsText=""
+          required
+          style={ styleError }
+          name={ this.props.input.name }
+          value={ this.props.input.value }
           multi={multi}
           options={options}
-          onChange={this.handleOnChange}
+          onChange={ (value, algo) => { this.handleOnChange(value); onChangeAction(value, name); } }
           isValidNewOption={ this.validateNewOption }
-          value={multi ? multiValue : value}
-          placeholder="Tags"
+          placeholder="VariansSelect"
+          value={multi ? multiValue : this.props.input.value}
+          name={this.props.input.name}
+          { ...this.props}
         />
+
         <div >{this.props.hint}</div>
       </div>
     );
@@ -156,7 +181,7 @@ const ERROR_STYLE = {
 };
 
 
-export const Size = (props) => {
+export const VariantsDictionary = (props) => {
     const styleError = {};
     let errorSpan = null;
 
@@ -183,107 +208,3 @@ export const Size = (props) => {
         </div>
     );
 };
-
-// export class Size extends Component{
-//     constructor(props) {
-//         super(props);
-
-//         this.handleOnChange = this.handleOnChange.bind(this);
-//         this.state = {
-//             displayName: 'Size',
-//             multi: false,
-//             multiValue: [],
-//             options: [
-//                 { value: 'C', label: 'Chico' },
-//                 { value: 'M', label: 'Mediano' },
-//                 { value: 'G', label: 'Grande' }
-//             ],
-//             value: undefined
-//         };
-//     }
-
-//   propTypes: {
-//     hint: React.PropTypes.string,
-//     label: React.PropTypes.string
-//   }
-
-//   handleOnChange (value) {
-//     const { multi } = this.state;
-//     if (multi) {
-//       this.setState({ multiValue: value });
-//     } else {
-//       this.setState({ value });
-//     }
-//   }
-
-//   render () {
-//     const { multi, multiValue, options, value } = this.state;
-//     return (
-//       <div >
-
-//         {this.props.label}
-//         <Select.Creatable
-//           multi={multi}
-//           options={options}
-//           onChange={this.handleOnChange}
-//           placeholder="Tamaño"
-//           value={multi ? multiValue : value}
-//         />
-
-//         <div >{this.props.hint}</div>
-//       </div>
-//     );
-//   }
-// }
-
-export class Color extends Component{
-    constructor(props) {
-        super(props);
-
-        this.handleOnChange = this.handleOnChange.bind(this);
-        this.state = {
-            displayName: 'Color',
-            multi: false,
-            multiValue: [],
-            options: [
-                { value: 'V', label: 'Verde' },
-                { value: 'A', label: 'Azul' },
-                { value: 'R', label: 'Rojo' },
-                { value: 'M', label: 'Morado' },
-                { value: 'B', label: 'Blanco' }
-            ],
-            value: undefined
-        };
-    }
-
-  propTypes: {
-    hint: React.PropTypes.string,
-    label: React.PropTypes.string
-  }
-
-  handleOnChange (value) {
-    const { multi } = this.state;
-    if (multi) {
-      this.setState({ multiValue: value });
-    } else {
-      this.setState({ value });
-    }
-  }
-
-  render () {
-    const { multi, multiValue, options, value } = this.state;
-    return (
-      <div >
-        {this.props.label}
-        <Select.Creatable
-          multi={multi}
-          options={options}
-          onChange={this.handleOnChange}
-          placeholder="Color"
-          value={multi ? multiValue : value}
-        />
-        <div >{this.props.hint}</div>
-      </div>
-    );
-  }
-}
