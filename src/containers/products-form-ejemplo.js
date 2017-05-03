@@ -15,8 +15,23 @@ class SimpleFormContainer extends Component {
 	handleSubmit(values) {
 		const { props: { dispatch } } = this;
 
-		console.log(values.toJS());
-		dispatch(submitProduct(values));
+		const valuesProduct = values.set('variants', {});
+		const variants = valuesProduct.get('variantsArray');
+		const valuesList = [valuesProduct.delete('size').delete('color').delete('variantsArray').toJS()];
+
+		Object.keys(variants).map(key => {
+			const subProduct = {};
+			subProduct.name = valuesProduct.get('name');
+			subProduct.code = valuesProduct.get('code');
+			subProduct.description = valuesProduct.get('description');
+			subProduct.tags = valuesProduct.get('tags');
+			subProduct.amount = valuesProduct.get('amount');
+			subProduct.variants = variants[key];
+
+			valuesList.push(subProduct);
+		});
+
+		dispatch(submitProduct(valuesList));
 	}
 
 	render(){
