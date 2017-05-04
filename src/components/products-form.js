@@ -136,7 +136,7 @@ class NewProductForm extends React.Component{
         const { dispatch, variants } = this.props;
         dispatch(change('fieldArrays', inputName, value, true));
         const obj = { [inputName]: value ? value.label : "" };
-        variants[`variant[${ index }]`] = Object.assign({}, variants[`variant[${ index }]`], obj)
+        variants[`variant[${ index}]`] = Object.assign({}, variants[`variant[${ index }]`], obj)
         dispatch(change('fieldArrays', 'variants', variants, true))
     }
     render(){
