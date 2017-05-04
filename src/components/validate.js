@@ -24,10 +24,11 @@ const validate = values => {
     });
 
     if (errorInVariant) {
-        alert(errorInVariant)
-        //errors[errorInVariant] = "ERROR";
+        Object.keys(variants[errorInVariant]).map(keyElement=>{
+            //alert(errorInVariant +" "+ keyElement)
+            errors[keyElement] = "ERROR!!!!!!!";
+        })
     }
-
 
 
   if (!values.get("name")) {
