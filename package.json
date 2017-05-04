@@ -13,6 +13,7 @@
     "react-addons-transition-group": "^15.5.2",
     "react-dom": "^15.5.4",
     "react-redux": "^5.0.4",
+    "react-router-dom": "^4.1.1",
     "react-select": "^1.0.0-rc.3",
     "reactstrap": "^4.5.0",
     "redux": "^3.6.0",
