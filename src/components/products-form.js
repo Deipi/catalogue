@@ -1,118 +1,114 @@
 import React, { Component } from 'react';
-import { Field, FieldArray, reduxForm, change } from 'redux-form/immutable'
+import Immutable from 'immutable';
+import { Field, FieldArray, reduxForm, change, arrayRemove } from 'redux-form/immutable'
 import validate from './validate';
-import {VariantsDictionary, TagsSelect, VariansSelect} from './select-catalogues'
+import { VariantsDictionary, TagsSelect, VariansSelect } from './select-catalogues'
 
 import 'react-select/dist/react-select.css';
-import { Card, CardHeader, Button } from 'reactstrap';
+import { Card, CardBlock, CardHeader, Button, InputGroupAddon, InputGroup, Input} from 'reactstrap';
 
-const renderField = ({ input, label, type, meta: { touched, error } }) => (
-  <div>
-    <label>{label}</label>
-    <div>
-      <input {...input} id="inputs" type={type} placeholder={label} />
+const renderField = ({ input, label, placeholder, type, meta: { touched, error } }) => (
+  <InputGroup>
+    <InputGroupAddon> {label}</InputGroupAddon>
+      <Input {...input} id="inputs" type={type} placeholder={placeholder} />
       {touched && error && <span>{error}</span>}
-    </div>
-  </div>
+  </InputGroup>
 );
 
 class renderSubProducts extends React.Component{
-  constructor(props){
-    super(props);
-  }
-  render() {const { onChangeActionArray, variantsArray, fields, meta: { touched, error, submitFailed } }=this.props;
-    return (
-      <ul>
-          <div style={{ float: 'left'}}>
-              <li>
-                  <Button type="button" onClick={(() => fields.push({}))}>Crear</Button>
-                  {(touched || submitFailed) && error && <span>{error}</span>}
-              </li>
-          </div>
-          <div style={{ float: 'right'}}>
-              <Card>
-               <CardHeader>Subproductos</CardHeader>
-                  {fields.map((ProductVariants, index) => (
-                      <div>
-                          <Card block>
-                              <li key={index}>
-                                  <h4>Variante #{index + 1}</h4>
-                                  {
-                                    variantsArray ? variantsArray.map(obj => {let Objeto = obj.label.toUpperCase();
+    constructor(props){
+        super(props);
 
-                                      if(Objeto==='TAMAÑO'){
-                                        return(
-                                          <div>
-                                            <Field
-                                              name={ `size[${ index }]` }
-                                              type="text"
-                                              component={ VariantsDictionary }
-                                              label={ Objeto }
-                                              onChangeAction={ onChangeActionArray }
-                                              placeholder="Tamaño"
-                                              options={
-                                                [
-                                                  { value: 'C', label: 'Chico' },
-                                                  { value: 'M', label: 'Mediano' },
-                                                  { value: 'G', label: 'Grande' }
-                                                ]
-                                              }
-                                              index={ index }
-                                              variantsArray={this.variantsArray}
-                                            />
-                                          </div>
-                                        );
-                                      }else if(Objeto==='COLOR'){
-                                        return(
-                                          <div>
-                                            <Field
-                                              name={ `color[${ index }]` }
-                                              type="text"
-                                              component={ VariantsDictionary }
-                                              label={ Objeto }
-                                              onChangeAction={ onChangeActionArray }
-                                              placeholder="Color"
-                                              options={
-                                                [
-                                                  { value: 'V', label: 'Verde' },
-                                                  { value: 'A', label: 'Azul' },
-                                                  { value: 'R', label: 'Rojo' },
-                                                  { value: 'M', label: 'Morado' },
-                                                  { value: 'B', label: 'Blanco' }
-                                                ]
-                                              }
-                                              index={ index }
-                                              variantsArray={this.variantsArray}
-                                            />
-                                          </div>
-                                        );
-                                      }else{
-                                        return(
-                                          <div>
-                                            <Field
-                                                name={ `${Objeto}[${ index }]` }
-                                                type="text"
-                                                component={ renderField }
-                                                onChangeAction={ onChangeActionArray }
-                                                label={Objeto}
-                                                index={ index }
-                                            />
-                                          </div>
-                                        );
-                                      }
-                                    }) : null
-                                  }
-                                  <Button type="button" onClick={() => fields.remove(index)}>Eliminar</Button>
-                              </li>
-                          </Card>
-                      </div>
-                  ))}
-              </Card><br/>
-          </div>
-      </ul>
+        this.validateVariant = this.validateVariant.bind(this);
 
-  );
-  }
+        this.state = {
+            validationError: false,
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.meta.error && !this.state.validationError) {
+            this.setState({ validationError: true });
+            const { dispatch } = this.props;
+            const index = parseInt(nextProps.meta.error);
+
+            // Remove child if is repeated in the list
+            this.props.variantsArray.map(obj => {
+                dispatch(change('fieldArrays', `variantsArray[${ index }].${ obj.name ? obj.name : obj.label }`, {}));
+            });
+        } else {
+            this.setState({ validationError: false });
+        }
+    }
+
+    validateVariant(value) {
+        //aqui se retorna un error al component=VariantsDictionary
+        return value && value.label ? undefined : "Please don't repeat variants";
+    }
+
+    render() {
+        const { onChangeActionArray, variantsArray, fields, meta: { touched, error, submitFailed } } = this.props;
+        return (
+            <ul>
+                <div style={{ float: 'left'}}>
+                    <li>
+                        <Button type="button" onClick={(() => fields.push(Immutable.Map()))}>Crear</Button>
+                        {(touched || submitFailed) && error && <span>{error}</span>}
+                    </li>
+                </div>
+                <div style={{ float: 'right'}}>
+                    <Card>
+                        <CardHeader>Subproductos</CardHeader>
+                        {fields.map((field, index) => (
+                            <Card block>
+                                <li key={index}>
+                                    <h4>Variante #{index + 1} </h4>
+                                        {
+                                            variantsArray ?
+                                            variantsArray.map(obj =>
+                                                { // Recibir el nombre
+                                                    if (obj.name) {
+                                                        return (
+                                                            <Field
+                                                                name={ `${ field }.${ obj.name }` }
+                                                                type="text"
+                                                                component={ VariantsDictionary }
+                                                                label={ obj.label }
+                                                                onChangeAction={ onChangeActionArray }
+                                                                //placeholder: Obtener el label / crear un placeholder en multiValue
+                                                                placeholder={ obj.placeholder }
+                                                                // options: Obtener las opciones del catálogo (select-catalogues)
+                                                                options={ obj.options }
+                                                                index={ index }
+                                                                variantsArray={ this.variantsArray }
+                                                                // condicional para validar el select: llama la funcion validateVariant
+                                                                validate={ [ this.validateVariant ] }
+                                                            />
+                                                        );
+                                                    } else {
+                                                        return (
+                                                            <Field
+                                                                name={ `${ field }.${ obj.label }` }
+                                                                type="text"
+                                                                component={ renderField }
+                                                                onChangeAction={ onChangeActionArray }
+                                                                label={ obj.label }
+                                                                index={ index }
+                                                            />
+                                                        );
+                                                    }
+                                            }) : null
+                                        }
+                                    <Button type="button" onClick={() => fields.remove(index)}>Eliminar</Button>
+                                </li>
+                            </Card>
+                        ))}
+                    </Card>
+                    <br/>
+                </div>
+            </ul>
+        );
+    }
 }
 
 class NewProductForm extends React.Component{
@@ -127,20 +123,23 @@ class NewProductForm extends React.Component{
         const { dispatch } = this.props;
         dispatch(change('fieldArrays', inputName, value, true));
     }
+
     onChangeActionTags(value, inputName){
         const { dispatch } = this.props;
         const w=value.map(obj=>obj.label)
         dispatch(change('fieldArrays', inputName, w, true));
     }
+
     onChangeActionArray(value, inputName, index){
         const { dispatch, variants } = this.props;
-        dispatch(change('fieldArrays', inputName, value, true));
+        dispatch(change('fieldArrays', inputName, Object.assign({}, value, { name: inputName }), true));
         const obj = { [inputName]: value ? value.label : "" };
-        variants[`variant[${ index}]`] = Object.assign({}, variants[`variant[${ index }]`], obj)
+        variants[index] = Object.assign({}, variants[index], obj)
         dispatch(change('fieldArrays', 'variants', variants, true))
     }
+
     render(){
-        const { handleSubmit, actionSubmit, pristine, reset, submitting, variantsArray } = this.props;
+        const { handleSubmit, actionSubmit, pristine, reset, submitting, variantsArray, dispatch } = this.props;
         return (
             <div>
                 <form onSubmit={ handleSubmit(actionSubmit) }>
@@ -191,6 +190,7 @@ class NewProductForm extends React.Component{
                           component={ renderSubProducts }
                           variantsArray={ variantsArray }
                           onChangeActionArray={ this.onChangeActionArray }
+                          dispatch={ dispatch }
                         />
                     </div>
                     <div style={{float:'left'}}>
