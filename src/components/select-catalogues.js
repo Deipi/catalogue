@@ -172,14 +172,12 @@ export class TagsSelect extends  Component{
           required
           style={ styleError }
           name={ this.props.input.name }
-          value={ this.props.input.value }
           multi={multi}
           options={options}
           onChange={ (value, algo) => { this.handleOnChange(value); onChangeAction(value, name); } }
           isValidNewOption={ this.validateNewOption }
           placeholder="VariansSelect"
           value={multi ? multiValue : this.props.input.value}
-          name={this.props.input.name}
           { ...this.props}
         />
 
