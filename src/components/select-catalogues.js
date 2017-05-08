@@ -5,6 +5,20 @@ import Select from 'react-select';
 import { connect } from 'react-redux';
 import { change } from 'redux-form/immutable'
 
+const optionsSize = [
+  { value: 'C', label: 'Chico' },
+  { value: 'M', label: 'Mediano' },
+  { value: 'G', label: 'Grande' }
+];
+
+const optionsColor = [
+  { value: 'V', label: 'Verde' },
+  { value: 'A', label: 'Azul' },
+  { value: 'R', label: 'Rojo' },
+  { value: 'M', label: 'Morado' },
+  { value: 'B', label: 'Blanco' }
+];
+
 class VariansSelectComponent extends Component{
   constructor(props) {
     super(props);
@@ -14,15 +28,15 @@ class VariansSelectComponent extends Component{
         displayName: 'VariansSelect',
         multi: true,
         multiValue: [
-            { value: 'T', label: 'Tamaño' },
-            { value: 'C', label: 'Color' }
+            { value: 'T', label: 'Tamaño', name: 'size', options: optionsSize, placeholder:'Size'},
+            { value: 'C', label: 'Color', name: 'color', options: optionsColor, placeholder:'Color' }
         ],
         options: [
-            { value: 'S', label: 'Sabor' },
-            { value: 'E', label: 'Estilo' },
-            { value: 'M', label: 'Material' },
-            { value: 'T', label: 'Tamaño' },
-            { value: 'C', label: 'Color' }
+            { value: 'S', label: 'Sabor', name: 'taste', options: [] , placeholder:'Flavor'},
+            { value: 'E', label: 'Estilo', name: 'style', options: [], placeholder:'Style' },
+            { value: 'M', label: 'Material', name: 'material', options: [], placeholder:'Material'},
+            { value: 'T', label: 'Tamaño', name: 'size', options: optionsSize, placeholder:'Size' },
+            { value: 'C', label: 'Color', name: 'color', options: optionsColor, placeholder: 'Color' }
         ],
         value: undefined
     };
