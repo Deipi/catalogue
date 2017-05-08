@@ -7,10 +7,10 @@ import { VariantsDictionary, TagsSelect, VariansSelect } from './select-catalogu
 import 'react-select/dist/react-select.css';
 import { Card, CardBlock, CardHeader, Button, InputGroupAddon, InputGroup, Input} from 'reactstrap';
 
-const renderField = ({ input, label, placeholder, type, meta: { touched, error } }) => (
+const renderField = ({ onChangeAction, index, input, label, type, meta: { touched, error } }) => (
   <InputGroup>
     <InputGroupAddon> {label}</InputGroupAddon>
-      <Input {...input} id="inputs" type={type} placeholder={placeholder} />
+      <Input { ...input } onChange={ event => onChangeAction(event.target.value, input.name, index, false) } name={ input.name } id="inputs" type={type} placeholder={label} />
       {touched && error && <span>{error}</span>}
   </InputGroup>
 );
@@ -20,6 +20,7 @@ class renderSubProducts extends React.Component{
         super(props);
 
         this.validateVariant = this.validateVariant.bind(this);
+        this.validateVariantInput = this.validateVariantInput.bind(this);
 
         this.state = {
             validationError: false,
@@ -34,7 +35,11 @@ class renderSubProducts extends React.Component{
 
             // Remove child if is repeated in the list
             this.props.variantsArray.map(obj => {
-                dispatch(change('fieldArrays', `variantsArray[${ index }].${ obj.name ? obj.name : obj.label }`, {}));
+                if (obj.name) {
+                    dispatch(change('fieldArrays', `variantsArray[${ index }].${ obj.name ? obj.name : obj.label }`, {}));
+                } else {
+                    dispatch(change('fieldArrays', `variantsArray[${ index }].${ obj.label }`, ""));
+                }
             });
         } else {
             this.setState({ validationError: false });
@@ -44,6 +49,10 @@ class renderSubProducts extends React.Component{
     validateVariant(value) {
         //aqui se retorna un error al component=VariantsDictionary
         return value && value.label ? undefined : "Please don't repeat variants";
+    }
+
+    validateVariantInput(value) {
+        return value ? undefined : "Please don't repeat variants";
     }
 
     render() {
@@ -94,6 +103,7 @@ class renderSubProducts extends React.Component{
                                                                 onChangeAction={ onChangeActionArray }
                                                                 label={ obj.label }
                                                                 index={ index }
+                                                                validate={ [ this.validateVariantInput ] }
                                                             />
                                                         );
                                                     }
@@ -130,10 +140,19 @@ class NewProductForm extends React.Component{
         dispatch(change('fieldArrays', inputName, w, true));
     }
 
-    onChangeActionArray(value, inputName, index){
+    onChangeActionArray(value, inputName, index, isSelect){
         const { dispatch, variants } = this.props;
-        dispatch(change('fieldArrays', inputName, Object.assign({}, value, { name: inputName }), true));
-        const obj = { [inputName]: value ? value.label : "" };
+        if (isSelect) {
+            dispatch(change('fieldArrays', inputName, Object.assign({}, value, { name: inputName }), true));
+        } else {
+            dispatch(change('fieldArrays', inputName, value, true));
+        }
+        let obj = {};
+        if (isSelect) {
+            obj = { [inputName]: value ? value.label : "" };
+        } else {
+            obj = { [inputName]: value };
+        }
         variants[index] = Object.assign({}, variants[index], obj)
         dispatch(change('fieldArrays', 'variants', variants, true))
     }
