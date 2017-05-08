@@ -15,19 +15,25 @@ const validate = values => {
 
     let iter = "";
     let errorInVariant = "";
-    const test = Object.keys(combination).forEach(key => {
-        if (Object.keys(combination).filter(key => combination[key] === iter).length > 1) {
-            errorInVariant = key;
-        } else {
-            iter = combination[key];
-        }
+    let errorKey = 0;
+    const test = Object.keys(combination).forEach(key_1 => {
+        let counter = 0;
+        Object.keys(combination).forEach(key => {
+                if (combination[key] === iter) {
+                    counter ++;
+                }
+                if (counter === 2) {
+                    errorKey = key;
+                    counter = 0;
+                    iter = "";
+                }
+            }
+        );
+        iter = combination[key_1];
     });
 
-    if (errorInVariant) {
-        Object.keys(variants[errorInVariant]).map(keyElement=>{
-            //alert(errorInVariant +" "+ keyElement)
-            errors[keyElement] = "ERROR!!!!!!!";
-        })
+    if (errorKey) {
+        errors.variantsArray = { _error: errorKey };
     }
 
 
