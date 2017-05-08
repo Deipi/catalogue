@@ -216,7 +216,7 @@ export const VariantsDictionary = (props) => {
                 style={ styleError }
                 name={ props.input.name }
                 value={ props.input.value }
-                onChange={ option => props.onChangeAction(option, props.input.name, props.index) }
+                onChange={ option => props.onChangeAction(option, props.input.name, props.index, true) }
                 options={ props.options }
                 className={ props.className }
                 { ...props }
