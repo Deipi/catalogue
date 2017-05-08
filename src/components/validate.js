@@ -19,7 +19,7 @@ const validate = values => {
     const test = Object.keys(combination).forEach(key_1 => {
         let counter = 0;
         Object.keys(combination).forEach(key => {
-                if (combination[key] === iter) {
+                if (!iter.split(',').map(element => combination[key].split(',').includes(element)).includes(false)) {
                     counter ++;
                 }
                 if (counter === 2) {
