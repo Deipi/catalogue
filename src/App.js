@@ -3,6 +3,7 @@ import './App.css';
 import {
   Link
 } from 'react-router-dom'
+import 'bootstrap/dist/css/bootstrap.css';
 
 
 class App extends Component {
