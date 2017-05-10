@@ -1,40 +1,40 @@
 const validate = values => {
     const errors = {};
-    const variants = values.toJS().variants;
-    const combination = {};
+    // const variants = values.toJS().variants;
+    // const combination = {};
 
-    if (variants) {
-        Object.keys(variants).map(keyVariant => {
-            Object.keys(variants[keyVariant]).map(keyElement => {
-                let variantTag = "";
-                variantTag = `${ variants[keyVariant][keyElement] } ,` + combination[keyVariant];
-                combination[keyVariant] = variantTag;
-            });
-        });
-    }
+    // if (variants) {
+    //     Object.keys(variants).map(keyVariant => {
+    //         Object.keys(variants[keyVariant]).map(keyElement => {
+    //             let variantTag = "";
+    //             variantTag = `${ variants[keyVariant][keyElement] } ,` + combination[keyVariant];
+    //             combination[keyVariant] = variantTag;
+    //         });
+    //     });
+    // }
 
-    let iter = "";
-    let errorInVariant = "";
-    let errorKey = 0;
-    const test = Object.keys(combination).forEach(key_1 => {
-        let counter = 0;
-        Object.keys(combination).forEach(key => {
-                if (!iter.split(',').map(element => combination[key].split(',').includes(element)).includes(false)) {
-                    counter ++;
-                }
-                if (counter === 2) {
-                    errorKey = key;
-                    counter = 0;
-                    iter = "";
-                }
-            }
-        );
-        iter = combination[key_1];
-    });
+    // let iter = "";
+    // let errorInVariant = "";
+    // let errorKey = 0;
+    // const test = Object.keys(combination).forEach(key_1 => {
+    //     let counter = 0;
+    //     Object.keys(combination).forEach(key => {
+    //             if (!iter.split(',').map(element => combination[key].split(',').includes(element)).includes(false)) {
+    //                 counter ++;
+    //             }
+    //             if (counter === 2) {
+    //                 errorKey = key;
+    //                 counter = 0;
+    //                 iter = "";
+    //             }
+    //         }
+    //     );
+    //     iter = combination[key_1];
+    // });
 
-    if (errorKey) {
-        errors.variantsArray = { _error: errorKey };
-    }
+    // if (errorKey) {
+    //     errors.variantsArray = { _error: errorKey };
+    // }
 
 
   if (!values.get("name")) {

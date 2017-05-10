@@ -1,19 +1,64 @@
 import React, { Component } from 'react';
 import Immutable from 'immutable';
-import { Field, FieldArray, reduxForm, change, arrayRemove } from 'redux-form/immutable'
+import { Field, FieldArray, reduxForm, change } from 'redux-form/immutable'
 import validate from './validate';
 import { VariantsDictionary, TagsSelect, VariansSelect } from './select-catalogues'
 
 import 'react-select/dist/react-select.css';
 import { Card, CardBlock, CardHeader, Button, InputGroupAddon, InputGroup, Input} from 'reactstrap';
 
-const renderField = ({ onChangeAction, index, input, label, type, meta: { touched, error } }) => (
-  <InputGroup>
-    <InputGroupAddon> {label}</InputGroupAddon>
-      <Input { ...input } onChange={ event => onChangeAction(event.target.value, input.name, index, false) } name={ input.name } id="inputs" type={type} placeholder={label} />
-      {touched && error && <span>{error}</span>}
-  </InputGroup>
-);
+const renderField = ({ onChangeAction, index, input, label, type, meta: { touched, error } }) => {
+    const styleError = {};
+    let errorSpan = null;
+
+    const ERROR_STYLE = {
+        position: 'absolute',
+        zIndex: '3',
+        right: '11px',
+        top: '-9px',
+    };
+
+    if (touched && error) {
+        errorSpan = <span className="badge badge-danger" style={ ERROR_STYLE }>{ error }</span>;
+        styleError.borderColor = 'darkred';
+    }
+    return(
+        <div style={ { position: 'relative' } }>
+        { errorSpan }
+            <InputGroup>
+                <InputGroupAddon> {label}</InputGroupAddon>
+                    <Input { ...input } style={ styleError }  name={ input.name } id="inputs" type={type} placeholder={label} />
+            </InputGroup>
+        </div>
+    );
+};
+
+const renderFieldVariant = ({ onChangeAction, input, index, label, placeholder, type, meta: { touched, error } }) => {
+    const styleError = {};
+    let errorSpan = null;
+
+    const ERROR_STYLE = {
+        position: 'absolute',
+        zIndex: '3',
+        right: '11px',
+        top: '-9px',
+    };
+
+    if (touched && error) {
+        errorSpan = <span className="badge badge-danger" style={ ERROR_STYLE }>{ error }</span>;
+        styleError.borderColor = 'darkred';
+    }
+
+    return(
+        <div style={ { position: 'relative' } }>
+        { errorSpan }
+            <InputGroup>
+                <Input {...input} style={ styleError } id="inputs" type={type} placeholder={label} onBlur={ event => onChangeAction(event.target.value, event.target.name, index, false) } />
+            </InputGroup>
+        </div>
+    );
+};
+
 
 class renderSubProducts extends React.Component{
     constructor(props){
@@ -28,10 +73,10 @@ class renderSubProducts extends React.Component{
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.meta.error && !this.state.validationError) {
+        if (nextProps.variantError.get('errorKey') && !this.state.validationError) {
             this.setState({ validationError: true });
             const { dispatch } = this.props;
-            const index = parseInt(nextProps.meta.error);
+            const index = parseInt(nextProps.variantError.get('errorKey'));
 
             // Remove child if is repeated in the list
             this.props.variantsArray.map(obj => {
@@ -41,6 +86,12 @@ class renderSubProducts extends React.Component{
                     dispatch(change('fieldArrays', `variantsArray[${ index }].${ obj.label }`, ""));
                 }
             });
+
+            dispatch({
+                type: 'ERROR_IN_VARIANT',
+                payload: '',
+            });
+
         } else {
             this.setState({ validationError: false });
         }
@@ -69,7 +120,7 @@ class renderSubProducts extends React.Component{
                     <Card>
                         <CardHeader>Subproductos</CardHeader>
                         {fields.map((field, index) => (
-                            <Card block>
+                            <CardBlock>
                                 <li key={index}>
                                     <h4>Variante #{index + 1} </h4>
                                         {
@@ -99,7 +150,7 @@ class renderSubProducts extends React.Component{
                                                             <Field
                                                                 name={ `${ field }.${ obj.label }` }
                                                                 type="text"
-                                                                component={ renderField }
+                                                                component={ renderFieldVariant }
                                                                 onChangeAction={ onChangeActionArray }
                                                                 label={ obj.label }
                                                                 index={ index }
@@ -111,7 +162,7 @@ class renderSubProducts extends React.Component{
                                         }
                                     <Button type="button" onClick={() => fields.remove(index)}>Eliminar</Button>
                                 </li>
-                            </Card>
+                            </CardBlock>
                         ))}
                     </Card>
                     <br/>
@@ -155,10 +206,49 @@ class NewProductForm extends React.Component{
         }
         variants[index] = Object.assign({}, variants[index], obj)
         dispatch(change('fieldArrays', 'variants', variants, true))
+
+
+        // Validation
+        const combination = {};
+
+        if (variants) {
+            Object.keys(variants).map(keyVariant => {
+                Object.keys(variants[keyVariant]).map(keyElement => {
+                    let variantTag = "";
+                    variantTag = `${ variants[keyVariant][keyElement] } ,` + combination[keyVariant];
+                    combination[keyVariant] = variantTag;
+                });
+            });
+        }
+
+        let iter = "";
+        let errorKey = 0;
+        const test = Object.keys(combination).forEach(key_1 => {
+            let counter = 0;
+            Object.keys(combination).forEach(key => {
+                    if (!iter.split(',').map(element => combination[key].split(',').includes(element)).includes(false)) {
+                        counter ++;
+                    }
+                    if (counter === 2) {
+                        errorKey = key;
+                        counter = 0;
+                        iter = "";
+                    }
+                }
+            );
+            iter = combination[key_1];
+        });
+
+        if (errorKey) {
+            dispatch({
+                type: 'ERROR_IN_VARIANT',
+                payload: errorKey,
+            });
+        }
     }
 
     render(){
-        const { handleSubmit, actionSubmit, pristine, reset, submitting, variantsArray, dispatch } = this.props;
+        const { handleSubmit, actionSubmit, pristine, reset, submitting, variantsArray, dispatch, variantError } = this.props;
         return (
             <div>
                 <form onSubmit={ handleSubmit(actionSubmit) }>
@@ -210,6 +300,7 @@ class NewProductForm extends React.Component{
                           variantsArray={ variantsArray }
                           onChangeActionArray={ this.onChangeActionArray }
                           dispatch={ dispatch }
+                          variantError={ variantError }
                         />
                     </div>
                     <div style={{float:'left'}}>

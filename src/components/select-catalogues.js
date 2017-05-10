@@ -5,53 +5,60 @@ import Select from 'react-select';
 import { connect } from 'react-redux';
 import { change } from 'redux-form/immutable'
 
+const ERROR_STYLE = {
+    position: 'absolute',
+    zIndex: '3',
+    right: '11px',
+    top: '-9px',
+};
+
 const optionsSize = [
-  { value: 'C', label: 'Chico' },
-  { value: 'M', label: 'Mediano' },
-  { value: 'G', label: 'Grande' }
+    { value: 'C', label: 'Chico' },
+    { value: 'M', label: 'Mediano' },
+    { value: 'G', label: 'Grande' }
 ];
 
 const optionsColor = [
-  { value: 'V', label: 'Verde' },
-  { value: 'A', label: 'Azul' },
-  { value: 'R', label: 'Rojo' },
-  { value: 'M', label: 'Morado' },
-  { value: 'B', label: 'Blanco' }
+    { value: 'V', label: 'Verde' },
+    { value: 'A', label: 'Azul' },
+    { value: 'R', label: 'Rojo' },
+    { value: 'M', label: 'Morado' },
+    { value: 'B', label: 'Blanco' }
 ];
 
 class VariansSelectComponent extends Component{
-  constructor(props) {
-    super(props);
-    this.handleOnChange = this.handleOnChange.bind(this);
-    this.validateNewOption = this.validateNewOption.bind(this);
-    this.state = {
-        displayName: 'VariansSelect',
-        multi: true,
-        multiValue: [
-            { value: 'T', label: 'Tamaño', name: 'size', options: optionsSize, placeholder:'Size'},
-            { value: 'C', label: 'Color', name: 'color', options: optionsColor, placeholder:'Color' }
-        ],
-        options: [
-            { value: 'S', label: 'Sabor', name: 'taste', options: [] , placeholder:'Flavor'},
-            { value: 'E', label: 'Estilo', name: 'style', options: [], placeholder:'Style' },
-            { value: 'M', label: 'Material', name: 'material', options: [], placeholder:'Material'},
-            { value: 'T', label: 'Tamaño', name: 'size', options: optionsSize, placeholder:'Size' },
-            { value: 'C', label: 'Color', name: 'color', options: optionsColor, placeholder: 'Color' }
-        ],
-        value: undefined
-    };
-  }
+    constructor(props) {
+        super(props);
+        this.handleOnChange = this.handleOnChange.bind(this);
+        this.validateNewOption = this.validateNewOption.bind(this);
+        this.state = {
+            displayName: 'VariansSelect',
+            multi: true,
+            multiValue: [
+                { value: 'T', label: 'Tamaño', name: 'size', options: optionsSize, placeholder:'Size'},
+                { value: 'C', label: 'Color', name: 'color', options: optionsColor, placeholder:'Color' }
+            ],
+            options: [
+                { value: 'S', label: 'Sabor', name: 'taste', options: [] , placeholder:'Flavor'},
+                { value: 'E', label: 'Estilo', name: 'style', options: [], placeholder:'Style' },
+                { value: 'M', label: 'Material', name: 'material', options: [], placeholder:'Material'},
+                { value: 'T', label: 'Tamaño', name: 'size', options: optionsSize, placeholder:'Size' },
+                { value: 'C', label: 'Color', name: 'color', options: optionsColor, placeholder: 'Color' }
+            ],
+            value: undefined
+        };
+    }
 
-  propTypes: {
-  hint: React.PropTypes.string,
-  label: React.PropTypes.string
-  }
+    propTypes: {
+    hint: React.PropTypes.string,
+    label: React.PropTypes.string
+    }
 
-  componentWillMount() {
-    const { dispatch } = this.props;
+    componentWillMount() {
+        const { dispatch } = this.props;
 
-    dispatch(change('fieldArrays', 'ProductVariants', this.state.multiValue, true))
-  }
+        dispatch(change('fieldArrays', 'ProductVariants', this.state.multiValue, true))
+    }
 
   handleOnChange (value) {
     const { multi } = this.state;
@@ -151,7 +158,7 @@ export class TagsSelect extends  Component{
 
   render () {
 
-    const { multi, multiValue, options, value } = this.state;
+    const { multi, multiValue, options } = this.state;
     const{ onChangeAction} = this.props;
     const { name } = this.props.input;
 
@@ -187,13 +194,6 @@ export class TagsSelect extends  Component{
   }
 }
 
-const ERROR_STYLE = {
-    position: 'absolute',
-    zIndex: '3',
-    right: '11px',
-    top: '-9px',
-};
-
 
 export const VariantsDictionary = (props) => {
     const styleError = {};
@@ -206,7 +206,7 @@ export const VariantsDictionary = (props) => {
 
     return (
         <div style={ { position: 'relative' } }>
-            { errorSpan }
+          { errorSpan }
             <Select
                 noResultsText=""
                 required

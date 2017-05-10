@@ -36,8 +36,8 @@ class SimpleFormContainer extends Component {
     }
 
     render(){
-        const { variantsArray, variants } = this.props;
-        return <SimpleForm variants={ variants } variantsArray={ variantsArray } actionSubmit={ this.handleSubmit } />;
+        const { variantsArray, variants, variantError } = this.props;
+        return <SimpleForm variantError={ variantError } variants={ variants } variantsArray={ variantsArray } actionSubmit={ this.handleSubmit } />;
     }
 }
 
@@ -55,6 +55,7 @@ const getValues = state => {
     return {
         variantsArray,
         variants,
+        variantError: state.get('variantError'),
     }
 }
 
