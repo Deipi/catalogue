@@ -56,12 +56,19 @@ class ProductsList extends Component {
 				{t=t+1}
 			  </div>
 		  ));
+
+		const listProducts = products.map(listProducts =>
+				listProducts.filter(product =>
+					!product.get('variants').size
+				).toJS()[0]
+			);
+
 		return (
 
 			<div>
 			{S_Producto}
 				<Griddle
-					data={products.toJS()}
+					data={listProducts.toJS()}
 					plugins={[plugins.LocalPlugin]}
 					styleConfig={{classNames:
 					{ Table: 'table table-striped',} }}
