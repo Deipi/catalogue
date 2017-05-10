@@ -31,7 +31,6 @@ const NewLayout = ({Table,Filter,Pagination }) => (
 );
 
 const EditButton = ({value})=><Link to="/Nuevo Producto" ><Button type="button"><i className="fa fa-pencil"/> Editar</Button></Link>
-const AddButton = ({value})=><Link to="/Nuevo Producto" ><Button type="button"><i className="fa fa-plus"/> Nuevo</Button></Link>
 const DetailsButton = ({value, griddleKey, rowData}) =>
 	(
 		<Link  to={`/Detalles/${ rowData.name }`}>
@@ -47,15 +46,7 @@ class ProductsList extends Component {
 		dispatch(fetchProducts());
 	}
 	render() {
-		let t=0
 		const { props: { products } } = this;
-		const S_Producto = products.map(
-		  element =>(
-			  <div>
-				<p >nombre: {element.get(['name',])}</p>
-				{t=t+1}
-			  </div>
-		  ));
 
 		const listProducts = products.map(listProducts =>
 				listProducts.filter(product =>
@@ -66,7 +57,6 @@ class ProductsList extends Component {
 		return (
 
 			<div>
-			{S_Producto}
 				<Griddle
 					data={listProducts.toJS()}
 					plugins={[plugins.LocalPlugin]}
@@ -81,11 +71,11 @@ class ProductsList extends Component {
 						<ColumnDefinition id="code" title="Código" />
 						<ColumnDefinition id="amount" title="Precio" />
 						<ColumnDefinition id="edit" title="Editar Producto"  customComponent={EditButton}/>
-						<ColumnDefinition id="add" title="Agregar Producto"  customComponent={AddButton}/>
 						<ColumnDefinition id="details" title="Detalles del Producto"  customComponent={enhancedWithRowData(DetailsButton)}
 						/>
 					</RowDefinition>
 				</Griddle>
+				<Link to="/Nuevo Producto" ><Button type="button"><i className="fa fa-plus"/> Nuevo</Button></Link>
 			</div>
 		);
 	}
