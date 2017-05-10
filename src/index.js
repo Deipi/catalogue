@@ -1,5 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.css'
-import Insertar from './containers/products-form'
+import InsertarProductos from './containers/products-form'
+import ListaProductos from './containers/products-list'
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {
@@ -7,6 +8,7 @@ import {
   Route,
   Link
 } from 'react-router-dom'
+import DetailProducts from './containers/Details';
 import './Styles/src_IndexStyle.css'
 
 import immutable from 'immutable';
@@ -23,26 +25,30 @@ import employesReducer from './reducers/products';
 const initialState = immutable.Map();
 
 const rootReducer = combineReducers({
-    form: formReducer,
+	form: formReducer,
+	products: employesReducer,
 });
-
 
 const routes = [
 
   { path: '/',
-    exact: true,
-    sidebar: () => <div>home!</div>,
-    main: () => <h2>Hola</h2>
+	exact: true,
+	sidebar: () => <div>home!</div>,
+	main: () => <h2>Hola</h2>
   },
 
   { path: '/listado',
-    exact: true,
-    sidebar: () => <div>bubblegum!</div>,
-    main: () => <h2>listado</h2>
+	exact: true,
+	sidebar: () => <div>bubblegum!</div>,
+	main: () => <ListaProductos />
   },
   { path: '/Nuevo Producto',
-    sidebar: () => <div>shoelaces!</div>,
-    main: () => <Insertar />
+	sidebar: () => <div>shoelaces!</div>,
+	main: () => <InsertarProductos />
+  },
+  { path: '/Detalles/:name' ,
+	sidebar: () => <div>svdfuy!</div>,
+	main: DetailProducts,
   }
 ]
 
@@ -50,43 +56,43 @@ const routes = [
 const store = createStore(rootReducer, initialState, applyMiddleware(thunk));
 
 ReactDOM.render(
-    <Provider store={ store }>
-        <Router>
-            <App>
-              <div style={{ display: 'flex' }}>
-                  <div id="Links">
-                    <nav>
-                        <ul className="Opciones">
-                            <li className="anclaje">
-                                <div className="Barra"></div>
-                                <Link to="/" className="Menu">Inicio</Link>
-                            </li>
+	<Provider store={ store }>
+		<Router>
+			<App>
+			  <div style={{ display: 'flex' }}>
+				  <div id="Links">
+					<nav>
+						<ul className="Opciones">
+							<li className="anclaje">
+								<div className="Barra"></div>
+								<Link to="/" className="Menu">Inicio</Link>
+							</li>
 
-                            <li className="anclaje">
-                                <div className="Barra"></div>
-                                <Link to="/listado" className="Menu">Lista de Productos</Link>
-                            </li>
-                            <li className="anclaje">
-                                <div className="Barra"></div>
-                                <Link to="/Nuevo Producto" className="Menu">Nuevo Producto</Link>
-                            </li>
-                        </ul>
-                    </nav>
-                  </div>
+							<li className="anclaje">
+								<div className="Barra"></div>
+								<Link to="/listado" className="Menu">Lista de Productos</Link>
+							</li>
+							<li className="anclaje">
+								<div className="Barra"></div>
+								<Link to="/Nuevo Producto" className="Menu">Nuevo Producto</Link>
+							</li>
+						</ul>
+					</nav>
+				  </div>
 
-                  <div id="Contenido" >
-                    {routes.map((route, index) => (
-                      <Route
-                        key={index}
-                        path={route.path}
-                        exact={route.exact}
-                        component={route.main}
-                      />
-                    ))}
-                  </div>
-                </div>
-            </App>
-        </Router>
-    </Provider>,
+				  <div id="Contenido" >
+					{routes.map((route, index) => (
+					  <Route
+						key={index}
+						path={route.path}
+						exact={route.exact}
+						component={route.main}
+					  />
+					))}
+				  </div>
+				</div>
+			</App>
+		</Router>
+	</Provider>,
   document.getElementById('root')
 );
