@@ -19,7 +19,7 @@ import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import App from './App';
 import './index.css';
-import employesReducer from './reducers/products';
+import employesReducer, { errorVariantReducer } from './reducers/products';
 
 
 const initialState = immutable.Map();
@@ -27,6 +27,7 @@ const initialState = immutable.Map();
 const rootReducer = combineReducers({
 	form: formReducer,
 	products: employesReducer,
+  variantError: errorVariantReducer,
 });
 
 const routes = [
