@@ -18,7 +18,8 @@ import 'bootstrap/dist/css/bootstrap.css'
 import './Styles/src_IndexStyle.css'
 import employesReducer, { errorVariantReducer } from './reducers/products';
 import InsertarProductos from './containers/products-form'
-import ListaProductos from './containers/products-list'
+import ListaProductosAdministrador from './containers/products-list-admin'
+import ListaProductosPublico from './containers/products-list-public'
 import DetailProducts from './containers/Details';
 
 const initialState = immutable.Map();
@@ -37,10 +38,15 @@ const routes = [
 	main: () => <h2>Hola</h2>
   },
 
-  { path: '/listado',
+  { path: '/ListadoAdmin',
 	exact: true,
-	sidebar: () => <div>list!</div>,
-	main: () => <ListaProductos />
+	sidebar: () => <div>Adminlist!</div>,
+	main: () => <ListaProductosAdministrador />
+  },
+  { path: '/Listado',
+	exact: true,
+	sidebar: () => <div>Publiclist!</div>,
+	main: () => <ListaProductosPublico />
   },
   { path: '/Nuevo Producto',
 	sidebar: () => <div>New Product!</div>,
@@ -51,7 +57,6 @@ const routes = [
 	main: DetailProducts,
   }
 ]
-
 
 const store = createStore(rootReducer, initialState, applyMiddleware(thunk));
 
@@ -70,8 +75,14 @@ ReactDOM.render(
 
 								<li className="anclaje">
 									<div className="Barra"></div>
-									<Link to="/listado" className="Menu">Lista de Productos</Link>
+									<Link to="/Listado" className="Menu">Lista de Productos</Link>
 								</li>
+
+								<li className="anclaje">
+									<div className="Barra"></div>
+									<Link to="/ListadoAdmin" className="Menu">Lista de Productos(Administrador)</Link>
+								</li>
+
 								<li className="anclaje">
 									<div className="Barra"></div>
 									<Link to="/Nuevo Producto" className="Menu">Nuevo Producto</Link>
