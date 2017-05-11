@@ -78,7 +78,6 @@ class ProductsList extends Component {
 						/>
 					</RowDefinition>
 				</Griddle>
-			
 			</div>
 		);
 	}
