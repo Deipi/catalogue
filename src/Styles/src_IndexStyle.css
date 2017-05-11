@@ -9,7 +9,6 @@ nav{
 	position: fixed;
 }
 ul.Opciones{
-	margin-top: 20%;
 	list-style: none;
 	display: block;
 }
@@ -38,6 +37,7 @@ div.Barra{
 	width: 0px;
 	background-color: #aaa;
 	opacity: .4;
+	border-radius: 10%;
 	-webkit-transition: width .2s;
 	-moz-transition:  width .2s;
     -ms-transition:  width .2s;
@@ -45,6 +45,7 @@ div.Barra{
 
 li:hover div.Barra{
 	width: 100%;
+	border-radius: 10%;
 }
 
 .Estaticos{
@@ -55,14 +56,13 @@ li:hover div.Barra{
 	border-radius: 10px;
 	position: fixed;
 	height: 100%;
-	margin-top: 15%;
+	margin-top: 2%;
 	padding: 10px;
     width: 20%;
     background: #222;
 }
 #Contenido{
-	margin-top: 200px;
-	height: 100%;
+	margin-top: 25px;
 	margin-left: 22%;
 }
 

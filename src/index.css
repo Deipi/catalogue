@@ -4,7 +4,6 @@ body {
   font-family: sans-serif;
 }
 
-
 .card > .input-group-addon, .input-group-btn, .input-group .form-control::-webkit-input-placeholder { color: #aaaaaa; }
 .card > .input-group-addon, .input-group-btn, .input-group .form-control:-moz-placeholder { color: #aaaaaa; }
 .card > .input-group-addon, .input-group-btn, .input-group .form-control::-moz-placeholder { color: #aaaaaa; }
