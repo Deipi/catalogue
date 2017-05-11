@@ -52,7 +52,7 @@ const renderFieldVariant = ({ onChangeAction, input, index, label, placeholder, 
     return(
         <div style={ { position: 'relative' } }>
         { errorSpan }
-            <InputGroup>
+            <InputGroup  style={{ zIndex: 0 }}>
                 <Input {...input} style={ styleError } id="inputs" type={type} placeholder={label} onBlur={ event => onChangeAction(event.target.value, event.target.name, index, false) } />
             </InputGroup>
         </div>
