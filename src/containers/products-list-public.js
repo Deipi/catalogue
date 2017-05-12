@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Griddle, { plugins, RowDefinition, ColumnDefinition} from 'griddle-react';
 import { fetchProducts } from '../actions';
 import { Link } from 'react-router-dom'
-import { Button } from 'reactstrap';
+import { Button, Col } from 'reactstrap';
 
 const rowDataSelector = (state, { griddleKey }) => {
 	return state
@@ -47,15 +47,11 @@ class PublicList extends Component {
 	render() {
 		const { props: { products } } = this;
 
-		const listProducts = products.map(listProducts =>
-				listProducts.filter(product =>
-					!product.get('variants').size
-				).toJS()[0]
-			);
+		const listProducts = products.filter(product => product.get('parent') === null );
 
 		return (
 
-			<div>
+			<div className="pull-center">
 				<Griddle
 					data={listProducts.toJS()}
 					plugins={[plugins.LocalPlugin]}
