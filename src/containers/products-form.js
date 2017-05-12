@@ -12,7 +12,6 @@ class SimpleFormContainer extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-
     handleSubmit(values) {
         const { props: { dispatch} } = this;
         const variants = values.get('variants');
