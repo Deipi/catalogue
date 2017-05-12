@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Griddle, { plugins, RowDefinition, ColumnDefinition} from 'griddle-react';
 import { fetchProducts } from '../actions';
 import { Link } from 'react-router-dom'
-import { Button } from 'reactstrap';
+import { Button,Col } from 'reactstrap';
 
 const rowDataSelector = (state, { griddleKey }) => {
 	return state
@@ -60,24 +60,26 @@ class ProductsList extends Component {
 				<div className="pull-right">
 					<Link to="/Nuevo Producto" ><Button type="button"><i className="fa fa-plus"/> Nuevo Producto</Button></Link>
 				</div>
-				<Griddle
-					data={listProducts.toJS()}
-					plugins={[plugins.LocalPlugin]}
-					styleConfig={{classNames:
-					{ Table: 'table table-striped',} }}
-					components={{
-					Layout: NewLayout }}
-				>
-					<RowDefinition>
-						<ColumnDefinition id="name" title="Nombre"  />
-						<ColumnDefinition id="description" title="Descrición"  />
-						<ColumnDefinition id="code" title="Código" />
-						<ColumnDefinition id="amount" title="Precio" />
-						<ColumnDefinition id="edit" title="Editar Producto"  customComponent={EditButton}/>
-						<ColumnDefinition id="details" title="Detalles del Producto"  customComponent={enhancedWithRowData(DetailsButton)}
-						/>
-					</RowDefinition>
-				</Griddle>
+				<Col className="col-md-12 offset-2">
+					<Griddle
+						data={listProducts.toJS()}
+						plugins={[plugins.LocalPlugin]}
+						styleConfig={{classNames:
+						{ Table: 'table table-striped',} }}
+						components={{
+						Layout: NewLayout }}
+					>
+						<RowDefinition>
+							<ColumnDefinition id="name" title="Nombre"  />
+							<ColumnDefinition id="description" title="Descrición"  />
+							<ColumnDefinition id="code" title="Código" />
+							<ColumnDefinition id="amount" title="Precio" />
+							<ColumnDefinition id="edit" title="Editar Producto"  customComponent={EditButton}/>
+							<ColumnDefinition id="details" title="Detalles del Producto"  customComponent={enhancedWithRowData(DetailsButton)}
+							/>
+						</RowDefinition>
+					</Griddle>
+				</Col>
 			</div>
 		);
 	}
