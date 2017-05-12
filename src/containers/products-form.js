@@ -30,9 +30,6 @@ class SimpleFormContainer extends Component {
             valuesList.push(subProduct);
         });
         dispatch(submitProduct(valuesList));
-
-        /*
-        dispatch(submitProduct(values.delete("ProductVariants").delete("variantsArray").delete("size").delete("color")));*/
     }
 
     render(){
