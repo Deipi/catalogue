@@ -251,6 +251,12 @@ class NewProductForm extends React.Component{
 		const { handleSubmit, actionSubmit, pristine, reset, submitting, variantsArray, dispatch, variantError } = this.props;
 		return (
 			<div>
+				<Breadcrumb tag="nav">
+					<Link to="/"><BreadcrumbItem tag="a">Inicio</BreadcrumbItem> </Link>
+					<BreadcrumbItem active tag="span">/</BreadcrumbItem>
+					<Link to="/ListadoAdmin"><BreadcrumbItem tag="a">Listado del Administrador</BreadcrumbItem> </Link>
+					<BreadcrumbItem active tag="span">/Nuevo Producto</BreadcrumbItem>
+				</Breadcrumb>
 				<form onSubmit={ handleSubmit(actionSubmit) }>
 					<div style={{ float: 'left'}}>
 						<Field
