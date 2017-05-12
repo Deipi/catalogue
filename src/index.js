@@ -15,7 +15,6 @@ import {
 import App from './App';
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.css'
-import './Styles/src_IndexStyle.css'
 import employesReducer, { errorVariantReducer } from './reducers/products';
 import InsertarProductos from './containers/products-form'
 import ListaProductosAdministrador from './containers/products-list-admin'
@@ -64,44 +63,42 @@ ReactDOM.render(
 	<Provider store={ store }>
 		<Router>
 			<App>
-				<div style={{ display: 'flex' }}>
-					<div id="Links">
-						<nav>
-							<ul className="Opciones">
-								<li className="anclaje">
-									<div className="Barra"></div>
-									<Link to="/" className="Menu">Inicio</Link>
-								</li>
+				<div style={{float:'left', width:'20%', background:'red' }} >
+					<nav>
+						<ul nes>
+							<li >
+								<div ></div>
+								<Link to="/" >Inicio</Link>
+							</li>
 
-								<li className="anclaje">
-									<div className="Barra"></div>
-									<Link to="/Listado" className="Menu">Lista de Productos</Link>
-								</li>
+							<li >
+								<div ></div>
+								<Link to="/Listado" >Lista de Productos</Link>
+							</li>
 
-								<li className="anclaje">
-									<div className="Barra"></div>
-									<Link to="/ListadoAdmin" className="Menu">Lista de Productos(Administrador)</Link>
-								</li>
+							<li >
+								<div ></div>
+								<Link to="/ListadoAdmin" >Lista de Productos(Administrador)</Link>
+							</li>
 
-								<li className="anclaje">
-									<div className="Barra"></div>
-									<Link to="/Nuevo Producto" className="Menu">Nuevo Producto</Link>
-								</li>
-							</ul>
-						</nav>
-					</div>
+							<li >
+								<div ></div>
+								<Link to="/Nuevo Producto" >Nuevo Producto</Link>
+							</li>
+						</ul>
+					</nav>
+				</div>
 
-					<div id="Contenido" >
-						{routes.map((route, index) => (
-								<Route
-									key={index}
-									path={route.path}
-									exact={route.exact}
-									component={route.main}
-								/>
-							)
-						)}
-					</div>
+				<div id="Contenido" style={{float:'right', width:'78%' }} >
+					{routes.map((route, index) => (
+							<Route
+								key={index}
+								path={route.path}
+								exact={route.exact}
+								component={route.main}
+							/>
+						)
+					)}
 				</div>
 			</App>
 		</Router>
