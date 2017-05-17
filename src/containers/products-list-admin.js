@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Griddle, { plugins, RowDefinition, ColumnDefinition} from 'griddle-react';
-import { fetchProducts, FETCHED_EDITED } from '../actions';
+import { fetchProducts, currentProduct } from '../actions';
 import { Link } from 'react-router-dom'
 import { Button, Col, Breadcrumb, BreadcrumbItem } from 'reactstrap';
 
@@ -52,10 +52,7 @@ class ProductsList extends Component {
 
 		const product = products.filter(product => product.get('id') === value);
 
-		dispatch({
-			type: FETCHED_EDITED,
-			payload: product.toJS()[0],
-		})
+		dispatch(currentProduct(product.toJS()[0]));
 	}
 
 	cleanProduct() {
@@ -74,7 +71,7 @@ class ProductsList extends Component {
 	render() {
 		const { props: { products } } = this;
 
-		const listProducts = products.filter(product => product.get('parent') === null );
+		const listProducts = products.filter(product => product.get('parent') === 0 );
 
 		return (
 

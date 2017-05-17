@@ -7,7 +7,7 @@ export default (data, subproducts) => (dispatch, getStore) => fetch('http://loca
 	headers: {
 		'Content-Type': 'application/json'
 	},
-	body: JSON.stringify(Object.assign({}, data, { parent: null }))
+	body: JSON.stringify(Object.assign({}, data, { parent: 0 }))
 }).then( result => result.json().then( product => {
 
 	subproducts.forEach(subProduct => fetch('http://localhost:3004/products', {
@@ -36,13 +36,24 @@ export const fetchProducts = () => (dispatch, getStore) => fetch('http://localho
 })));
 
 
+export const currentProduct = product => (dispatch, getStore) => fetch(`http://localhost:3004/products?parante=${ product.id }`, {
+	method: 'GET',
+	headers: {
+		'Content-Type': 'application/json'
+	},
+}).then( result => result.json().then( subProducts => dispatch({
+	type: FETCHED_EDITED,
+	payload: { product, subProducts }
+})));
+
+
 
 export const updateProduct = (id, data, subproducts) => (dispatch, getStore) => fetch(`http://localhost:3004/products/${ id }`, {
 	method: 'PUT',
 	headers: {
 		'Content-Type': 'application/json'
 	},
-	body: JSON.stringify(Object.assign({}, data, { parent: null }))
+	body: JSON.stringify(Object.assign({}, data, { parent: 0 }))
 }).then( result => result.json().then( product => {
 
 	subproducts.forEach(subProduct => fetch(`http://localhost:3004/products/${ id }`, {

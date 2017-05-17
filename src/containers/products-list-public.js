@@ -47,7 +47,7 @@ class PublicList extends Component {
 	render() {
 		const { props: { products } } = this;
 
-		const listProducts = products.filter(product => product.get('parent') === null );
+		const listProducts = products.filter(product => product.get('parent') === 0 );
 
 		return (
 

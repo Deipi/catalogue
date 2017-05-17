@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Immutable from 'immutable';
-import { Field, FieldArray, reduxForm, change } from 'redux-form/immutable'
+import { Field, FieldArray, reduxForm, change, arrayPush } from 'redux-form/immutable'
 import validate from './validate';
 import { VariantsDictionary, TagsSelect, VariansSelect } from './select-catalogues'
 import { Link } from 'react-router-dom'
@@ -187,8 +187,7 @@ class NewProductForm extends React.Component{
 
 	onChangeActionTags(value, inputName){
 		const { dispatch } = this.props;
-		const w=value.map(obj=>obj.label)
-		dispatch(change('fieldArrays', inputName, w, true));
+		dispatch(change('fieldArrays', inputName, value, true));
 	}
 
 	onChangeActionArray(value, inputName, index, isSelect){
@@ -248,7 +247,14 @@ class NewProductForm extends React.Component{
 	}
 
 	componentWillReceiveProps(nextProps) {
-		alert(nextProps.initialValues.get('id'));
+		if (nextProps.initialValues.size) {
+			const tags = nextProps.initialValues.get('tags');
+			nextProps.dispatch(change('fieldArrays', 'tags', tags.map(tag => ({label: tag, value: tag}))));
+		}
+
+		if (nextProps.subProducts.length) {
+			nextProps.dispatch(arrayPush('fieldArrays', 'variantsArray', Immutable.Map()))
+		}
 	}
 
 	render(){

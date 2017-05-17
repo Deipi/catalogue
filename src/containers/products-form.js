@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+
+import Immutable from 'immutable';
 import SimpleForm from '../components/products-form';
 import { connect } from 'react-redux';
 import submitProduct, {updateProduct} from '../actions';
@@ -13,7 +15,8 @@ class SimpleFormContainer extends Component {
     handleSubmit(values) {
         const { props: { dispatch, info } } = this;
         const variants = values.get('variants');
-        const valuesProduct = values.set('variants', {});
+        const tags = values.get('tags').map(obj => obj.label);
+        const valuesProduct = values.set('variants', {}).set('tags', tags);
         const product = valuesProduct.delete('size').delete('color').delete('ProductVariants').delete('variantsArray').toJS();
 
         const subProducts = [];
@@ -37,13 +40,15 @@ class SimpleFormContainer extends Component {
     }
 
     render(){
-        const { variantsArray, variants, variantError, info } = this.props;
+        const { variantsArray, variants, variantError, info, subProducts } = this.props;
         return <SimpleForm
             variantError={ variantError }
             variants={ variants }
             variantsArray={ variantsArray }
             actionSubmit={ this.handleSubmit }
-            initialValues={ info } />;
+            initialValues={ info }
+            subProducts={ subProducts }
+            />;
     }
 }
 
@@ -61,7 +66,8 @@ const getValues = state => {
         variantsArray,
         variants,
         variantError: state.get('variantError'),
-        info: state.get('updateProduct'),
+        info: state.getIn([ 'updateProduct', 'product' ]) ? state.getIn([ 'updateProduct', 'product' ]) : Immutable.Map() ,
+        subProducts: state.getIn([ 'updateProduct', 'subProducts' ]) ? state.getIn([ 'updateProduct', 'subProducts' ]) : Immutable.Map() ,
     }
 
 }

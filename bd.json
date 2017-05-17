@@ -1,0 +1,49 @@
+{
+  "products": [
+    {
+      "variants": {},
+      "name": "P1",
+      "code": "1",
+      "amount": "10",
+      "description": "Algo",
+      "tags": [
+        "Ropa",
+        "Electronica"
+      ],
+      "parent": 0,
+      "id": 1
+    },
+    {
+      "name": "P1",
+      "code": "1",
+      "description": "Algo",
+      "tags": [
+        "Ropa",
+        "Electronica"
+      ],
+      "amount": "10",
+      "variants": {
+        "variantsArray[0].size": "Chico",
+        "variantsArray[0].color": "Verde"
+      },
+      "parent": 1,
+      "id": 2
+    },
+    {
+      "name": "P1",
+      "code": "1",
+      "description": "Algo",
+      "tags": [
+        "Ropa",
+        "Electronica"
+      ],
+      "amount": "10",
+      "variants": {
+        "variantsArray[1].size": "Mediano",
+        "variantsArray[1].color": "Verde"
+      },
+      "parent": 1,
+      "id": 3
+    }
+  ]
+}
