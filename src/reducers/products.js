@@ -24,6 +24,8 @@ export const updateProduct = (state=fromJS(Immutable.Map()), action) => {
 	switch(action.type) {
 		case FETCHED_EDITED:
 			return Immutable.Map(action.payload);
+		case 'CLEAN_PRODUCT':
+			return Immutable.Map();
 		case UPDATE_PRODUCT:
 			return fromJS(action.payload);
 		default:

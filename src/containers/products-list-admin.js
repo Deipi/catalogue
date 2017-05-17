@@ -44,6 +44,7 @@ class ProductsList extends Component {
 	constructor(props) {
 		super(props);
 		this.currentProduct = this.currentProduct.bind(this);
+		this.cleanProduct = this.cleanProduct.bind(this);
 	}
 
 	currentProduct(value) {
@@ -55,6 +56,15 @@ class ProductsList extends Component {
 			type: FETCHED_EDITED,
 			payload: product.toJS()[0],
 		})
+	}
+
+	cleanProduct() {
+		const { dispatch } = this.props;
+
+		dispatch({
+			type: 'CLEAN_PRODUCT',
+			payload: {},
+		});
 	}
 
 	componentWillMount() {
@@ -74,7 +84,12 @@ class ProductsList extends Component {
 				    <BreadcrumbItem active tag="span">/Listado del Administrador</BreadcrumbItem>
 				  </Breadcrumb>
 				<div>
-					<Link to="/Nuevo Producto" ><Button type="button" ><i className="fa fa-plus"/> Nuevo Producto</Button></Link>
+					<Link to="/Nuevo Producto" >
+						<Button type="button" onClick={ this.cleanProduct } >
+							<i className="fa fa-plus"/>
+							Nuevo Producto
+						</Button>
+					</Link>
 				</div>
 				<Col >
 					<Griddle

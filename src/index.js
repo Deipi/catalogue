@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import immutable from 'immutable';
 import thunk from 'redux-thunk';
-import { Provider } from 'react-redux';
+import { Provider, connect } from 'react-redux';
 import { combineReducers } from 'redux-immutable';
 import { createStore, applyMiddleware } from 'redux';
 import { reducer as formReducer } from 'redux-form/immutable';
@@ -58,37 +58,43 @@ const routes = [
   }
 ]
 
+
+const Menu = ({ dispatch }) => (
+	<div style={{float:'left', width:'20%', background:'red' }} >
+		<nav>
+			<ul nes>
+				<li >
+					<div ></div>
+					<Link  to="/" >Inicio</Link>
+				</li>
+
+				<li >
+					<div ></div>
+					<Link  to="/Listado" >Lista de Productos</Link>
+				</li>
+
+				<li >
+					<div ></div>
+					<Link to="/ListadoAdmin" >Lista de Productos(Administrador)</Link>
+				</li>
+
+				<li >
+					<div ></div>
+					<Link onClick={ () => dispatch({ type: 'CLEAN_PRODUCT', payload: {} }) } to="/Nuevo Producto" >Nuevo Producto</Link>
+				</li>
+			</ul>
+		</nav>
+	</div>
+);
+
+const MenuConnect = connect()(Menu);
+
 const store = createStore(rootReducer, initialState, applyMiddleware(thunk));
 ReactDOM.render(
 	<Provider store={ store }>
 		<Router>
 			<App>
-				<div style={{float:'left', width:'20%', background:'red' }} >
-					<nav>
-						<ul nes>
-							<li >
-								<div ></div>
-								<Link  to="/" >Inicio</Link>
-							</li>
-
-							<li >
-								<div ></div>
-								<Link  to="/Listado" >Lista de Productos</Link>
-							</li>
-
-							<li >
-								<div ></div>
-								<Link to="/ListadoAdmin" >Lista de Productos(Administrador)</Link>
-							</li>
-
-							<li >
-								<div ></div>
-								<Link  to="/Nuevo Producto" >Nuevo Producto</Link>
-							</li>
-						</ul>
-					</nav>
-				</div>
-
+				<MenuConnect />
 				<div id="Contenido" style={{float:'right', width:'78%' }} >
 					{routes.map((route, index) => (
 							<Route
