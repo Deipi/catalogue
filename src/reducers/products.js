@@ -1,5 +1,5 @@
 import Immutable, { fromJS } from 'immutable';
-import { POSTED_PRODUCT, FETCHED_PRODUCTS } from '../actions';
+import { POSTED_PRODUCT, FETCHED_PRODUCTS, FETCHED_EDITED, UPDATE_PRODUCT } from '../actions';
 
 export default (state=fromJS([]), action) => {
 	switch(action.type) {
@@ -20,3 +20,14 @@ export const errorVariantReducer = (state=fromJS(Immutable.Map()), action) => {
 			return state;
 	}
 }
+export const updateProduct = (state=fromJS(Immutable.Map()), action) => {
+	switch(action.type) {
+		case FETCHED_EDITED:
+			return Immutable.Map(action.payload);
+		case UPDATE_PRODUCT:
+			return fromJS(action.payload);
+		default:
+			return state;
+	}
+}
+

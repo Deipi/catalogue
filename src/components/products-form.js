@@ -247,6 +247,10 @@ class NewProductForm extends React.Component{
 		}
 	}
 
+	componentWillReceiveProps(nextProps) {
+		alert(nextProps.initialValues.get('id'));
+	}
+
 	render(){
 		const { handleSubmit, actionSubmit, pristine, reset, submitting, variantsArray, dispatch, variantError } = this.props;
 		return (

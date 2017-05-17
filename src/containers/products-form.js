@@ -1,9 +1,7 @@
-
-
 import React, { Component } from 'react';
 import SimpleForm from '../components/products-form';
 import { connect } from 'react-redux';
-import submitProduct from '../actions';
+import submitProduct, {updateProduct} from '../actions';
 import { Field, reduxForm, formValueSelector } from 'redux-form'
 
 class SimpleFormContainer extends Component {
@@ -13,7 +11,7 @@ class SimpleFormContainer extends Component {
     }
 
     handleSubmit(values) {
-        const { props: { dispatch} } = this;
+        const { props: { dispatch, info } } = this;
         const variants = values.get('variants');
         const valuesProduct = values.set('variants', {});
         const product = valuesProduct.delete('size').delete('color').delete('ProductVariants').delete('variantsArray').toJS();
@@ -30,15 +28,24 @@ class SimpleFormContainer extends Component {
 
             subProducts.push(subProduct);
         });
-        dispatch(submitProduct(product, subProducts));
+
+            if(info.get('id')){
+                dispatch(updateProduct(info.get('id'), product));
+            } else {
+                dispatch(submitProduct(product, subProducts));
+            }
     }
 
     render(){
-        const { variantsArray, variants, variantError } = this.props;
-        return <SimpleForm variantError={ variantError } variants={ variants } variantsArray={ variantsArray } actionSubmit={ this.handleSubmit } />;
+        const { variantsArray, variants, variantError, info } = this.props;
+        return <SimpleForm
+            variantError={ variantError }
+            variants={ variants }
+            variantsArray={ variantsArray }
+            actionSubmit={ this.handleSubmit }
+            initialValues={ info } />;
     }
 }
-
 
 const getValues = state => {
     const values = state.getIn([ 'form', 'fieldArrays', 'values' ] )
@@ -54,7 +61,9 @@ const getValues = state => {
         variantsArray,
         variants,
         variantError: state.get('variantError'),
+        info: state.get('updateProduct'),
     }
+
 }
 
 export default connect(getValues)(SimpleFormContainer);

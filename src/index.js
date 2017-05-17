@@ -15,7 +15,7 @@ import {
 import App from './App';
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.css'
-import employesReducer, { errorVariantReducer } from './reducers/products';
+import ProductsReducer, { errorVariantReducer, updateProduct } from './reducers/products';
 import InsertarProductos from './containers/products-form'
 import ListaProductosAdministrador from './containers/products-list-admin'
 import ListaProductosPublico from './containers/products-list-public'
@@ -25,8 +25,9 @@ const initialState = immutable.Map();
 
 const rootReducer = combineReducers({
 	form: formReducer,
-	products: employesReducer,
+	products: ProductsReducer,
 	variantError: errorVariantReducer,
+	updateProduct: updateProduct,
 });
 
 const routes = [
@@ -58,7 +59,6 @@ const routes = [
 ]
 
 const store = createStore(rootReducer, initialState, applyMiddleware(thunk));
-
 ReactDOM.render(
 	<Provider store={ store }>
 		<Router>
@@ -68,12 +68,12 @@ ReactDOM.render(
 						<ul nes>
 							<li >
 								<div ></div>
-								<Link to="/" >Inicio</Link>
+								<Link  to="/" >Inicio</Link>
 							</li>
 
 							<li >
 								<div ></div>
-								<Link to="/Listado" >Lista de Productos</Link>
+								<Link  to="/Listado" >Lista de Productos</Link>
 							</li>
 
 							<li >
@@ -83,7 +83,7 @@ ReactDOM.render(
 
 							<li >
 								<div ></div>
-								<Link to="/Nuevo Producto" >Nuevo Producto</Link>
+								<Link  to="/Nuevo Producto" >Nuevo Producto</Link>
 							</li>
 						</ul>
 					</nav>

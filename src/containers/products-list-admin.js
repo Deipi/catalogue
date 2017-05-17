@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Griddle, { plugins, RowDefinition, ColumnDefinition} from 'griddle-react';
-import { fetchProducts } from '../actions';
+import { fetchProducts, FETCHED_EDITED } from '../actions';
 import { Link } from 'react-router-dom'
 import { Button, Col, Breadcrumb, BreadcrumbItem } from 'reactstrap';
 
@@ -30,7 +30,7 @@ const NewLayout = ({Table,Filter,Pagination }) => (
 	</div>
 );
 
-const EditButton = ({value})=><Link to="/Nuevo Producto" ><Button type="button"><i className="fa fa-pencil"/> Editar</Button></Link>
+const EditButton = (currentProduct) => (props) => <Link to="/Nuevo Producto" ><Button onClick={ () => currentProduct(props.value) } type="button"><i className="fa fa-pencil"/> Editar</Button></Link>
 const DetailsButton = ({value, griddleKey, rowData}) =>
 	(
 		<Link  to={`/Detalles/${ rowData.name }`}>
@@ -41,6 +41,22 @@ const DetailsButton = ({value, griddleKey, rowData}) =>
 	)
 
 class ProductsList extends Component {
+	constructor(props) {
+		super(props);
+		this.currentProduct = this.currentProduct.bind(this);
+	}
+
+	currentProduct(value) {
+		const { dispatch, products } = this.props;
+
+		const product = products.filter(product => product.get('id') === value);
+
+		dispatch({
+			type: FETCHED_EDITED,
+			payload: product.toJS()[0],
+		})
+	}
+
 	componentWillMount() {
 		const { props: { dispatch } } = this;
 		dispatch(fetchProducts());
@@ -57,8 +73,8 @@ class ProductsList extends Component {
 				    <Link to="/"><BreadcrumbItem tag="a">Inicio</BreadcrumbItem> </Link>
 				    <BreadcrumbItem active tag="span">/Listado del Administrador</BreadcrumbItem>
 				  </Breadcrumb>
-				<div className="pull-right">
-					<Link to="/Nuevo Producto" ><Button type="button"><i className="fa fa-plus"/> Nuevo Producto</Button></Link>
+				<div>
+					<Link to="/Nuevo Producto" ><Button type="button" ><i className="fa fa-plus"/> Nuevo Producto</Button></Link>
 				</div>
 				<Col >
 					<Griddle
@@ -74,7 +90,7 @@ class ProductsList extends Component {
 							<ColumnDefinition id="description" title="Descrición"  />
 							<ColumnDefinition id="code" title="Código" />
 							<ColumnDefinition id="amount" title="Precio" />
-							<ColumnDefinition id="edit" title="Editar Producto"  customComponent={EditButton}/>
+							<ColumnDefinition id="id" title="Editar Producto"  customComponent={ EditButton(this.currentProduct) }/>
 							<ColumnDefinition id="details" title="Detalles del Producto"  customComponent={enhancedWithRowData(DetailsButton)}
 							/>
 						</RowDefinition>
