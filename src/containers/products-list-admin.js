@@ -76,10 +76,12 @@ class ProductsList extends Component {
 		return (
 
 			<div className="pull-center">
-				 <Breadcrumb tag="nav">
-				    <Link to="/"><BreadcrumbItem tag="a">Inicio</BreadcrumbItem> </Link>
-				    <BreadcrumbItem active tag="span">/Listado del Administrador</BreadcrumbItem>
-				  </Breadcrumb>
+				<Breadcrumb tag="nav">
+					<Link to="/">
+				    	<BreadcrumbItem tag="a">Inicio</BreadcrumbItem>
+				    </Link>
+					<BreadcrumbItem active tag="span">/Listado del Administrador</BreadcrumbItem>
+				</Breadcrumb>
 				<div>
 					<Link to="/Nuevo Producto" >
 						<Button type="button" onClick={ this.cleanProduct } >

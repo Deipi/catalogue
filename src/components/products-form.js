@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Immutable from 'immutable';
-import { Field, FieldArray, reduxForm, change, arrayPush } from 'redux-form/immutable'
+import { Field, FieldArray, reduxForm, change, arrayPush, reset  } from 'redux-form/immutable'
 import validate from './validate';
 import { VariantsDictionary, TagsSelect, VariansSelect } from './select-catalogues'
 import { Link } from 'react-router-dom'
@@ -249,11 +249,15 @@ class NewProductForm extends React.Component{
 	componentWillReceiveProps(nextProps) {
 		if (nextProps.initialValues.size) {
 			const tags = nextProps.initialValues.get('tags');
-			nextProps.dispatch(change('fieldArrays', 'tags', tags.map(tag => ({label: tag, value: tag}))));
+			const r = nextProps.initialValues.get('ProductVariants');
+			nextProps.dispatch(change('fieldArrays', 'tags', tags.map(tag => ({label: tag, value: tag})).toJS() ));
 		}
 
 		if (nextProps.subProducts.length) {
 			nextProps.dispatch(arrayPush('fieldArrays', 'variantsArray', Immutable.Map()))
+			const varian = nextProps.initialValues.get('variantsArray')
+			alert(nextProps.initialValues.getIn(['variants', 'variantsArray[0].size']))
+			nextProps.dispatch(change('fieldArrays', 'variantsArray', varian.map(tag => tag).toJS() ));
 		}
 	}
 
@@ -321,7 +325,7 @@ class NewProductForm extends React.Component{
 					</div>
 					<div style={{float:'left'}}>
 						<Button type="submit" disabled={submitting}>Guardar</Button>
-						<Button type="button" disabled={pristine || submitting} onClick={reset}>Clear Values</Button>
+						<Button type="button" disabled={pristine || submitting} onClick={reset}>Limpiar</Button>
 					</div>
 					<div className="pull-right">
 						<Link to="/ListadoAdmin" ><Button type="button"><i className="fa fa-list"/> Listado Administrativo</Button></Link>

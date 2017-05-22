@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-
 import Immutable from 'immutable';
 import SimpleForm from '../components/products-form';
 import { connect } from 'react-redux';
 import submitProduct, {updateProduct} from '../actions';
-import { Field, reduxForm, formValueSelector } from 'redux-form'
+import { Field, reduxForm, formValueSelector, reset } from 'redux-form'
 
 class SimpleFormContainer extends Component {
     constructor(props) {
@@ -36,6 +35,7 @@ class SimpleFormContainer extends Component {
                 dispatch(updateProduct(info.get('id'), product));
             } else {
                 dispatch(submitProduct(product, subProducts));
+                dispatch(reset('fieldArrays'));
             }
     }
 

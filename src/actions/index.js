@@ -56,7 +56,7 @@ export const updateProduct = (id, data, subproducts) => (dispatch, getStore) => 
 	body: JSON.stringify(Object.assign({}, data, { parent: 0 }))
 }).then( result => result.json().then( product => {
 
-	subproducts.forEach(subProduct => fetch(`http://localhost:3004/products/${ id }`, {
+	subproducts.forEach(subProduct => fetch(`http://localhost:3004/products/${ subproducts.id }`, {
 		method: 'PUT',
 		headers: {
 			'Content-Type': 'application/json'
@@ -69,5 +69,3 @@ export const updateProduct = (id, data, subproducts) => (dispatch, getStore) => 
 		payload: product
 	})
 }));
-
-
