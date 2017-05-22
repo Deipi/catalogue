@@ -25,40 +25,47 @@ const optionsColor = [
     { value: 'M', label: 'Morado' },
     { value: 'B', label: 'Blanco' }
 ];
+const optionsFlavor = [
+    { value: 'V', label: 'Limon' },
+    { value: 'A', label: 'Naranja' },
+    { value: 'R', label: 'Fresa' },
+    { value: 'M', label: 'Mora' },
+    { value: 'B', label: 'Natural'},
+    { value: 'B', label: 'Vainilla'}
+];
 
 class VariansSelectComponent extends Component{
-    constructor(props) {
-        super(props);
-        this.handleOnChange = this.handleOnChange.bind(this);
-        this.validateNewOption = this.validateNewOption.bind(this);
-        this.state = {
-            displayName: 'VariansSelect',
-            multi: true,
-            multiValue: [
-                { value: 'T', label: 'Tamaño', name: 'size', options: optionsSize, placeholder:'Size'},
-                { value: 'C', label: 'Color', name: 'color', options: optionsColor, placeholder:'Color' }
-            ],
-            options: [
-                { value: 'S', label: 'Sabor', name: 'taste', options: [] , placeholder:'Flavor'},
-                { value: 'E', label: 'Estilo', name: 'style', options: [], placeholder:'Style' },
-                { value: 'M', label: 'Material', name: 'material', options: [], placeholder:'Material'},
-                { value: 'T', label: 'Tamaño', name: 'size', options: optionsSize, placeholder:'Size' },
-                { value: 'C', label: 'Color', name: 'color', options: optionsColor, placeholder: 'Color' }
-            ],
-            value: undefined
-        };
-    }
+  constructor(props) {
+      super(props);
+      this.handleOnChange = this.handleOnChange.bind(this);
+      this.validateNewOption = this.validateNewOption.bind(this);
+      this.state = {
+          displayName: 'VariansSelect',
+          multi: true,
+          multiValue: [
+              { value: 'T', label: 'Tamaño', name: 'size', options: optionsSize, placeholder:'Size'},
+              { value: 'C', label: 'Color', name: 'color', options: optionsColor, placeholder:'Color'}
+          ],
+          options: [
+              { value: 'S', label: 'Sabor', name: 'taste', options: optionsFlavor , placeholder:'Flavor'},
+              { value: 'E', label: 'Estilo', name: 'style', options: [], placeholder:'Style' },
+              { value: 'M', label: 'Material', name: 'material', options: [], placeholder:'Material'},
+              { value: 'T', label: 'Tamaño', name: 'size', options: optionsSize, placeholder:'Size' },
+              { value: 'C', label: 'Color', name: 'color', options: optionsColor, placeholder: 'Color' }
+          ],
+          value: undefined
+      };
+  }
 
-    propTypes: {
-    hint: React.PropTypes.string,
-    label: React.PropTypes.string
-    }
+  propTypes: {
+  hint: React.PropTypes.string,
+  label: React.PropTypes.string
+  }
 
-    componentWillMount() {
-        const { dispatch } = this.props;
-
-        dispatch(change('fieldArrays', 'ProductVariants', this.state.multiValue, true))
-    }
+  componentWillMount() {
+      const { dispatch } = this.props;
+      dispatch(change('fieldArrays', 'ProductVariants', this.state.multiValue, true))
+  }
 
   handleOnChange (value) {
     const { multi } = this.state;
