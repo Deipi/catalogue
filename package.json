@@ -16,11 +16,13 @@
     "react-redux": "^5.0.4",
     "react-router-dom": "^4.1.1",
     "react-select": "^1.0.0-rc.3",
+    "react-slick": "^0.14.11",
     "reactstrap": "^4.5.0",
     "redux": "^3.6.0",
     "redux-form": "^6.5.0",
     "redux-immutable": "^4.0.0",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "slick-carousel": "^1.6.0"
   },
   "scripts": {
     "start": "react-scripts start",
