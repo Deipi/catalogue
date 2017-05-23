@@ -7,4 +7,78 @@ body {
 .card > .input-group-addon, .input-group-btn, .input-group .form-control::-webkit-input-placeholder { color: #aaaaaa; }
 .card > .input-group-addon, .input-group-btn, .input-group .form-control:-moz-placeholder { color: #aaaaaa; }
 .card > .input-group-addon, .input-group-btn, .input-group .form-control::-moz-placeholder { color: #aaaaaa; }
-.card > 8.input-group-addon, .input-group-btn, .input-group .form-control:-ms-input-placeholder { color: #aaaaaa; }
+.card > .input-group-addon, .input-group-btn, .input-group .form-control:-ms-input-placeholder { color: #aaaaaa; }
+
+/* Imagenes Fijas Temporalmente */
+.slick-slide img{
+	height: 300px;
+}
+
+.lateral-dots li a img {
+	height: 42px;
+    width: 82px;
+}
+/**/
+.lateral-dots {
+	display: grid !important;
+    position: relative;
+    width: 14.3% !important;
+    overflow-y: scroll;
+    height: 16em;
+
+}
+
+.slick-list{
+	float: right ;
+	width: 83.3% !important;
+}
+
+
+.slick-dots li {
+    height: 3.3em;
+   	float: left ;
+   	width: 100%;
+}
+
+
+
+@media (max-width: 1004px) {
+
+	.slick-dots li{
+		height: 2.5em;
+	}
+
+	.slick-dots {
+    	bottom: 1px;
+	}
+
+}
+
+@media (max-width: 941px) {
+
+
+	.slick-dots li{
+		height: 3.0em;
+	}
+
+}
+
+@media (max-width: 840px) {
+
+	.slick-dots li{
+		height: 2.6em;
+	}
+
+}
+
+@media (max-width: 740px) {
+
+	.slick-dots li{
+		display: none;
+	}
+
+	.slick-list {
+		margin-right: 4em;
+	}
+
+}
