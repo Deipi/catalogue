@@ -20,6 +20,7 @@ import InsertarProductos from './containers/products-form'
 import ListaProductosAdministrador from './containers/products-list-admin'
 import ListaProductosPublico from './containers/products-list-public'
 import DetailProducts from './containers/Details';
+import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink, Container } from 'reactstrap';
 
 const initialState = immutable.Map();
 
@@ -59,33 +60,48 @@ const routes = [
 ]
 
 
-const Menu = ({ dispatch }) => (
-	<div style={{float:'left', width:'20%', background:'red' }} >
-		<nav>
-			<ul nes>
-				<li >
-					<div ></div>
-					<Link  to="/" >Inicio</Link>
-				</li>
+class Menu extends React.Component {
+	constructor(props) {
+		super(props);
 
-				<li >
-					<div ></div>
-					<Link  to="/Listado" >Lista de Productos</Link>
-				</li>
+		this.toggleNavbar = this.toggleNavbar.bind(this);
+		this.state = {
+			collapsed: true
+		};
+	}
 
-				<li >
-					<div ></div>
-					<Link to="/ListadoAdmin" >Lista de Productos(Administrador)</Link>
-				</li>
-
-				<li >
-					<div ></div>
-					<Link onClick={ () => dispatch({ type: 'CLEAN_PRODUCT', payload: {} }) } to="/Nuevo Producto" >Nuevo Producto</Link>
-				</li>
-			</ul>
-		</nav>
-	</div>
-);
+	toggleNavbar() {
+		this.setState({
+			collapsed: !this.state.collapsed
+		});
+	}
+	render(){
+		const { props: { dispatch } } = this;
+		return(
+			<div>
+				<div>
+					<Navbar color="faded" light>
+					<NavbarToggler onClick={this.toggleNavbar} />
+					<Collapse className="navbar-toggleable-md" isOpen={!this.state.collapsed}>
+						<NavbarBrand><Link  to="/" >Inicio</Link></NavbarBrand>
+						<Nav navbar>
+							<NavItem>
+								<NavLink><Link  to="/Listado" >Lista de Productos</Link></NavLink>
+							</NavItem>
+							<NavItem>
+								<NavLink><Link to="/ListadoAdmin" >Lista de Productos(Administrador)</Link></NavLink>
+							</NavItem>
+							<NavItem>
+								<NavLink><Link onClick={ () => dispatch({ type: 'CLEAN_PRODUCT', payload: {} }) } to="/Nuevo Producto" >Nuevo Producto</Link></NavLink>
+							</NavItem>
+						</Nav>
+					</Collapse>
+					</Navbar>
+				</div>
+			</div>
+		);
+	}
+}
 
 const MenuConnect = connect()(Menu);
 
@@ -95,7 +111,8 @@ ReactDOM.render(
 		<Router>
 			<App>
 				<MenuConnect />
-				<div id="Contenido" style={{float:'right', width:'78%' }} >
+				<div>
+				<Container className="mt-5">
 					{routes.map((route, index) => (
 							<Route
 								key={index}
@@ -105,6 +122,7 @@ ReactDOM.render(
 							/>
 						)
 					)}
+					</Container>
 				</div>
 			</App>
 		</Router>
