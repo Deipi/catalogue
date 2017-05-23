@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom'
 import { fetchProducts } from '../actions';
-import { Card, CardHeader, Row, Col } from 'reactstrap';
+import { Card, CardHeader, Row, Col, Table } from 'reactstrap';
 const selector = state => ({
     products: state.get('products'),
 })
@@ -57,26 +57,42 @@ class ProductDetail extends Component {
                                 {general.map(element=>
                                     <div>
                                         <h2>{element.get('name')}</h2>
-                                       <p style={{opacity: '.50'}}>Código:{element.get('code')}</p>
+                                        <p style={{opacity: '.50'}}>
+                                            <h5>
+                                                Código:{element.get('code')}
+                                                <br/>
+                                                - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                                            </h5>
+                                        </p>
+                                        <h2>MXN {element.get('amount')}</h2>
                                         <h2>Descripción: </h2><h3>{element.get('description')}</h3>
-                                        <h2> Variantes: </h2> <h3>
-                                        {product.filter(l=>
-                                            l.get('parent')>0).map(m=>(
-                                                    <div>
+
+                                        <Table>
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                    Subproductos
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    {product.filter(l=>
+                                                    l.get('parent')>0).map(m=>(
                                                         <div>
-                                                         <CardHeader>
                                                             {m.get('variants').map(p=>
-                                                                <li>{p}</li>
-                                                                )
-                                                            }
-                                                            </CardHeader>
+                                                                <td>
+                                                                    <span className="input-group-addon">{`${p} `}</span>
+                                                                </td>
+                                                            )}
                                                         </div>
-                                                        <br/>
-                                                    </div>
-                                                )
-                                            )
-                                        }
-                                        </h3>
+
+                                                        )
+                                                    )
+                                                }
+                                                </tr>
+                                            </tbody>
+                                        </Table>
                                     </div>)}
                                 </Col>
                         </Row>
