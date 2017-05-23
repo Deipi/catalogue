@@ -56,17 +56,21 @@ class ProductDetail extends Component {
                                 <Col  className="col-md-4">
                                 {general.map(element=>
                                     <div>
-                                        <h2>{element.get('name')}</h2>
-                                        <p style={{opacity: '.50'}}>
-                                            <h5>
-                                                Código:{element.get('code')}
-                                                <br/>
-                                                - - - - - - - - - - - - - - - - - - - - - - - - - - -
-                                            </h5>
-                                        </p>
-                                        <h2>MXN {element.get('amount')}</h2>
-                                        <h2>Descripción: </h2><h3>{element.get('description')}</h3>
-
+                                        <div className="col-md-6">
+                                            <h2>{element.get('name')}</h2>
+                                            <p style={{opacity: '.50'}}>
+                                                <h5>
+                                                    Código:{element.get('code')}
+                                                </h5>
+                                            </p>
+                                        </div>
+                                        <div>
+                                        <h5 style={{opacity: '.50'}}>- - - - - - - - - - - - - - - - - - - - - - - - - - -</h5>
+                                        </div>
+                                        <div className="col-md-6">
+                                            <h3>MXN {element.get('amount')}</h3>
+                                            <h5>{element.get('description')}</h5>
+                                        </div>
                                         <Table>
                                             <thead>
                                                 <tr>
