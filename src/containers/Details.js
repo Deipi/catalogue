@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom'
 import { fetchProducts } from '../actions';
+import { Card, CardHeader, Row, Col } from 'reactstrap';
 const selector = state => ({
     products: state.get('products'),
 })
-import {Row,Col} from 'reactstrap'
 
 class ProductDetail extends Component {
     constructor(props) {
@@ -30,15 +30,10 @@ class ProductDetail extends Component {
         });
     }
 
-    /*
-    product: products.map(listProducts =>
-                listProducts.find((h)=> h.getIn(['name'])===name)
-                )
-    */
 
     render() {
         const { state: { product } } = this;
-        const { products, match: { params: { name } } } = this.props;
+        const { match: { params: { name } } } = this.props;
         const general = product.filter(l=>l.get('parent')==0)
         if(product) {
             return (
@@ -61,17 +56,22 @@ class ProductDetail extends Component {
                                 <Col  className="col-md-4">
                                 {general.map(element=>
                                     <div>
-                                        <h1>{element.get('name')}</h1>
-                                        <h2>Código: </h2><h3>{element.get('code')}</h3>
+                                        <h2>{element.get('name')}</h2>
+                                       <p style={{opacity: '.50'}}>Código:{element.get('code')}</p>
                                         <h2>Descripción: </h2><h3>{element.get('description')}</h3>
                                         <h2> Variantes: </h2> <h3>
                                         {product.filter(l=>
                                             l.get('parent')>0).map(m=>(
                                                     <div>
-                                                        {m.get('variants').map(p=>
-                                                            <li>{p}</li>
-                                                            )
-                                                        }<br/>
+                                                        <div>
+                                                         <CardHeader>
+                                                            {m.get('variants').map(p=>
+                                                                <li>{p}</li>
+                                                                )
+                                                            }
+                                                            </CardHeader>
+                                                        </div>
+                                                        <br/>
                                                     </div>
                                                 )
                                             )
