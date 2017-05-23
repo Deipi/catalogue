@@ -49,9 +49,8 @@ body {
 	}
 
 	.slick-dots {
-    	bottom: 1px;
+		display: none !important;
 	}
-
 }
 
 @media (max-width: 941px) {
