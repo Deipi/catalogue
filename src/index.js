@@ -20,7 +20,7 @@ import InsertarProductos from './containers/products-form'
 import ListaProductosAdministrador from './containers/products-list-admin'
 import ListaProductosPublico from './containers/products-list-public'
 import DetailProducts from './containers/Details';
-import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink, Container } from 'reactstrap';
+import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink, Container,Row } from 'reactstrap';
 
 const initialState = immutable.Map();
 
@@ -78,27 +78,32 @@ class Menu extends React.Component {
 	render(){
 		const { props: { dispatch } } = this;
 		return(
-			<div>
-				<div>
-					<Navbar color="faded" light>
+
+			<Navbar color="faded" light>
+				<Row>
 					<NavbarToggler onClick={this.toggleNavbar} />
-					<Collapse className="navbar-toggleable-md" isOpen={!this.state.collapsed}>
-						<NavbarBrand><Link  to="/" >Inicio</Link></NavbarBrand>
-						<Nav navbar>
-							<NavItem>
-								<NavLink><Link  to="/Listado" >Lista de Productos</Link></NavLink>
-							</NavItem>
-							<NavItem>
-								<NavLink><Link to="/ListadoAdmin" >Lista de Productos(Administrador)</Link></NavLink>
-							</NavItem>
-							<NavItem>
-								<NavLink><Link onClick={ () => dispatch({ type: 'CLEAN_PRODUCT', payload: {} }) } to="/Nuevo Producto" >Nuevo Producto</Link></NavLink>
-							</NavItem>
-						</Nav>
-					</Collapse>
-					</Navbar>
-				</div>
-			</div>
+					<h5 className="mx-auto">
+						<i className="fa fa-shopping-bag fa-spin text-info" aria-hidden="true"/>
+						{'  '}
+						<strong>Catálogo de Productos</strong>
+					</h5>
+				</Row>
+			<Collapse className="navbar-toggleable-md" isOpen={!this.state.collapsed}>
+				<NavbarBrand><Link  to="/" >Inicio</Link></NavbarBrand>
+				<Nav navbar>
+					<NavItem>
+						<NavLink><Link  to="/Listado" >Lista de Productos</Link></NavLink>
+					</NavItem>
+					<NavItem>
+						<NavLink><Link to="/ListadoAdmin" >Lista de Productos(Administrador)</Link></NavLink>
+					</NavItem>
+					<NavItem>
+						<NavLink><Link onClick={ () => dispatch({ type: 'CLEAN_PRODUCT', payload: {} }) } to="/Nuevo Producto" >Nuevo Producto</Link></NavLink>
+					</NavItem>
+				</Nav>
+			</Collapse>
+			</Navbar>
+
 		);
 	}
 }
