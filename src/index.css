@@ -81,3 +81,38 @@ body {
 	}
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.DetailsInfo p{
+	text-align: left;
+}
+
+.DetailLine{
+	border:dashed 2px ;
+	opacity: .5;
+}
+
+.DetailCode{
+	opacity: .5;
+}
+
+.DetailsName{
+	font-size: 40px;
+}
+.DetailsAmount{
+	font-size: 25px;
+}
