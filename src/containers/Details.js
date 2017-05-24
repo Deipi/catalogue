@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom'
 import { fetchProducts } from '../actions';
-import { Card, CardHeader, Row, Col, Table } from 'reactstrap';
+import { Card, CardHeader, Row, Col, Table, Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import Slider from 'react-slick';
 
 const Carousel =()=> {
@@ -62,7 +62,6 @@ class ProductDetail extends Component {
         const { products, match: { params: { name } } } = props;
         this.state = {
             product: products.filter((h)=> h.getIn(['name'])===name)
-            //product: products.find((h)=> h.getIn(['name'])===name)
         };
     }
 
@@ -87,33 +86,27 @@ class ProductDetail extends Component {
         if(product) {
             return (
                 <div key={product.get('id')}>
-                <Row>
-                </Row>
-                <div><Link to="/listado">Listado de Productos </Link>
-                /{name}
-                </div>
+                <Breadcrumb tag="nav">
+                    <Link to="/">
+                        <BreadcrumbItem tag="a">Inicio</BreadcrumbItem>
+                    </Link>
+                    <Link to="/listado"><BreadcrumbItem tag="a">/Lista De Productos</BreadcrumbItem> </Link>
+                    <BreadcrumbItem active tag="span">/{name}</BreadcrumbItem>
+                </Breadcrumb>
                     <Row>
                         <Col md="8">
                             <Carousel/>
                         </Col>
                         <Col md="4">
                         {general.map(element=>
-                            <div>
-                                <div className="col-md-6">
-                                    <h2>{element.get('name')}</h2>
-                                    <p style={{opacity: '.50'}}>
-                                        <h5>
-                                            Código:{element.get('code')}
-                                        </h5>
+                            <div className="DetailsInfo">
+                                    <p className="DetailsName">{element.get('name')}</p>
+                                    <p className="DetailCode">
+                                        Código:{element.get('code')}
                                     </p>
-                                </div>
-                                <div>
-                                    <h5 style={{opacity: '.50'}}>- - - - - - - - - - - - - - - - - - - - - - - - - - -</h5>
-                                </div>
-                                <div className="col-md-7">
-                                    <h2>MXN {element.get('amount')}</h2>
-                                    <h5>{element.get('description')}</h5>
-                                </div>
+                                <hr className="DetailLine" />
+                                    <p className="DetailsAmount">MXN {element.get('amount')}</p>
+                                    <p>{element.get('description')}</p>
 
                                 <Table>
                                     <thead>
@@ -124,7 +117,7 @@ class ProductDetail extends Component {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
+                                        <tr >
                                             {product.filter(l=>
                                             l.get('parent')>0).map(m=>(
                                                 <div>
