@@ -100,13 +100,13 @@ class ProductsList extends Component {
 						Layout: NewLayout }}
 					>
 						<RowDefinition>
+							<ColumnDefinition title="Imagen" customComponent={ () => <img src="http://www.technologyace.com/wp-content/uploads/2017/03/iPhone-8Is-1.jpg" width="75" heigth="75" />} />
 							<ColumnDefinition id="name" title="Nombre"  />
 							<ColumnDefinition id="description" title="Descrición"  />
 							<ColumnDefinition id="code" title="Código" />
 							<ColumnDefinition id="amount" title="Precio" />
 							<ColumnDefinition id="id" title="Editar Producto"  customComponent={ EditButton(this.currentProduct) }/>
-							<ColumnDefinition id="details" title="Detalles del Producto"  customComponent={enhancedWithRowData(DetailsButton)}
-							/>
+							<ColumnDefinition id="details" title="Detalles del Producto"  customComponent={enhancedWithRowData(DetailsButton)}/>
 						</RowDefinition>
 					</Griddle>
 				</Col>

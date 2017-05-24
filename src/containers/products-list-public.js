@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Griddle, { plugins, RowDefinition, ColumnDefinition} from 'griddle-react';
 import { fetchProducts } from '../actions';
 import { Link } from 'react-router-dom'
-import { Button, Col } from 'reactstrap';
+import { Button, Col, Breadcrumb, BreadcrumbItem } from 'reactstrap';
 
 const rowDataSelector = (state, { griddleKey }) => {
 	return state
@@ -52,6 +52,12 @@ class PublicList extends Component {
 		return (
 
 			<div className="pull-center">
+				<Breadcrumb tag="nav">
+					<Link to="/">
+						<BreadcrumbItem tag="a">Inicio</BreadcrumbItem>
+					</Link>
+					<BreadcrumbItem active tag="span">/Listado de Productos</BreadcrumbItem>
+				</Breadcrumb>
 				<Griddle
 					data={listProducts.toJS()}
 					plugins={[plugins.LocalPlugin]}
@@ -61,12 +67,12 @@ class PublicList extends Component {
 					Layout: NewLayout }}
 				>
 					<RowDefinition>
+						<ColumnDefinition title="Imagen" customComponent={ () => <img src="https://425degree-3eea.kxcdn.com/wp-content/uploads/2012/12/02-iphone-6s.jpg" width="75" heigth="75" />} />
 						<ColumnDefinition id="name" title="Nombre"  />
 						<ColumnDefinition id="description" title="Descrición"  />
 						<ColumnDefinition id="code" title="Código" />
 						<ColumnDefinition id="amount" title="Precio" />
-						<ColumnDefinition id="details" title="Detalles del Producto"  customComponent={enhancedWithRowData(DetailsButton)}
-						/>
+						<ColumnDefinition id="details" title="Detalles del Producto"  customComponent={enhancedWithRowData(DetailsButton)}/>
 					</RowDefinition>
 				</Griddle>
 			</div>
