@@ -20,6 +20,7 @@ const optionsSize = [
 
 const optionsColor = [
     { value: 'V', label: 'Verde' },
+    { value: 'N', label: 'Negro' },
     { value: 'A', label: 'Azul' },
     { value: 'R', label: 'Rojo' },
     { value: 'M', label: 'Morado' },
