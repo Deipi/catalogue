@@ -248,15 +248,15 @@ class NewProductForm extends React.Component{
 
 	componentWillReceiveProps(nextProps) {
 		if (nextProps.initialValues.size) {
+			nextProps.initialize(nextProps.initialValues);
+
 			const tags = nextProps.initialValues.get('tags');
-			const r = nextProps.initialValues.get('ProductVariants');
 			nextProps.dispatch(change('fieldArrays', 'tags', tags.map(tag => ({label: tag, value: tag})).toJS() ));
 		}
 
 		if (nextProps.subProducts.length) {
 			nextProps.dispatch(arrayPush('fieldArrays', 'variantsArray', Immutable.Map()))
 			const varian = nextProps.initialValues.get('variantsArray')
-			alert(nextProps.initialValues.getIn(['variants', 'variantsArray[0].size']))
 			nextProps.dispatch(change('fieldArrays', 'variantsArray', varian.map(tag => tag).toJS() ));
 		}
 	}
