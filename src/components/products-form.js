@@ -257,7 +257,23 @@ class NewProductForm extends React.Component{
 		if (nextProps.subProducts.length) {
 			nextProps.dispatch(arrayPush('fieldArrays', 'variantsArray', Immutable.Map()))
 			const varian = nextProps.initialValues.get('variantsArray')
+
+			// newOptions = [];
+			// Object.keys(varian).map(key =>
+			// 	const option = options.filter(obj => obj.name === varian[key].split('.')[1])
+
+			// 	if (option.length) {
+			// 		newOptions.push(option)
+			// 		nextProps.dispatch(change('fieldArrays', key, {label: varian[key] , key: varian[key]} ));
+			// 	} else {
+			// 		newOptions.push({ value: varian[key], label: varian[key], name: varian[key].split('.')[1], options: [], placeholder: varian[key].split('.')[1] } // NO ESTA)
+			// 		nextProps.dispatch(change('fieldArrays', key, varian[key] ));
+
+			// 	}
+
+			// )
 			nextProps.dispatch(change('fieldArrays', 'variantsArray', varian.map(tag => tag).toJS() ));
+
 		}
 	}
 
