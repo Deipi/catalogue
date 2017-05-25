@@ -6,6 +6,7 @@ import { VariantsDictionary, TagsSelect, VariansSelect } from './select-catalogu
 import { Link } from 'react-router-dom'
 import 'react-select/dist/react-select.css';
 import { Card, CardBlock, CardHeader, Button, InputGroupAddon, InputGroup, Input, Breadcrumb, BreadcrumbItem} from 'reactstrap';
+import {fetchProducts} from '../actions'
 
 const renderField = ({ onChangeAction, index, input, label, type, meta: { touched, error } }) => {
 	const styleError = {};
@@ -111,10 +112,8 @@ class renderSubProducts extends React.Component{
 		return (
 			<ul>
 				<div style={{ float: 'left'}}>
-					<li>
-						<Button type="button" onClick={(() => fields.push(Immutable.Map()))}>Crear</Button>
-						{(touched || submitFailed) && error && <span>{error}</span>}
-					</li>
+					<Button type="button" onClick={(() => fields.push(Immutable.Map()))}><i className="fa fa-plus-circle  "/> Crear</Button>
+					{(touched || submitFailed) && error && <span>{error}</span>}
 				</div>
 				<div style={{ float: 'right'}}>
 					<Card>
@@ -160,7 +159,8 @@ class renderSubProducts extends React.Component{
 													}
 											}) : null
 										}
-									<Button type="button" onClick={() => fields.remove(index)}>Eliminar</Button>
+										<br/>
+									<Button color="danger" type="button" onClick={() => fields.remove(index)}><i className="fa fa-trash "/> Eliminar</Button>
 								</li>
 							</CardBlock>
 						))}
@@ -246,12 +246,13 @@ class NewProductForm extends React.Component{
 		}
 	}
 
-	componentWillReceiveProps(nextProps) {
+	componentWillReceiveProps(nextProps){
 		if (nextProps.initialValues.size) {
 			nextProps.initialize(nextProps.initialValues);
 
 			const tags = nextProps.initialValues.get('tags');
 			nextProps.dispatch(change('fieldArrays', 'tags', tags.map(tag => ({label: tag, value: tag})).toJS() ));
+			//nextProps.dispatch(change('fieldArrays', 'variantsArray', variantsList.map(varian => varian).toJS() ));
 		}
 
 		if (nextProps.subProducts.length) {
@@ -282,9 +283,9 @@ class NewProductForm extends React.Component{
 		return (
 			<div>
 				<Breadcrumb tag="nav">
-					<Link to="/"><BreadcrumbItem tag="a">Inicio</BreadcrumbItem> </Link>
-					<BreadcrumbItem active tag="span">/</BreadcrumbItem>
-					<Link to="/ListadoAdmin"><BreadcrumbItem tag="a">Listado del Administrador</BreadcrumbItem> </Link>
+					<Link to="/">
+						<BreadcrumbItem tag="a">Inicio</BreadcrumbItem>
+					</Link>
 					<BreadcrumbItem active tag="span">/Nuevo Producto</BreadcrumbItem>
 				</Breadcrumb>
 				<form onSubmit={ handleSubmit(actionSubmit) }>
@@ -340,14 +341,20 @@ class NewProductForm extends React.Component{
 						/>
 					</div>
 					<div style={{float:'left'}}>
-						<Button type="submit" disabled={submitting}>Guardar</Button>
-						<Button type="button" disabled={pristine || submitting} onClick={reset}>Limpiar</Button>
+						<Button
+							type="submit"
+							disabled={submitting}>
+							<i className="fa fa-floppy-o"/> Guardar</Button>
+						<Button
+							type="button"
+							disabled={pristine || submitting}
+							onClick={reset}><i className="fa fa-eraser "/> Limpiar</Button>
 					</div>
 					<div className="pull-right">
 						<Link to="/ListadoAdmin" ><Button type="button"><i className="fa fa-list"/> Listado Administrativo</Button></Link>
 					</div>
 					<div className="pull-right">
-						<Link to="/Listado" ><Button type="button"><i className="fa fa-list"/> Listado Publico</Button></Link>
+						<Link to="/Listado" ><Button type="button"><i className="fa fa-th-list"/> Listado Publico</Button></Link>
 					</div>
 				</form>
 			</div>
