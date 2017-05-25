@@ -35,6 +35,19 @@ const optionsFlavor = [
     { value: 'B', label: 'Vainilla'}
 ];
 
+export const options = [
+    { value: 'S', label: 'Sabor', name: 'taste', options: optionsFlavor , placeholder:'Flavor'},
+    { value: 'E', label: 'Estilo', name: 'style', options: [], placeholder:'Style' },
+    { value: 'M', label: 'Material', name: 'material', options: [], placeholder:'Material'},
+    { value: 'T', label: 'Tamaño', name: 'size', options: optionsSize, placeholder:'Size' },
+    { value: 'C', label: 'Color', name: 'color', options: optionsColor, placeholder: 'Color' }
+];
+
+const multiValue = [
+  { value: 'T', label: 'Tamaño', name: 'size', options: optionsSize, placeholder:'Size'},
+  { value: 'C', label: 'Color', name: 'color', options: optionsColor, placeholder:'Color'}
+];
+
 class VariansSelectComponent extends Component{
   constructor(props) {
       super(props);
@@ -43,17 +56,8 @@ class VariansSelectComponent extends Component{
       this.state = {
           displayName: 'VariansSelect',
           multi: true,
-          multiValue: [
-              { value: 'T', label: 'Tamaño', name: 'size', options: optionsSize, placeholder:'Size'},
-              { value: 'C', label: 'Color', name: 'color', options: optionsColor, placeholder:'Color'}
-          ],
-          options: [
-              { value: 'S', label: 'Sabor', name: 'taste', options: optionsFlavor , placeholder:'Flavor'},
-              { value: 'E', label: 'Estilo', name: 'style', options: [], placeholder:'Style' },
-              { value: 'M', label: 'Material', name: 'material', options: [], placeholder:'Material'},
-              { value: 'T', label: 'Tamaño', name: 'size', options: optionsSize, placeholder:'Size' },
-              { value: 'C', label: 'Color', name: 'color', options: optionsColor, placeholder: 'Color' }
-          ],
+          multiValue,
+          options,
           value: undefined
       };
   }
