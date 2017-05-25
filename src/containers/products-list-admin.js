@@ -30,7 +30,12 @@ const NewLayout = ({Table,Filter,Pagination }) => (
 	</div>
 );
 
-const EditButton = (currentProduct) => (props) => <Link to="/Nuevo Producto" ><Button onClick={ () => currentProduct(props.value) } type="button"><i className="fa fa-pencil"/> Editar</Button></Link>
+const EditButton = (currentProduct) => (props) =>(
+	<Link to="/Nuevo Producto" >
+		<Button onClick={ () => currentProduct(props.value) } type="button">
+			<i className="fa fa-pencil"/> Editar</Button>
+	</Link>
+	)
 const DetailsButton = ({value, griddleKey, rowData}) =>
 	(
 		<Link  to={`/Detalles/${ rowData.name }`}>
@@ -49,9 +54,11 @@ class ProductsList extends Component {
 
 	currentProduct(value) {
 		const { dispatch, products } = this.props;
-
 		const product = products.filter(product => product.get('id') === value);
-
+		dispatch({
+					type: 'CLEAN_PRODUCT',
+					payload: {},
+				});
 		dispatch(currentProduct(product.toJS()[0]));
 	}
 
@@ -85,11 +92,10 @@ class ProductsList extends Component {
 				<div>
 					<Link to="/Nuevo Producto" >
 						<Button type="button" onClick={ this.cleanProduct } >
-							<i className="fa fa-plus"/>
-							Nuevo Producto
-						</Button>
+							<i className="fa fa-plus"/> Nuevo Producto</Button>
 					</Link>
 				</div>
+				<br/>
 				<Col >
 					<Griddle
 						data={listProducts.toJS()}
@@ -100,12 +106,20 @@ class ProductsList extends Component {
 						Layout: NewLayout }}
 					>
 						<RowDefinition>
-							<ColumnDefinition title="Imagen" customComponent={ () => <img src="http://www.technologyace.com/wp-content/uploads/2017/03/iPhone-8Is-1.jpg" width="75" heigth="75" />} />
+							<ColumnDefinition
+								title="Imagen"
+								customComponent={ () =>
+									<img
+										src="http://www.technologyace.com/wp-content/uploads/2017/03/iPhone-8Is-1.jpg"
+										width="75"
+										heigth="75"
+									/>}
+							/>
 							<ColumnDefinition id="name" title="Nombre"  />
 							<ColumnDefinition id="description" title="Descrición"  />
 							<ColumnDefinition id="code" title="Código" />
 							<ColumnDefinition id="amount" title="Precio" />
-							<ColumnDefinition id="id" title="Editar Producto"  customComponent={ EditButton(this.currentProduct) }/>
+							<ColumnDefinition id="id" title="Editar Producto" customComponent={EditButton(this.currentProduct)}/>
 							<ColumnDefinition id="details" title="Detalles del Producto"  customComponent={enhancedWithRowData(DetailsButton)}/>
 						</RowDefinition>
 					</Griddle>
