@@ -33,6 +33,7 @@ class SimpleFormContainer extends Component {
 
             if(info.get('id')){
                 dispatch(updateProduct(info.get('id'), product));
+                dispatch(reset('fieldArrays'));
             } else {
                 dispatch(submitProduct(product, subProducts));
                 dispatch(reset('fieldArrays'));
@@ -40,7 +41,7 @@ class SimpleFormContainer extends Component {
     }
 
     render(){
-        const { variantsArray, variants, variantError, info, subProducts } = this.props;
+        const { variantsArray, variants, variantError, info, products, subProducts } = this.props;
         return <SimpleForm
             variantError={ variantError }
             variants={ variants }
@@ -48,6 +49,7 @@ class SimpleFormContainer extends Component {
             actionSubmit={ this.handleSubmit }
             initialValues={ info }
             subProducts={ subProducts }
+            products={ products }
             />;
     }
 }
@@ -67,6 +69,7 @@ const getValues = state => {
         variants,
         variantError: state.get('variantError'),
         info: state.getIn([ 'updateProduct', 'product' ]) ? state.getIn([ 'updateProduct', 'product' ]) : Immutable.Map() ,
+        products: state.get('products'),
         subProducts: state.getIn([ 'updateProduct', 'subProducts' ]) ? state.getIn([ 'updateProduct', 'subProducts' ]) : Immutable.Map() ,
     }
 
