@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Immutable from 'immutable';
 import { Field, FieldArray, reduxForm, change, arrayPush, reset  } from 'redux-form/immutable'
 import validate from './validate';
-import { VariantsDictionary, TagsSelect, VariansSelect } from './select-catalogues'
+import { VariantsDictionary, TagsSelect, VariansSelect, options } from './select-catalogues'
 import { Link } from 'react-router-dom'
 import 'react-select/dist/react-select.css';
 import { Card, CardBlock, CardHeader, Button, InputGroupAddon, InputGroup, Input, Breadcrumb, BreadcrumbItem} from 'reactstrap';
@@ -255,7 +255,7 @@ class NewProductForm extends React.Component{
 			//nextProps.dispatch(change('fieldArrays', 'variantsArray', variantsList.map(varian => varian).toJS() ));
 		}
 
-		if (nextProps.subProducts.length) {
+		/*if (nextProps.subProducts.length) {
 			nextProps.dispatch(arrayPush('fieldArrays', 'variantsArray', Immutable.Map()))
 			const varian = nextProps.initialValues.get('variantsArray')
 
@@ -275,6 +275,15 @@ class NewProductForm extends React.Component{
 			// )
 			nextProps.dispatch(change('fieldArrays', 'variantsArray', varian.map(tag => tag).toJS() ));
 
+		}*/
+
+		if (nextProps.subProducts.length) {
+			const Subproducts = nextProps.products.filter(product => product.get('parent') === nextProps.initialValues.get('id'));
+			const sub=Subproducts.get('variants')
+			for(let i=1;i<=Subproducts.size;i++){
+				nextProps.dispatch(arrayPush('fieldArrays', 'variantsArray', Immutable.Map()))
+				//nextProps.dispatch(change('fieldArrays', 'variants', sub.map(sub => ({label: sub, value: sub})).toJS() ));
+			}
 		}
 	}
 
