@@ -180,11 +180,8 @@ class NewProductForm extends React.Component{
 		this.onChangeActionVariants = this.onChangeActionVariants.bind(this);
 		this.onChangeActionArray = this.onChangeActionArray.bind(this);
 		this.state = {
-			mobe: "",
+			productUpdated: false,
 		}
-		/*this.state = {
-			sub: Object.keys( props.products.filter(product => product.get('parent') === props.initialValues.get('id')).getIn([0, 'variants']).toJS()).map(key =>key.split('.')[1]),
-		}*/
 	}
 
 	onChangeActionVariants(value, inputName){
@@ -274,43 +271,45 @@ class NewProductForm extends React.Component{
 		}*/
 
 	componentWillReceiveProps(nextProps){
+			const { dispatch } = this.props;
+
 			const Subproducts = nextProps.products.filter(product => product.get('parent') === nextProps.initialValues.get('id'));
-			const valor=Subproducts.getIn([0, 'variants'])
+			const valor = Subproducts.getIn([0, 'variants']);
+
 		if (nextProps.initialValues.size) {
 			nextProps.initialize(nextProps.initialValues);
 
 			const tags = nextProps.initialValues.get('tags');
-		//sub obtiene las variantes correspondientes al producto
+			//sub obtiene las variantes correspondientes al producto
 			//const sub=Object.keys(Subproducts.getIn([0, 'variants']).toJS()).map(key =>key.split('.')[1])
-			//debugger;
-			//alert(Subproducts.map(z=>z.get('variants')).map(r=>r))
-			nextProps.dispatch(change('fieldArrays', 'tags', tags.map(tag => ({label: tag, value: tag})).toJS() ));
-			//nextProps.dispatch(change('fieldArrays', 'variantsArray', variantsList.map(varian => varian).toJS() ));
-			alert(Object.keys( nextProps.products.filter(product => product.get('parent') === nextProps.initialValues.get('id')).getIn([0, 'variants']).toJS()).map(key =>key.split('.')[1]))
-			/*this.setState = ({
-				sub: Object.keys( nextProps.products.filter(product => product.get('parent') === nextProps.initialValues.get('id')).getIn([0, 'variants']).toJS()).map(key =>key.split('.')[1]),
-			})*/
-			this.setState = ({
-				mobe: nextProps.products.filter(product => product.get('parent') === nextProps.initialValues.get('id')).getIn([0, 'variants'])
-			})
-			debugger;
+			dispatch(change('fieldArrays', 'tags', tags.map(tag => ({label: tag, value: tag})).toJS() ));
+			//dispatch(change('fieldArrays', 'variantsArray', variantsList.map(varian => varian).toJS() ));
+			const variants = Object.keys( nextProps.products.filter(product => product.get('parent') === nextProps.initialValues.get('id')).getIn([0, 'variants']).toJS()).map(key =>key.split('.')[1]);
+			const variantsValues = [];
+
+			variants.map( variant => {
+				const option = options.filter( option => option.name === variant);
+				if (option.length) {
+					variantsValues.push(option[0]);
+				} else {
+					variantsValues.push({ label: variant, value: variant, options: [], placeholder: variant });
+				}
+			});
+
+			dispatch(change('fieldArrays', 'ProductVariants', variantsValues, true));
+
 		}
 
 		if (nextProps.subProducts.length) {
 
-			//nextProps.dispatch(change('fieldArrays', 'ProductVariants', sub.map(tag => ({label: tag, value: tag})).toJS() ));
-
-			/*if (sub.length) {
-			 		options.push(sub)
-			 		//nextProps.dispatch(change('fieldArrays', key, {label: Subproducts[key] , key: Subproducts[key]} ));
-					nextProps.dispatch(change('fieldArrays', 'ProductVariants', sub.map(tag => ({label: tag, value: tag})).toJS() ));
-			 	}*/
-
-			for(let i=1;i<=Subproducts.size;i++){
+			for(let i = 1; i <= Subproducts.size; i++){
 				nextProps.dispatch(arrayPush('fieldArrays', 'variantsArray', Immutable.Map()))
-				nextProps.dispatch(change('fieldArrays', 'ProductVariants', valor.map(z => ({label: z, options: z}))));
-				//nextProps.dispatch(change('fieldArrays', 'variants', sub.map(sub => ({label: sub, value: sub})).toJS() ));
 			}
+
+			Subproducts.map( subProduct => {
+				const variantObject = subProduct.get('variants').toJS();
+				Object.keys(variantObject).map( key => dispatch(change('fieldArrays', key, variantObject[key])));
+			});
 		}
 	}
 
@@ -325,7 +324,7 @@ class NewProductForm extends React.Component{
 						<BreadcrumbItem tag="a">Inicio</BreadcrumbItem>
 					</Link>
 					<BreadcrumbItem active tag="span">/Nuevo Producto</BreadcrumbItem>
-					{alert(mobe)}
+					{/*alert(mobe)*/}
 				</Breadcrumb>
 				<form onSubmit={ handleSubmit(actionSubmit) }>
 					<div style={{ float: 'left'}}>

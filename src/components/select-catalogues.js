@@ -56,7 +56,7 @@ class VariansSelectComponent extends Component{
       this.state = {
           displayName: 'VariansSelect',
           multi: true,
-          multiValue,
+          // multiValue,
           options,
           value: undefined
       };
@@ -67,10 +67,10 @@ class VariansSelectComponent extends Component{
   label: React.PropTypes.string
   }
 
-  componentWillMount() {
-      const { dispatch } = this.props;
-      dispatch(change('fieldArrays', 'ProductVariants', this.state.multiValue, true))
-  }
+  // componentWillMount() {
+  //     const { dispatch } = this.props;
+  //     dispatch(change('fieldArrays', 'ProductVariants', options, true))
+  // }
 
   handleOnChange (value) {
     const { multi } = this.state;
@@ -106,7 +106,7 @@ class VariansSelectComponent extends Component{
           onChange={(value, algo) => {this.handleOnChange(value); onChangeAction(value, name); } }
           isValidNewOption={ this.validateNewOption }
           placeholder="VariansSelect"
-          value={multi ? multiValue : this.props.input.value}
+          value={this.props.input.value}
           name={this.props.input.name}
           { ...this.props}
         />
