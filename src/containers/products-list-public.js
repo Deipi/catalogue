@@ -62,17 +62,35 @@ class PublicList extends Component {
 					data={listProducts.toJS()}
 					plugins={[plugins.LocalPlugin]}
 					styleConfig={{classNames:
-					{ Table: 'table table-striped',} }}
+						{ Table: 'table table-striped',} }}
 					components={{
-					Layout: NewLayout }}
+						Layout: NewLayout }}
 				>
 					<RowDefinition>
-						<ColumnDefinition title="Imagen" customComponent={ () => <img src="https://425degree-3eea.kxcdn.com/wp-content/uploads/2012/12/02-iphone-6s.jpg" width="75" heigth="75" />} />
-						<ColumnDefinition id="name" title="Nombre"  />
-						<ColumnDefinition id="description" title="Descrición"  />
-						<ColumnDefinition id="code" title="Código" />
-						<ColumnDefinition id="amount" title="Precio" />
-						<ColumnDefinition id="details" title="Detalles del Producto"  customComponent={enhancedWithRowData(DetailsButton)}/>
+						<ColumnDefinition
+							title="Imagen"
+							customComponent={ () =>
+								<img
+									src="https://425degree-3eea.kxcdn.com/wp-content/uploads/2012/12/02-iphone-6s.jpg"
+									width="75"
+									heigth="75" />}
+					/>
+						<ColumnDefinition
+							id="name"
+							title="Nombre"  />
+						<ColumnDefinition
+							id="description"
+							title="Descrición"  />
+						<ColumnDefinition
+							id="code"
+							title="Código" />
+						<ColumnDefinition
+							id="amount"
+							title="Precio" />
+						<ColumnDefinition
+							id="details"
+							title="Detalles del Producto"
+							customComponent={enhancedWithRowData(DetailsButton)}/>
 					</RowDefinition>
 				</Griddle>
 			</div>
