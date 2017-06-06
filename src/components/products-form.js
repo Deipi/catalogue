@@ -315,26 +315,33 @@ class NewProductForm extends React.Component{
 			//Subproducts.map(j=>j.get('variants').map( variant =>variant)).toJS() ====>>>> Array [ Object, Object ]
 			//Subproducts.map(s=> Object.keys(s.get('variants').map(m=>m).toJS()).map(z=>z.split('.')[1])).toJS()
 			Object.keys(subProduct.get('variants').toJS()).map(ValVariant=>{
+				const keyVariant = ValVariant;
 				const keyValue = ValVariant.split('.')[1];
 				const option = options.filter( option => option.name === keyValue);
 				//_selectCatalogues.options.find( option => option.name === 'size').options.find(q=> q.label=='Chico')
 				if (option.length) {
+					const variantValue = subProduct.get('variants').toJS()[keyVariant]
+					const optionsVariant = option[0].options.filter( option => option.label === variantValue);
+					if (optionsVariant.length) {
+						nextProps.dispatch(change('fieldArrays', keyVariant, optionsVariant[0]));
+					}
 					//const cataloge = options.filter(z=>z.name===Valvariant).map(v=>v.options.find(b=>b.label=='Negro'))
 				//_selectCatalogues.options.filter( option => option.name === 'size').map(a=>a.options.find(q=> q.label=='Chico'))
-					alert(ValVariant)
-					let d=option.map(op=>op.options.find(q=>q.label==subProduct.getIn(['variants', `'${ ValVariant }'`])))
+					//const d=option.map(op=>op.options.find(q=>q.label==subProduct.getIn(['variants',  ValVariant])))
 
-					dispatch(change('fieldArrays', ValVariant, d.map(tag => ({label: d, value: d}))));
-
+					//const d= Subproducts.map(m=>options.find( option => option.name === keyValue).toJS()
+					//const d= Subproducts.map(option.options.find(q=>q.label==subProduct.getIn(['variants',  ValVariant]))).toJS()
+					//q=>q.label==subProduct.getIn(['variants',  'variantsArray[0].size'])
+					//const variantFina = d.map(l=>l.options.find(q=>q.label==subProduct.getIn(['variants',  ValVariant])).label).find(a=>a[0])
+					//alert(option.map(op=>(nextProps.dispatch(change('fieldArrays', 'variantsArray[1].size', {label: op.options.find(q=>q.label=subProduct.getIn(['variants',  ValVariant])).label, value: op.options.find(q=>q.label=subProduct.getIn(['variants',  ValVariant])).value})))))
+					//dispatch(change('fieldArrays', 'variantsArray[0].size', {label:variantFina}));
 					//Subproducts.map(subProduct=>subProduct.getIn(['variants', 'variantsArray[1].Contenido'])).toJS()
-					//alert(keyValue)
 				} else {
 					//variantsValues.push({ label: variant, value: variant, options: [], placeholder: variant });
-					Object.keys(subProduct.get('variants').toJS()).map( key => dispatch(change('fieldArrays', key, subProduct.get('variants').toJS()[key])));
+					//Object.keys(subProduct.get('variants').toJS()).map( key => dispatch(change('fieldArrays', key, subProduct.get('variants').toJS()[key])));
 				}
 				})
 			});
-			debugger;
 		}
 	}
 
