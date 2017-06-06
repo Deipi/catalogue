@@ -36,6 +36,14 @@ const EditButton = (currentProduct) => (props) =>(
 			<i className="fa fa-pencil"/> Editar</Button>
 	</Link>
 	)
+
+const DeleteButton = (currentProduct) => (props) =>(
+	<Link to="/Nuevo Producto" >
+		<Button color="danger" onClick={ () => currentProduct(props.value) } type="button">
+		<i className="fa fa-trash "/> Eliminar</Button>
+	</Link>
+	)
+
 const DetailsButton = ({value, griddleKey, rowData}) =>
 	(
 		<Link  to={`/Detalles/${ rowData.name }`}>
@@ -115,12 +123,30 @@ class ProductsList extends Component {
 										heigth="75"
 									/>}
 							/>
-							<ColumnDefinition id="name" title="Nombre"  />
-							<ColumnDefinition id="description" title="Descrición"  />
-							<ColumnDefinition id="code" title="Código" />
-							<ColumnDefinition id="amount" title="Precio" />
-							<ColumnDefinition id="id" title="Editar Producto" customComponent={EditButton(this.currentProduct)}/>
-							<ColumnDefinition id="details" title="Detalles del Producto"  customComponent={enhancedWithRowData(DetailsButton)}/>
+							<ColumnDefinition
+								id="name"
+								title="Nombre"  />
+							<ColumnDefinition
+								id="description"
+								title="Descrición"  />
+							<ColumnDefinition
+								id="code"
+								title="Código" />
+							<ColumnDefinition
+								id="amount"
+								title="Precio" />
+							<ColumnDefinition
+								id="id"
+								title="Editar Producto"
+								customComponent={EditButton(this.currentProduct)}/>
+							<ColumnDefinition
+								id="details"
+								title="Detalles del Producto"
+								customComponent={enhancedWithRowData(DetailsButton)}/>
+							<ColumnDefinition
+								id="delete"
+								title="Eliminar Producto"
+								customComponent={DeleteButton(this.currentProduct)}/>
 						</RowDefinition>
 					</Griddle>
 				</Col>
