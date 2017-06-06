@@ -24,7 +24,8 @@ const optionsColor = [
     { value: 'A', label: 'Azul' },
     { value: 'R', label: 'Rojo' },
     { value: 'M', label: 'Morado' },
-    { value: 'B', label: 'Blanco' }
+    { value: 'B', label: 'Blanco' },
+    { value: 'G', label: 'Gris' }
 ];
 const optionsFlavor = [
     { value: 'V', label: 'Limon' },
