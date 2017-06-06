@@ -280,10 +280,7 @@ class NewProductForm extends React.Component{
 			nextProps.initialize(nextProps.initialValues);
 
 			const tags = nextProps.initialValues.get('tags');
-			//sub obtiene las variantes correspondientes al producto
-			//const sub=Object.keys(Subproducts.getIn([0, 'variants']).toJS()).map(key =>key.split('.')[1])
 			dispatch(change('fieldArrays', 'tags', tags.map(tag => ({label: tag, value: tag})).toJS() ));
-			//dispatch(change('fieldArrays', 'variantsArray', variantsList.map(varian => varian).toJS() ));
 			const variants = Object.keys( nextProps.products.filter(product => product.get('parent') === nextProps.initialValues.get('id')).getIn([0, 'variants']).toJS()).map(key =>key.split('.')[1]);
 			const variantsValues = [];
 
@@ -305,17 +302,44 @@ class NewProductForm extends React.Component{
 			for(let i = 1; i <= Subproducts.size; i++){
 				nextProps.dispatch(arrayPush('fieldArrays', 'variantsArray', Immutable.Map()))
 			}
-
+			const VariantsValues = nextProps.products.filter(product => product.get('parent') === nextProps.initialValues.get('id')).map(z=>z.get('variants'));
+			//alert(variants)
+			const VariantsKeys=VariantsValues.map(a=>Object.keys(a.toJS()))
+			Subproducts.toJS().map(subProduct=>subProduct.variants)
 			Subproducts.map( subProduct => {
-				const variantObject = subProduct.get('variants').toJS();
-				Object.keys(variantObject).map( key => dispatch(change('fieldArrays', key, variantObject[key])));
+				//nextProps.dispatch(change('fieldArrays', 'variantsArray[0].size', {label: 'Chico', value: 'C'}))
+				//'color' es el name que va a entrar en el if del map
+				//'Negro' es el label de
+				//options.filter(z=>z.name==='color').map(v=>v.options.find(b=>b.label=='Negro'))
+			//VariantsKeys.map(key =>key.map(q=>q.split('.')[1])----)
+			//Subproducts.map(j=>j.get('variants').map( variant =>variant)).toJS() ====>>>> Array [ Object, Object ]
+			//Subproducts.map(s=> Object.keys(s.get('variants').map(m=>m).toJS()).map(z=>z.split('.')[1])).toJS()
+			Object.keys(subProduct.get('variants').toJS()).map(ValVariant=>{
+				const keyValue = ValVariant.split('.')[1];
+				const option = options.filter( option => option.name === keyValue);
+				//_selectCatalogues.options.find( option => option.name === 'size').options.find(q=> q.label=='Chico')
+				if (option.length) {
+					//const cataloge = options.filter(z=>z.name===Valvariant).map(v=>v.options.find(b=>b.label=='Negro'))
+				//_selectCatalogues.options.filter( option => option.name === 'size').map(a=>a.options.find(q=> q.label=='Chico'))
+					alert(ValVariant)
+					let d=option.map(op=>op.options.find(q=>q.label==subProduct.getIn(['variants', `'${ ValVariant }'`])))
+
+					dispatch(change('fieldArrays', ValVariant, d.map(tag => ({label: d, value: d}))));
+
+					//Subproducts.map(subProduct=>subProduct.getIn(['variants', 'variantsArray[1].Contenido'])).toJS()
+					//alert(keyValue)
+				} else {
+					//variantsValues.push({ label: variant, value: variant, options: [], placeholder: variant });
+					Object.keys(subProduct.get('variants').toJS()).map( key => dispatch(change('fieldArrays', key, subProduct.get('variants').toJS()[key])));
+				}
+				})
 			});
+			debugger;
 		}
 	}
 
 	render(){
 		const { handleSubmit, actionSubmit, pristine, reset, submitting, variantsArray, dispatch, variantError } = this.props;
-		const { mobe } = this.state;
 		//const productVariants = Object.keys(sub.getIn([0, 'variants']).toJS()).map(key =>key.split('.')[1])
 		return (
 			<div>
