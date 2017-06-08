@@ -52,7 +52,7 @@ const multiValue = [
 class VariansSelectComponent extends Component{
   constructor(props) {
       super(props);
-      this.handleOnChange = this.handleOnChange.bind(this);
+      // this.handleOnChange = this.handleOnChange.bind(this);
       this.validateNewOption = this.validateNewOption.bind(this);
       this.state = {
           displayName: 'VariansSelect',
@@ -73,20 +73,20 @@ class VariansSelectComponent extends Component{
   //     dispatch(change('fieldArrays', 'ProductVariants', options, true))
   // }
 
-  handleOnChange (value) {
-    const { multi } = this.state;
-    if (multi) {
-      this.setState({ multiValue: value });
-    } else {
-      this.setState({ value });
-    }
-  }
+  // handleOnChange (value) {
+  //   const { multi } = this.state;
+  //   if (multi) {
+  //     this.setState({ multiValue: value });
+  //   } else {
+  //     this.setState({ value });
+  //   }
+  // }
 
   validateNewOption(value) {
     const { options, multiValue } = this.state;
 
     if (value.label) {
-      if (options.filter(element => element.label.toUpperCase() === value.label.toUpperCase()).length || multiValue.filter(element => element.label.toUpperCase() === value.label.toUpperCase()).length) {
+      if (options.filter(element => element.label.toUpperCase() === value.label.toUpperCase()).length) {
         return false;
       }else{
         return true;
@@ -96,7 +96,7 @@ class VariansSelectComponent extends Component{
 
   render () {
     const { multi, multiValue, options, value } = this.state;
-    const{ onChangeAction} = this.props;
+    const{ onChangeAction } = this.props;
     const { name } = this.props.input;
     return (
       <div >
@@ -104,7 +104,7 @@ class VariansSelectComponent extends Component{
         <Select.Creatable
           multi={multi}
           options={options}
-          onChange={(value, algo) => {this.handleOnChange(value); onChangeAction(value, name); } }
+          onChange={(value, algo) => { onChangeAction(value, name); } }
           isValidNewOption={ this.validateNewOption }
           placeholder="VariansSelect"
           value={this.props.input.value}

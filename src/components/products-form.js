@@ -100,11 +100,11 @@ class renderSubProducts extends React.Component{
 
 	validateVariant(value) {
 		//aqui se retorna un error al component=VariantsDictionary
-		return value && value.label ? undefined : "Please don't repeat variants";
+		return value && value.label || value === undefined ? undefined : "Please don't repeat variants";
 	}
 
 	validateVariantInput(value) {
-		return value ? undefined : "Please don't repeat variants";
+		return value || value === undefined ? undefined : "Please don't repeat variants";
 	}
 
 	render() {
@@ -118,7 +118,8 @@ class renderSubProducts extends React.Component{
 				<div style={{ float: 'right'}}>
 					<Card>
 						<CardHeader>Subproductos</CardHeader>
-						{fields.map((field, index) => (
+						{
+							fields.map((field, index) => (
 							<CardBlock>
 								<li key={index}>
 									<h4>Variante #{index + 1} </h4>
@@ -153,7 +154,7 @@ class renderSubProducts extends React.Component{
 																onChangeAction={ onChangeActionArray }
 																label={ obj.label }
 																index={ index }
-																validate={ [ this.validateVariantInput ] }
+																// validate={ [ this.validateVariantInput ] }
 															/>
 														);
 													}
@@ -181,6 +182,7 @@ class NewProductForm extends React.Component{
 		this.onChangeActionArray = this.onChangeActionArray.bind(this);
 		this.state = {
 			productUpdated: false,
+			alreadyInitialized: false,
 		}
 	}
 
@@ -248,11 +250,14 @@ class NewProductForm extends React.Component{
 
 
 	componentWillReceiveProps(nextProps){
+		const { alreadyInitialized } = this.state;
 		const { dispatch } = this.props;
 		const Subproducts = nextProps.products.filter(product => product.get('parent') === nextProps.initialValues.get('id'));
 		const valor = Subproducts.getIn([0, 'variants']);
 
-		if (nextProps.initialValues.size) {
+		if (nextProps.initialValues.size && !alreadyInitialized) {
+			this.setState({ alreadyInitialized: true })
+
 			nextProps.initialize(nextProps.initialValues);
 			const tags = nextProps.initialValues.get('tags');
 			dispatch(change('fieldArrays', 'tags', tags.map(tag => ({label: tag, value: tag})).toJS() ));
@@ -275,7 +280,8 @@ class NewProductForm extends React.Component{
 
 		}
 
-		if (nextProps.subProducts.length) {
+		if (nextProps.subProducts.length && !alreadyInitialized) {
+			this.setState({ alreadyInitialized: true })
 
 			for(let i = 1; i <= Subproducts.size; i++){
 				nextProps.dispatch(arrayPush('fieldArrays', 'variantsArray', Immutable.Map()))
@@ -285,9 +291,12 @@ class NewProductForm extends React.Component{
 					z.get('variants')
 				);
 			Subproducts.map( subProduct => {
+				const id = subProduct.get('id');
 				Object.keys(subProduct.get('variants').toJS()).map(ValVariant=>{
 					const keyVariant = ValVariant;
 					const keyValue = ValVariant.split('.')[1];
+					const restKeyValue = ValVariant.split('.')[0];
+					const indexKeyValue = restKeyValue.split('[')[1].split(']')[0];
 					const option = options.filter( option => option.name === keyValue);
 					if (option.length ) {
 						const variantValue = subProduct.get('variants').toJS()[keyVariant]
@@ -295,10 +304,14 @@ class NewProductForm extends React.Component{
 							option.label === variantValue
 						);
 						if (optionsVariant.length) {
-							nextProps.dispatch(change('fieldArrays', keyVariant, optionsVariant[0]));
+							nextProps.dispatch(change('fieldArrays', keyVariant, Object.assign({}, optionsVariant[0], { name: keyVariant } )));
+							nextProps.dispatch(change('fieldArrays', `${ restKeyValue }.id`, id));
+							nextProps.dispatch(change('fieldArrays', `${ restKeyValue }.index`, indexKeyValue));
 						}
 					} else if(option.length==0){
 						dispatch(change('fieldArrays', keyVariant, subProduct.getIn(['variants', keyVariant])));
+						dispatch(change('fieldArrays', `${ restKeyValue }.id`, id));
+						dispatch(change('fieldArrays', `${ restKeyValue }.index`, indexKeyValue));
 					}
 				})
 			});
@@ -306,7 +319,7 @@ class NewProductForm extends React.Component{
 	}
 
 	render(){
-		const { handleSubmit, actionSubmit, pristine, reset, submitting, variantsArray, dispatch, variantError } = this.props;
+		const { initialValues, handleSubmit, actionSubmit, pristine, reset, submitting, variantsArray, dispatch, variantError } = this.props;
 		return (
 			<div>
 				<Breadcrumb tag="nav">
@@ -371,7 +384,7 @@ class NewProductForm extends React.Component{
 						<Button
 							type="submit"
 							disabled={submitting}>
-							<i className="fa fa-floppy-o"/> Guardar</Button>
+							<i className="fa fa-floppy-o"/> { initialValues && initialValues.get('id') ? 'Actualizar' : 'Guardar' }</Button>
 						<Button
 							type="button"
 							disabled={pristine || submitting}
