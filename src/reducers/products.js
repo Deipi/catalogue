@@ -1,5 +1,5 @@
 import Immutable, { fromJS } from 'immutable';
-import { POSTED_PRODUCT, FETCHED_PRODUCTS, FETCHED_EDITED, UPDATE_PRODUCT } from '../actions';
+import { POSTED_PRODUCT, FETCHED_PRODUCTS, FETCHED_EDITED, UPDATE_PRODUCT, DELETED_PRODUCT } from '../actions';
 
 export default (state=fromJS([]), action) => {
 	switch(action.type) {
@@ -7,6 +7,9 @@ export default (state=fromJS([]), action) => {
 			return state.merge(fromJS([action.payload]));
 		case FETCHED_PRODUCTS:
 			return fromJS(action.payload);
+  		case DELETED_PRODUCT:
+  			const a = state.filter(element => element.get('id') !== action.payload.id);
+			return a;
 		default:
 			return state;
 	}
