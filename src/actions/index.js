@@ -2,6 +2,7 @@ export const POSTED_PRODUCT = 'POSTED_PRODUCT';
 export const FETCHED_PRODUCTS = 'FETCHED_PRODUCTS';
 export const FETCHED_EDITED = 'FETCHED_EDITED';
 export const UPDATE_PRODUCT = ''
+export const DELETED_PRODUCT = 'DELETED_PRODUCT';
 export default (data, subproducts) => (dispatch, getStore) => fetch('http://localhost:3004/products', {
 	method: 'POST',
 	headers: {
@@ -69,3 +70,25 @@ export const updateProduct = (id, data, subproducts) => (dispatch, getStore) => 
 		payload: product
 	})
 }));
+
+
+export const deleteProduct = (id, subproducts) => (dispatch, getStore) => fetch(`http://localhost:3004/products/${ id }`, {
+	method: 'DELETE',
+	headers: {
+		'Content-Type': 'application/json'
+	},
+}).then( result => result.json().then( product => {
+				subproducts.forEach(subproducts => fetch(`http://localhost:3004/products/${ subproducts.id }`, {
+					method:'DELETE',
+					headers:{
+						'Content-Type':'application/json'
+					},
+				}));
+				return dispatch({
+					type: DELETED_PRODUCT,
+					payload: product
+					}
+				)
+			}
+		)
+	);
