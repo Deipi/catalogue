@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Griddle, { plugins, RowDefinition, ColumnDefinition} from 'griddle-react';
-import { fetchProducts, currentProduct } from '../actions';
+import { fetchProducts, currentProduct, deleteProduct } from '../actions';
 import { Link } from 'react-router-dom'
 import { Button, Col, Breadcrumb, BreadcrumbItem } from 'reactstrap';
 
@@ -37,12 +37,12 @@ const EditButton = (currentProduct) => (props) =>(
 	</Link>
 	)
 
-const DeleteButton = (currentProduct) => (props) =>(
-	<Link to="/Nuevo Producto" >
-		<Button color="danger" onClick={ () => currentProduct(props.value) } type="button">
+const DeleteButton =(deleteProduct)=>({rowData}) =>
+	(
+		<Button color="danger" onClick={ () => deleteProduct(rowData.id) } type="button">
 		<i className="fa fa-trash "/> Eliminar</Button>
-	</Link>
 	)
+
 
 const DetailsButton = ({value, griddleKey, rowData}) =>
 	(
@@ -57,6 +57,7 @@ class ProductsList extends Component {
 	constructor(props) {
 		super(props);
 		this.currentProduct = this.currentProduct.bind(this);
+		this.deleteProduct = this.deleteProduct.bind(this);
 		this.cleanProduct = this.cleanProduct.bind(this);
 	}
 
@@ -68,6 +69,11 @@ class ProductsList extends Component {
 					payload: {},
 				});
 		dispatch(currentProduct(product.toJS()[0]));
+	}
+	deleteProduct(value) {
+		const { dispatch, products } = this.props;
+		const subProductsList = products.filter(product => product.get('parent') === value);
+		dispatch(deleteProduct(value, subProductsList.toJS()));
 	}
 
 	cleanProduct() {
@@ -146,7 +152,7 @@ class ProductsList extends Component {
 							<ColumnDefinition
 								id="delete"
 								title="Eliminar Producto"
-								customComponent={DeleteButton(this.currentProduct)}/>
+								customComponent={enhancedWithRowData(DeleteButton(this.deleteProduct))}/>
 						</RowDefinition>
 					</Griddle>
 				</Col>
