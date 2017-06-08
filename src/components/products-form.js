@@ -397,4 +397,3 @@ export default reduxForm({
 	form: 'fieldArrays',
 	validate
 })(NewProductForm);
-
