@@ -86,7 +86,9 @@ export const deleteProduct = (id, subproducts) => (dispatch, getStore) => fetch(
 				}));
 				return dispatch({
 					type: DELETED_PRODUCT,
-					payload: product
+					payload: {
+						id
+					}
 					}
 				)
 			}
