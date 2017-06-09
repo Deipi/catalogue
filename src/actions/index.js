@@ -1,7 +1,7 @@
 export const POSTED_PRODUCT = 'POSTED_PRODUCT';
 export const FETCHED_PRODUCTS = 'FETCHED_PRODUCTS';
 export const FETCHED_EDITED = 'FETCHED_EDITED';
-export const UPDATE_PRODUCT = ''
+export const UPDATE_PRODUCT = 'UPDATE_PRODUCT'
 export const DELETED_PRODUCT = 'DELETED_PRODUCT';
 export default (data, subproducts) => (dispatch, getStore) => fetch('http://localhost:3004/products', {
 	method: 'POST',
@@ -49,7 +49,7 @@ export const currentProduct = product => (dispatch, getStore) => fetch(`http://l
 
 
 
-export const updateProduct = (id, data, subproducts) => (dispatch, getStore) => fetch(`http://localhost:3004/products/${ id }`, {
+/*export const updateProduct = (id, data, subproducts) => (dispatch, getStore) => fetch(`http://localhost:3004/products/${ id }`, {
 	method: 'PUT',
 	headers: {
 		'Content-Type': 'application/json'
@@ -69,7 +69,29 @@ export const updateProduct = (id, data, subproducts) => (dispatch, getStore) => 
 		type: UPDATE_PRODUCT,
 		payload: product
 	})
-}));
+}));*/
+
+export const updateProduct = (id, data, subproducts) => (dispatch, getStore) => fetch(`http://localhost:3004/products/${ id }`, {
+	method: 'PUT',
+	headers: {
+		'Content-Type': 'application/json'
+	},
+	body: JSON.stringify(data),
+}).then( result => result.json().then( products =>{
+		subproducts.forEach(subproducts => fetch(`http://localhost:3004/products/${ subproducts.id }`, {
+			method:'PUT',
+			headers:{
+				'Content-Type':'application/json'
+			},
+		}));
+			 return dispatch({
+					type: UPDATE_PRODUCT,
+					payload: products
+				}
+			)
+		}
+	)
+);
 
 
 export const deleteProduct = (id, subproducts) => (dispatch, getStore) => fetch(`http://localhost:3004/products/${ id }`, {

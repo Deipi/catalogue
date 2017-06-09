@@ -35,14 +35,15 @@ class SimpleFormContainer extends Component {
         } else if(variantsArrayProduct && info.id) {
             idSubProducts = subProducts.filter( product => product.parent === info.id);
 
-            // idSubProducts.map( subProduct => {
-            //     subProduct.name = valuesProduct.get('name');
-            //     subProduct.code = valuesProduct.get('code');
-            //     subProduct.description = valuesProduct.get('description');
-            //     subProduct.tags = valuesProduct.get('tags');
-            //     subProduct.amount = valuesProduct.get('amount');
-
-            //     const variantsSubProduct = variantsArrayProduct.filter( v => v.id === subProduct.id)[0]
+             idSubProducts.map( subProduct => {
+                 subProduct.name = valuesProduct.get('name');
+                 subProduct.code = valuesProduct.get('code');
+                 subProduct.description = valuesProduct.get('description');
+                 subProduct.tags = valuesProduct.get('tags');
+                 subProduct.amount = valuesProduct.get('amount');
+                const variantsSubProduct = variantsArrayProduct.toJS().filter( v => v.id === subProduct.id)[0]
+            ////////////////////////Hasta aqui todo va bien//////////////////////////////////
+            // ES UNA PRUEBA-> idSubProducts.map(p=>variantsArrayProduct.toJS().filter( v => v.id === p.id)[0].index)
             //     variantsSubProduct = {
             //             id: 14,
             //             index: "0"
@@ -50,20 +51,36 @@ class SimpleFormContainer extends Component {
             //             taste: {}
             //     }
             //
-            //     const index = variantsSubProduct.index;
-            //     const newVariants = {
-            //                                              VALIDAR QUE SEA UN OBJETO PARA OBTENER EL LABEL typeof
+                const index = variantsSubProduct.index;
+                Object.keys(variantsSubProduct).map(key =>{
+
+                    const CompleteKey = `variantsArray[${index}].${key}`;
+                    if(typeof(variantsSubProduct[key])=="object"){
+                        alert(CompleteKey)
+                        subProduct.variants.CompleteKey = variantsSubProduct[key].label;
+                        //`variantsArray[${index}].[${key}]` = variantsSubProduct[key].label
+                        //alert(variantsSubProduct[key].label)
+                    }else{
+                        alert(CompleteKey)
+                        subProduct.variants.CompleteKey = variantsSubProduct[key];
+                        //alert(variantsSubProduct[key])
+                    }
+                });
+            // subProduct.variants = newVariants
+            // const newVariants = {
+            //  P-> idSubProducts.map(p=>variantsArrayProduct.toJS().filter( v => v.id === p.id)[0].color)
+            //  P-> idSubProducts.map(p=>Object.keys(variantsArrayProduct.toJS().filter( v => v.id === p.id)[0]).map(key=>key))
+            //        VALIDAR QUE SEA UN OBJETO PARA OBTENER EL LABEL typeof
+            //      if(typeof(variantsSubProduct))
             //          "variantsArray[index].[key]" = variantsSubProduct[key]
-            //     }
-            //     subProduct.variants = newVariants
-            // });
+            // }
+             });
             // debugger;
         }
 
         debugger;
         if(info.id){
             dispatch(updateProduct(info.id, product, idSubProducts));
-            dispatch(reset('fieldArrays'));
         } else {
             dispatch(submitProduct(product, productsList));
             dispatch(reset('fieldArrays'));
