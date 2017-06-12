@@ -5,7 +5,7 @@ import validate from './validate';
 import { VariantsDictionary, TagsSelect, VariansSelect, options } from './select-catalogues'
 import { Link } from 'react-router-dom'
 import 'react-select/dist/react-select.css';
-import { Card, CardBlock, CardHeader, Button, InputGroupAddon, InputGroup, Input, Breadcrumb, BreadcrumbItem} from 'reactstrap';
+import { Card, CardBlock, CardHeader, Button, InputGroupAddon, InputGroup, Container, Row, Col, Input, Breadcrumb, BreadcrumbItem} from 'reactstrap';
 import {fetchProducts} from '../actions'
 
 const renderField = ({ onChangeAction, index, input, label, type, meta: { touched, error } }) => {
@@ -17,6 +17,8 @@ const renderField = ({ onChangeAction, index, input, label, type, meta: { touche
 		zIndex: '3',
 		right: '11px',
 		top: '-9px',
+		width: '13em'
+
 	};
 
 	if (touched && error) {
@@ -111,16 +113,16 @@ class renderSubProducts extends React.Component{
 		const { onChangeActionArray, variantsArray, fields, meta: { touched, error, submitFailed } } = this.props;
 		return (
 			<ul>
-				<div style={{ float: 'left'}}>
+				<div >
 					<Button type="button" onClick={(() => fields.push(Immutable.Map()))}><i className="fa fa-plus-circle  "/> Crear</Button>
 					{(touched || submitFailed) && error && <span>{error}</span>}
 				</div>
-				<div style={{ float: 'right'}}>
-					<Card>
+				<div className="card-columns">
+					<Card style={{width:'60em'}}>
 						<CardHeader>Subproductos</CardHeader>
 						{
 							fields.map((field, index) => (
-							<CardBlock>
+							<CardBlock style={{display:'inline-flex'}}>
 								<li key={index}>
 									<h4>Variante #{index + 1} </h4>
 										{
@@ -160,6 +162,8 @@ class renderSubProducts extends React.Component{
 													}
 											}) : null
 										}
+										<img src={require('./upload.jpg')}/>
+										{/*<Button><i className="fa fa-upload  "/>Cargar Imagen</Button>*/}
 										<br/>
 									<Button color="danger" type="button" onClick={() => fields.remove(index)}><i className="fa fa-trash "/> Eliminar</Button>
 								</li>
@@ -329,77 +333,79 @@ class NewProductForm extends React.Component{
 					<BreadcrumbItem active tag="span">/Nuevo Producto</BreadcrumbItem>
 				</Breadcrumb>
 				<form onSubmit={ handleSubmit(actionSubmit) }>
-					<div style={{ float: 'left'}}>
-						<Field
-						  name="name"
-						  type="text"
-						  component={ renderField }
-						  label="Nombre del producto"
-						/>
-						<Field
-						  name="code"
-						  type="number"
-						  component={renderField}
-						  label="Código del producto"
-						/>
-						<Field
-						  name="amount"
-						  type="number"
-						  component={renderField}
-						  label="Precio del producto"
-						/>
-						<label>Descripción</label><br/>
-						<Field
-						  name="description"
-						  type="text"
-						  component="textarea"
-						  placeholder="Descripción"
-						/>
-						<Field
-							name="tags"
-							component={ TagsSelect }
-							type="text"
-							placeholder="Tags"
-							onChangeAction={ this.onChangeActionTags }
-						/>
-						<label>Variantes</label>
-						<Field name="ProductVariants"
-							component={ VariansSelect }
-							type="text"
-							placeholder="Variantes"
-							onChangeAction={ this.onChangeActionVariants }
+					<Container>
+						<Row>
+							<Col md="8">
+								<Field
+								  name="name"
+								  type="text"
+								  component={ renderField }
+								  label="Nombre del producto"
+								/>
+								<Field
+								  name="code"
+								  type="number"
+								  component={renderField}
+								  label="Código del producto"
+								/>
+								<Field
+								  name="amount"
+								  type="number"
+								  component={renderField}
+								  label="Precio del producto"
+								/>
+								<label>Descripción</label><br/>
+								<Field
+								  name="description"
+								  type="text"
+								  component="textarea"
+								  placeholder="Descripción"
+								/>
+								<Field
+									name="tags"
+									component={ TagsSelect }
+									type="text"
+									placeholder="Tags"
+									onChangeAction={ this.onChangeActionTags }
+								/>
+								<label>Variantes</label>
+								<Field name="ProductVariants"
+									component={ VariansSelect }
+									type="text"
+									placeholder="Variantes"
+									onChangeAction={ this.onChangeActionVariants }
+									/>
+							</Col>
+							<Col md="4">
+								<Button
+									type="button"
+									disabled={pristine || submitting}
+									onClick={reset}><i className="fa fa-eraser "/> Limpiar
+								</Button>
+								<Link to="/ListadoAdmin" >
+									<Button type="button"><i className="fa fa-list"/> Listado Administrativo</Button>
+								</Link>
+								<Link to="/Listado" >
+									<Button type="button"><i className="fa fa-th-list"/> Listado Publico</Button>
+								</Link>
+							</Col>
+						</Row>
+						<Row>
+							<FieldArray
+							  name="variantsArray"
+							  component={ renderSubProducts }
+							  variantsArray={ variantsArray }
+							  onChangeActionArray={ this.onChangeActionArray }
+							  dispatch={ dispatch }
+							  variantError={ variantError }
 							/>
-					</div>
-					<div style={{ float: 'left'}}>
-						<FieldArray
-						  name="variantsArray"
-						  component={ renderSubProducts }
-						  variantsArray={ variantsArray }
-						  onChangeActionArray={ this.onChangeActionArray }
-						  dispatch={ dispatch }
-						  variantError={ variantError }
-						/>
-					</div>
-					<div style={{float:'left'}}>
-						<Button
-							type="submit"
-							disabled={submitting}>
-							<i className="fa fa-floppy-o"/> { initialValues && initialValues.get('id') ? 'Actualizar' : 'Guardar' }</Button>
-						<Button
-							type="button"
-							disabled={pristine || submitting}
-							onClick={reset}><i className="fa fa-eraser "/> Limpiar</Button>
-					</div>
-					<div className="pull-right">
-						<Link to="/ListadoAdmin" >
-							<Button type="button"><i className="fa fa-list"/> Listado Administrativo</Button>
-						</Link>
-					</div>
-					<div className="pull-right">
-						<Link to="/Listado" >
-							<Button type="button"><i className="fa fa-th-list"/> Listado Publico</Button>
-						</Link>
-					</div>
+						</Row>
+					</Container>
+					<Button
+						type="submit"
+						disabled={submitting}>
+						<i className="fa fa-floppy-o"/> { initialValues && initialValues.get('id') ? 'Actualizar' : 'Guardar' }
+					</Button>
 				</form>
 			</div>
 		);
