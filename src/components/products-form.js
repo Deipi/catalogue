@@ -16,7 +16,7 @@ const renderField = ({ onChangeAction, index, input, label, type, meta: { touche
 		position: 'absolute',
 		zIndex: '3',
 		right: '11px',
-		top: '-9px',
+		top: '-23px',
 		width: '13em'
 
 	};
@@ -32,6 +32,7 @@ const renderField = ({ onChangeAction, index, input, label, type, meta: { touche
 				<InputGroupAddon> {label}</InputGroupAddon>
 					<Input { ...input } style={ styleError }  name={ input.name } id="inputs" type={type} placeholder={label} />
 			</InputGroup>
+			<br/>
 		</div>
 	);
 };
@@ -44,7 +45,8 @@ const renderFieldVariant = ({ onChangeAction, input, index, label, placeholder, 
 		position: 'absolute',
 		zIndex: '3',
 		right: '11px',
-		top: '-9px',
+		top: '-23px',
+		width: '13em'
 	};
 
 	if (touched && error) {
@@ -101,8 +103,7 @@ class renderSubProducts extends React.Component{
 	}
 
 	validateVariant(value) {
-		//aqui se retorna un error al component=VariantsDictionary
-		return value && value.label || value === undefined ? undefined : "Please don't repeat variants";
+		return value && value.label || value === undefined ? undefined : "El valor se Repite o El Campo esta Vacio";
 	}
 
 	validateVariantInput(value) {
@@ -113,8 +114,10 @@ class renderSubProducts extends React.Component{
 		const { onChangeActionArray, variantsArray, fields, meta: { touched, error, submitFailed } } = this.props;
 		return (
 			<Col md="12">
-				<Button type="button" onClick={(() => fields.push(Immutable.Map()))}><i className="fa fa-plus-circle  "/> Crear Variante </Button>
+			<Row>
+				<Button color="success" className="mt-3 mb-3 pull-left ml-3" type="button" onClick={(() => fields.push(Immutable.Map()))}><i className="fa fa-plus-circle"/> Crear Variante </Button>
 				{(touched || submitFailed) && error && <span>{error}</span>}
+			</Row>
 					<Card>
 						<CardHeader>Subproductos</CardHeader>
 						<Row>
@@ -128,6 +131,7 @@ class renderSubProducts extends React.Component{
 												{ // Recibir el nombre
 													if (obj.name) {
 														return (
+															<div>
 															<Field
 																name={ `${ field }.${ obj.name }` }
 																type="text"
@@ -143,6 +147,8 @@ class renderSubProducts extends React.Component{
 																// condicional para validar el select: llama la funcion validateVariant
 																validate={ [ this.validateVariant ] }
 															/>
+															<br/>
+															</div>
 														);
 													} else {
 														return (
@@ -159,10 +165,15 @@ class renderSubProducts extends React.Component{
 													}
 											}) : null
 										}
-										 <img src={require('./upload.jpg')}/>
-										{/*<Button><i className="fa fa-upload  "/>Cargar Imagen</Button>*/}
+									 	<img src={require('./upload.jpg')}/>
 										<br/>
-										<Button color="danger" type="button" onClick={() => fields.remove(index)}><i className="fa fa-trash "/> Eliminar</Button>
+										<br/>
+										<Button
+											color="danger"
+											type="button"
+											onClick={() =>
+												fields.remove(index)}><i className="fa fa-trash "
+										/> Eliminar</Button>
 							</CardBlock>
 							</Col>
 						))}
@@ -248,7 +259,6 @@ class NewProductForm extends React.Component{
 			});
 		}
 	}
-
 
 	componentWillReceiveProps(nextProps){
 		const { alreadyInitialized } = this.state;
@@ -358,32 +368,39 @@ class NewProductForm extends React.Component{
 								  component="textarea"
 								  placeholder="Descripción"
 								/>
-								<Field
-									name="tags"
-									component={ TagsSelect }
-									type="text"
-									placeholder="Tags"
-									onChangeAction={ this.onChangeActionTags }
-								/>
-								<label>Variantes</label>
-								<Field name="ProductVariants"
-									component={ VariansSelect }
-									type="text"
-									placeholder="Variantes"
-									onChangeAction={ this.onChangeActionVariants }
+								<Row>
+									<Col md="6">
+									<Field
+										name="tags"
+										component={ TagsSelect }
+										type="text"
+										placeholder="Tags"
+										onChangeAction={ this.onChangeActionTags }
 									/>
+									</Col>
+									<Col md="6">
+									<Field name="ProductVariants"
+										component={ VariansSelect }
+										type="text"
+										placeholder="Variantes"
+										onChangeAction={ this.onChangeActionVariants }
+										/>
+									</Col>
+								</Row>
 							</Col>
-							<Col md="4">
+							<Col md="4" className="center-text">
 								<Button
 									type="button"
 									disabled={pristine || submitting}
 									onClick={reset}><i className="fa fa-eraser "/> Limpiar
 								</Button>
-								<Link to="/ListadoAdmin" >
-									<Button type="button"><i className="fa fa-list"/> Listado Administrativo</Button>
-								</Link>
+								<br/><br/>
 								<Link to="/Listado" >
 									<Button type="button"><i className="fa fa-th-list"/> Listado Publico</Button>
+								</Link>
+								<br/><br/>
+								<Link to="/ListadoAdmin" >
+									<Button type="button"><i className="fa fa-list"/> Listado Administrativo</Button>
 								</Link>
 							</Col>
 						</Row>
@@ -400,6 +417,8 @@ class NewProductForm extends React.Component{
 					</Container>
 					<Button
 						type="submit"
+						color="info"
+						className="pull-right  mr-3"
 						disabled={submitting}>
 						<i className="fa fa-floppy-o"/> { initialValues && initialValues.get('id') ? 'Actualizar' : 'Guardar' }
 					</Button>
