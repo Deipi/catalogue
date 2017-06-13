@@ -8,8 +8,9 @@ import { change } from 'redux-form/immutable'
 const ERROR_STYLE = {
     position: 'absolute',
     zIndex: '3',
-    right: '11px',
-    top: '-9px',
+    right: '-13px',
+    top: '-10px',
+    width: '20em'
 };
 
 const optionsSize = [
@@ -28,18 +29,36 @@ const optionsColor = [
     { value: 'G', label: 'Gris' }
 ];
 const optionsFlavor = [
-    { value: 'V', label: 'Limon' },
-    { value: 'A', label: 'Naranja' },
-    { value: 'R', label: 'Fresa' },
+    { value: 'L', label: 'Limon' },
+    { value: 'N', label: 'Naranja' },
+    { value: 'F', label: 'Fresa' },
     { value: 'M', label: 'Mora' },
-    { value: 'B', label: 'Natural'},
-    { value: 'B', label: 'Vainilla'}
+    { value: 'Nat', label: 'Natural'},
+    { value: 'V', label: 'Vainilla'}
+];
+
+const optionsStyle = [
+    { value: 'V', label: 'Vaquero' },
+    { value: 'E', label: 'Europeo' },
+    { value: 'C', label: 'Casual' },
+    { value: 'P', label: 'Playa' },
+    { value: 'N', label: 'Noche'},
+    { value: 'Ver', label: 'Verano'}
+];
+
+const optionsMaterial = [
+    { value: 'M', label: 'Madera' },
+    { value: 'V', label: 'Vidrio' },
+    { value: 'Pla', label: 'Plastico' },
+    { value: 'P', label: 'Piel' },
+    { value: 'T', label: 'Tela'},
+    { value: 'Carton', label: 'Carton'}
 ];
 
 export const options = [
     { value: 'S', label: 'Sabor', name: 'taste', options: optionsFlavor , placeholder:'Flavor'},
-    { value: 'E', label: 'Estilo', name: 'style', options: [], placeholder:'Style' },
-    { value: 'M', label: 'Material', name: 'material', options: [], placeholder:'Material'},
+    { value: 'E', label: 'Estilo', name: 'style', options: optionsStyle, placeholder:'Style' },
+    { value: 'M', label: 'Material', name: 'material', options: optionsMaterial, placeholder:'Material'},
     { value: 'T', label: 'Tamaño', name: 'size', options: optionsSize, placeholder:'Size' },
     { value: 'C', label: 'Color', name: 'color', options: optionsColor, placeholder: 'Color' }
 ];
@@ -52,12 +71,10 @@ const multiValue = [
 class VariansSelectComponent extends Component{
   constructor(props) {
       super(props);
-      // this.handleOnChange = this.handleOnChange.bind(this);
       this.validateNewOption = this.validateNewOption.bind(this);
       this.state = {
           displayName: 'VariansSelect',
           multi: true,
-          // multiValue,
           options,
           value: undefined
       };
@@ -67,20 +84,6 @@ class VariansSelectComponent extends Component{
   hint: React.PropTypes.string,
   label: React.PropTypes.string
   }
-
-  // componentWillMount() {
-  //     const { dispatch } = this.props;
-  //     dispatch(change('fieldArrays', 'ProductVariants', options, true))
-  // }
-
-  // handleOnChange (value) {
-  //   const { multi } = this.state;
-  //   if (multi) {
-  //     this.setState({ multiValue: value });
-  //   } else {
-  //     this.setState({ value });
-  //   }
-  // }
 
   validateNewOption(value) {
     const { options, multiValue } = this.state;
@@ -100,7 +103,7 @@ class VariansSelectComponent extends Component{
     const { name } = this.props.input;
     return (
       <div >
-        <h3 >{this.props.label}</h3>
+        <br/>
         <Select.Creatable
           multi={multi}
           options={options}
@@ -167,8 +170,6 @@ export class TagsSelect extends  Component{
     }
   }
 
-
-
   render () {
 
     const { multi, multiValue, options } = this.state;
@@ -183,10 +184,9 @@ export class TagsSelect extends  Component{
         styleError.borderColor = 'darkred';
     }
 
-
     return (
       <div >
-        <h3 >{this.props.label}</h3>
+        <br/>
         <Select.Creatable
           noResultsText=""
           required
@@ -206,7 +206,6 @@ export class TagsSelect extends  Component{
     );
   }
 }
-
 
 export const VariantsDictionary = (props) => {
     const styleError = {};
