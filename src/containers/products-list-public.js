@@ -33,8 +33,8 @@ const NewLayout = ({Table,Filter,Pagination }) => (
 const DetailsButton = ({value, griddleKey, rowData}) =>
 	(
 		<Link  to={`/Detalles/${ rowData.name }`}>
-			<Button type="button">
-				<i className="fa fa-th-list"/> Detalles
+			<Button color="warning" type="button">
+				<i className="fa fa-info-circle "/>
 			</Button>
 		</Link>
 	)
@@ -68,7 +68,7 @@ class PublicList extends Component {
 				>
 					<RowDefinition>
 						<ColumnDefinition
-							title="Imagen"
+							title=" "
 							customComponent={ () =>
 								<img
 									src="https://425degree-3eea.kxcdn.com/wp-content/uploads/2012/12/02-iphone-6s.jpg"
@@ -89,7 +89,7 @@ class PublicList extends Component {
 							title="Precio" />
 						<ColumnDefinition
 							id="details"
-							title="Detalles del Producto"
+							title="Detalles"
 							customComponent={enhancedWithRowData(DetailsButton)}/>
 					</RowDefinition>
 				</Griddle>

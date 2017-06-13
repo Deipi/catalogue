@@ -32,23 +32,25 @@ const NewLayout = ({Table,Filter,Pagination }) => (
 
 const EditButton = (currentProduct) => (props) =>(
 	<Link to="/Nuevo Producto" >
-		<Button onClick={ () => currentProduct(props.value) } type="button">
-			<i className="fa fa-pencil"/> Editar</Button>
+		<Button color="success" onClick={ () => currentProduct(props.value) } type="button">
+			<i className="fa fa-pencil"/>
+		</Button>
 	</Link>
 	)
 
 const DeleteButton =(deleteProduct)=>({rowData}) =>
 	(
 		<Button color="danger" onClick={ () => deleteProduct(rowData.id) } type="button">
-		<i className="fa fa-trash "/> Eliminar</Button>
+			<i className="fa fa-trash "/>
+		</Button>
 	)
 
 
 const DetailsButton = ({value, griddleKey, rowData}) =>
 	(
 		<Link  to={`/Detalles/${ rowData.name }`}>
-			<Button type="button">
-				<i className="fa fa-th-list"/> Detalles
+			<Button color="warning" type="button">
+				<i className="fa fa-info-circle"/>
 			</Button>
 		</Link>
 	)
@@ -121,7 +123,7 @@ class ProductsList extends Component {
 					>
 						<RowDefinition>
 							<ColumnDefinition
-								title="Imagen"
+								title=" "
 								customComponent={ () =>
 									<img
 										src="http://www.technologyace.com/wp-content/uploads/2017/03/iPhone-8Is-1.jpg"
@@ -143,15 +145,15 @@ class ProductsList extends Component {
 								title="Precio" />
 							<ColumnDefinition
 								id="id"
-								title="Editar Producto"
+								title="Editar"
 								customComponent={EditButton(this.currentProduct)}/>
 							<ColumnDefinition
 								id="details"
-								title="Detalles del Producto"
+								title="Detalles"
 								customComponent={enhancedWithRowData(DetailsButton)}/>
 							<ColumnDefinition
 								id="delete"
-								title="Eliminar Producto"
+								title="Eliminar"
 								customComponent={enhancedWithRowData(DeleteButton(this.deleteProduct))}/>
 						</RowDefinition>
 					</Griddle>
