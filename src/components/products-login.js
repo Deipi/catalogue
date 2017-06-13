@@ -52,24 +52,25 @@ const SimpleFormLogin = (props) => {
         <Col className="col-sm-12">
             <form onSubmit={handleSubmit(actionSubmit)}>
                 <Row>
-                    <div className="col-sm-6">
-                        <h3>Ingrese a su cuenta</h3>
+                    <div className="col-sm-5">
+                        <h4>Ingrese a su cuenta</h4>
                         <br/>
                         <div>
-                            <i className="fa fa-envelope fa-4x"/>
-                                <p style={{ position:'absolute', margin:'-3.2em 5em'}}>Por favor introduzca su <strong>correo electrónico</strong> y <strong>contraseña</strong>  para ingresar al sistema.</p>
+                            <i className="fa fa-envelope fa-2x pull-left"/>
+                                <p >Por favor introduzca su <strong>correo electrónico</strong> y <strong>contraseña</strong>  para ingresar al sistema.</p>
                         </div><br/><br/>
                         <div>
-                            <i className="fa fa-check fa-4x"/>
-                                <p style={{ position:'absolute', margin:'-3.2em 5em'}}>Por favor introduzca su <strong>correo electrónico</strong> y <strong>contraseña</strong>  para ingresar al sistema.</p>
+                            <i className="fa fa-check fa-2x pull-left"/>
+                                <p>Por favor introduzca su <strong>correo electrónico</strong> y <strong>contraseña</strong>  para ingresar al sistema.</p>
                         </div>
                     </div>
-                    <div className="col-sm-6">
+                    <div className="col-sm-7">
                         <Card block>
-                            <div className="offset-5">
                                     <br/>
-                                    <h3>LOGIN</h3><br/>
-                            </div>
+                                    <div className="col-sm-3 offset-5">
+                                        <img src="http://www.freeiconspng.com/uploads/register-secure-security-user-login-icon--7.png" />
+                                        <br/>
+                                    </div>
                             <Col className="offset-5">
                                 <tr>LOGIN</tr><br/>
                             </Col>
