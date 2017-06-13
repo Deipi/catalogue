@@ -32,7 +32,7 @@ const NewLayout = ({Table,Filter,Pagination }) => (
 
 const EditButton = (currentProduct) => (props) =>(
 	<Link to="/Nuevo Producto" >
-		<Button color="success" onClick={ () => currentProduct(props.value) } type="button">
+		<Button style={{width: '4em'}} color="success" onClick={ () => currentProduct(props.value) } type="button">
 			<i className="fa fa-pencil"/>
 		</Button>
 	</Link>
@@ -40,7 +40,7 @@ const EditButton = (currentProduct) => (props) =>(
 
 const DeleteButton =(deleteProduct)=>({rowData}) =>
 	(
-		<Button color="danger" onClick={ () => deleteProduct(rowData.id) } type="button">
+		<Button style={{width: '4em'}} color="danger" onClick={ () => deleteProduct(rowData.id) } type="button">
 			<i className="fa fa-trash "/>
 		</Button>
 	)
@@ -49,7 +49,7 @@ const DeleteButton =(deleteProduct)=>({rowData}) =>
 const DetailsButton = ({value, griddleKey, rowData}) =>
 	(
 		<Link  to={`/Detalles/${ rowData.name }`}>
-			<Button color="warning" type="button">
+			<Button style={{width: '4em'}} color="warning" type="button">
 				<i className="fa fa-info-circle"/>
 			</Button>
 		</Link>
@@ -95,6 +95,7 @@ class ProductsList extends Component {
 		const { props: { products } } = this;
 
 		const listProducts = products.filter(product => product.get('parent') === 0 );
+		const CustomColumn = ({value}) => <p style={{width: '4em'}}>{value}</p>;
 
 		return (
 
@@ -127,22 +128,29 @@ class ProductsList extends Component {
 								customComponent={ () =>
 									<img
 										src="http://www.technologyace.com/wp-content/uploads/2017/03/iPhone-8Is-1.jpg"
-										width="75"
-										heigth="75"
+										width="	75"
 									/>}
 							/>
 							<ColumnDefinition
 								id="name"
-								title="Nombre"  />
+								title="Nombre"
+								customComponent={CustomColumn}
+							/>
 							<ColumnDefinition
 								id="description"
-								title="Descrición"  />
+								title="Descrición"
+								customComponent={CustomColumn}
+								/>
 							<ColumnDefinition
 								id="code"
-								title="Código" />
+								title="Código"
+								customComponent={CustomColumn}
+								/>
 							<ColumnDefinition
 								id="amount"
-								title="Precio" />
+								title="Precio"
+								customComponent={CustomColumn}
+								/>
 							<ColumnDefinition
 								id="id"
 								title="Editar"

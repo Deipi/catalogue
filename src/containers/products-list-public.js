@@ -33,7 +33,7 @@ const NewLayout = ({Table,Filter,Pagination }) => (
 const DetailsButton = ({value, griddleKey, rowData}) =>
 	(
 		<Link  to={`/Detalles/${ rowData.name }`}>
-			<Button color="warning" type="button">
+			<Button style={{width: '4em'}} color="warning" type="button">
 				<i className="fa fa-info-circle "/>
 			</Button>
 		</Link>
@@ -46,6 +46,7 @@ class PublicList extends Component {
 	}
 	render() {
 		const { props: { products } } = this;
+		const CustomColumn = ({value}) => <p style={{width: '4em'}}>{value}</p>;
 
 		const listProducts = products.filter(product => product.get('parent') === 0 );
 
@@ -76,15 +77,19 @@ class PublicList extends Component {
 									heigth="75" />}
 					/>
 						<ColumnDefinition
+							customComponent = {CustomColumn}
 							id="name"
 							title="Nombre"  />
 						<ColumnDefinition
+							customComponent = {CustomColumn}
 							id="description"
 							title="Descrición"  />
 						<ColumnDefinition
+							customComponent = {CustomColumn}
 							id="code"
 							title="Código" />
 						<ColumnDefinition
+							customComponent = {CustomColumn}
 							id="amount"
 							title="Precio" />
 						<ColumnDefinition
