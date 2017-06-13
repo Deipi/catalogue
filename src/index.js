@@ -17,6 +17,7 @@ import './index.css';
 import 'bootstrap/dist/css/bootstrap.css'
 import ProductsReducer, { errorVariantReducer, updateProduct } from './reducers/products';
 import InsertarProductos from './containers/products-form'
+import ProductLogin from './containers/products-login'
 import ListaProductosAdministrador from './containers/products-list-admin'
 import ListaProductosPublico from './containers/products-list-public'
 import DetailProducts from './containers/Details';
@@ -36,7 +37,7 @@ const routes = [
   { path: '/',
 	exact: true,
 	sidebar: () => <div>home!</div>,
-	main: () => <h2>Hola</h2>
+	main: () => <h2><ProductLogin/></h2>
   },
 
   { path: '/ListadoAdmin',
