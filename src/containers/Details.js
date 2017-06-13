@@ -21,7 +21,6 @@ const Carousel =()=> {
     var settings = {
         arrows: false,
         accessibility:true,
-        // dots: true,
         infinite: true,
         centerPadding: '500px',
         speed: 500,
@@ -61,7 +60,7 @@ class ProductDetail extends Component {
         super(props);
         const { products, match: { params: { name } } } = props;
         this.state = {
-            product: products.filter((h)=> h.getIn(['name'])===name)
+            product: products.filter((h)=> h.get('name')===name)
         };
     }
 
@@ -74,7 +73,7 @@ class ProductDetail extends Component {
         const { products, match: { params: { name } } } = nextProps;
 
         this.setState({
-            product: products.filter((h)=> h.getIn(['name'])===name)
+            product: products.filter((h)=> h.get('name')===name)
         });
     }
 
