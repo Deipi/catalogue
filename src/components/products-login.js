@@ -7,13 +7,13 @@ const validate = values => {
     const errors = {};
 
     if (!values.get('email')) {
-        errors.email = 'Required'
+        errors.email = 'Se Requiere un e-mail'
     } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.get('email'))) {
         errors.email = 'Invalid email address'
     }
 
     if (!values.get('password')) {
-        errors.password = 'Required'
+        errors.password = 'Se Requiere una Contraseña'
     }
 
     return errors;
@@ -24,10 +24,12 @@ const renderField = ({ onChangeAction, index, input, label,className, type, meta
     let errorSpan = null;
 
     const ERROR_STYLE = {
-        position: 'absolute',
+       position: 'absolute',
         zIndex: '3',
-        right: '11px',
-        top: '-9px',
+        right: '2px',
+        top: '-10px',
+        width: '15em',
+        'font-size':'11px'
     };
 
     if (touched && error) {
@@ -37,9 +39,9 @@ const renderField = ({ onChangeAction, index, input, label,className, type, meta
     return(
         <div style={ { position: 'relative' } }>
         { errorSpan }
-        <InputGroup>
-        <InputGroupAddon> <i className={className}/></InputGroupAddon>
-        <Input { ...input }className="form-control" style={ styleError }  name={ input.name } id="inputs" type={type} placeholder={label} />
+        <InputGroup  style={{ zIndex: 0 }}>
+            <InputGroupAddon> <i className={className}/></InputGroupAddon>
+            <Input { ...input }className="form-control" style={ styleError }  name={ input.name } id="inputs" type={type} placeholder={label} />
         </InputGroup>
         </div>
     );
@@ -64,16 +66,13 @@ const SimpleFormLogin = (props) => {
                                 <p>Por favor introduzca su <strong>correo electrónico</strong> y <strong>contraseña</strong>  para ingresar al sistema.</p>
                         </div>
                     </div>
-                    <div className="col-sm-7">
+                    <Col className="sm-7 xs-12" >
                         <Card block>
                                     <br/>
                                     <div className="col-sm-3 offset-5">
                                         <img src="http://www.freeiconspng.com/uploads/register-secure-security-user-login-icon--7.png" />
                                         <br/>
                                     </div>
-                            <Col className="offset-5">
-                                <tr>LOGIN</tr><br/>
-                            </Col>
                             <Col className="col-sm-12 offset-1">
                                 <InputGroup>
                                 <Col className="col-sm-10">
@@ -115,7 +114,7 @@ const SimpleFormLogin = (props) => {
                                 </div>
                                 </Row>
                         </Card>
-                    </div>
+                    </Col>
                 </Row>
             </form>
         </Col>
