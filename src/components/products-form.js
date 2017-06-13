@@ -112,18 +112,15 @@ class renderSubProducts extends React.Component{
 	render() {
 		const { onChangeActionArray, variantsArray, fields, meta: { touched, error, submitFailed } } = this.props;
 		return (
-			<ul>
-				<div >
-					<Button type="button" onClick={(() => fields.push(Immutable.Map()))}><i className="fa fa-plus-circle  "/> Crear</Button>
-					{(touched || submitFailed) && error && <span>{error}</span>}
-				</div>
-				<div className="card-columns">
-					<Card style={{width:'60em'}}>
+			<Col md="12">
+				<Button type="button" onClick={(() => fields.push(Immutable.Map()))}><i className="fa fa-plus-circle  "/> Crear Variante </Button>
+				{(touched || submitFailed) && error && <span>{error}</span>}
+					<Card>
 						<CardHeader>Subproductos</CardHeader>
-						{
-							fields.map((field, index) => (
-							<CardBlock style={{display:'inline-flex'}}>
-								<li key={index}>
+						<Row>
+						{fields.map((field, index) => (
+							<Col xs="3">
+							<CardBlock key={index} >
 									<h4>Variante #{index + 1} </h4>
 										{
 											variantsArray ?
@@ -156,23 +153,23 @@ class renderSubProducts extends React.Component{
 																onChangeAction={ onChangeActionArray }
 																label={ obj.label }
 																index={ index }
-																// validate={ [ this.validateVariantInput ] }
+																validate={ [ this.validateVariantInput ] }
 															/>
 														);
 													}
 											}) : null
 										}
-										<img src={require('./upload.jpg')}/>
+										 <img src={require('./upload.jpg')}/>
 										{/*<Button><i className="fa fa-upload  "/>Cargar Imagen</Button>*/}
 										<br/>
-									<Button color="danger" type="button" onClick={() => fields.remove(index)}><i className="fa fa-trash "/> Eliminar</Button>
-								</li>
+										<Button color="danger" type="button" onClick={() => fields.remove(index)}><i className="fa fa-trash "/> Eliminar</Button>
 							</CardBlock>
+							</Col>
 						))}
+						</Row>
 					</Card>
-					<br/>
-				</div>
-			</ul>
+				<br/>
+		</Col>
 		);
 	}
 }
