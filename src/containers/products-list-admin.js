@@ -104,7 +104,7 @@ class ProductsList extends Component {
 					<Link to="/">
 				    	<BreadcrumbItem tag="a">Inicio</BreadcrumbItem>
 				    </Link>
-					<BreadcrumbItem active tag="span">/Listado del Administrador</BreadcrumbItem>
+					<BreadcrumbItem active tag="span">/Administrar Productos</BreadcrumbItem>
 				</Breadcrumb>
 				<div>
 					<Link to="/Nuevo Producto" >
@@ -134,22 +134,18 @@ class ProductsList extends Component {
 							<ColumnDefinition
 								id="name"
 								title="Nombre"
-								customComponent={CustomColumn}
 							/>
 							<ColumnDefinition
 								id="description"
 								title="Descrición"
-								customComponent={CustomColumn}
 								/>
 							<ColumnDefinition
 								id="code"
 								title="Código"
-								customComponent={CustomColumn}
 								/>
 							<ColumnDefinition
 								id="amount"
 								title="Precio"
-								customComponent={CustomColumn}
 								/>
 							<ColumnDefinition
 								id="id"
