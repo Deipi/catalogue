@@ -59,60 +59,68 @@ const SimpleFormLogin = (props) => {
                         <br/>
                         <div>
                             <i className="fa fa-envelope fa-2x pull-left"/>
-                                <p >Por favor introduzca su <strong>correo electrónico</strong> y <strong>contraseña</strong>  para ingresar al sistema.</p>
+                                <p>Por favor introduzca su <strong>correo electrónico</strong> y <strong>contraseña</strong>  para ingresar al sistema.</p>
                         </div><br/><br/>
                         <div>
                             <i className="fa fa-check fa-2x pull-left"/>
-                                <p>Por favor introduzca su <strong>correo electrónico</strong> y <strong>contraseña</strong>  para ingresar al sistema.</p>
+                                <p>Puede usar la opción de <strong>no cerrar sesión </strong>para evitar tener que introducir su contraseña en cada visita.</p>
                         </div>
                     </div>
                     <Col className="sm-7 xs-12" >
                         <Card block>
-                                    <br/>
-                                    <div className="col-sm-3 offset-5">
-                                        <img src="http://www.freeiconspng.com/uploads/register-secure-security-user-login-icon--7.png" />
-                                        <br/>
-                                    </div>
+                            <br/>
+                            <div className="col-sm-3 offset-5">
+                                <img src="http://www.freeiconspng.com/uploads/register-secure-security-user-login-icon--7.png" />
+                                <br/>
+                            </div>
                             <Col className="col-sm-12 offset-1">
                                 <InputGroup>
-                                <Col className="col-sm-10">
-                                    <Field
-                                        name="email"
-                                        type="email"
-                                        component={renderField}
-                                        label="Email"
-                                        className="fa fa-fw fa-envelope"
-                                    />
-                                    <br/>
-                                </Col>
+                                    <Col className="col-sm-10">
+                                        <Field
+                                            name="email"
+                                            type="email"
+                                            component={renderField}
+                                            label="Correo Electrónico"
+                                            className="fa fa-fw fa-envelope"
+                                        />
+                                        <br/>
+                                    </Col>
                                 </InputGroup>
 
                                 <InputGroup>
-                                <Col className="col-sm-10">
-                                    <Field
-                                        name="password"
-                                        type="password"
-                                        component={renderField}
-                                        label="Password"
-                                        className="fa fa-fw fa-key"
-                                    /><br/><br/>
-                                </Col>
-                                </InputGroup>
+                                    <Col className="col-sm-10">
+                                        <Field
+                                            name="password"
+                                            type="password"
+                                            component={renderField}
+                                            label="Contraseña"
+                                            className="fa fa-fw fa-key"
+                                        /><br/>
+                                        <Button color="primary" type="submit" disabled={ pristine || submitting }>
+                                            INICIAR SESIÓN
+                                        </Button>
+                                        <div class="forgot">
+                                            <span
+                                                style={{
+                                                    'margin-right': '5px',
+                                                    'font-size': '18px',
+                                                    'font-weight': 'bold'
+                                                }}>¿Aún no tiene una cuenta?</span>
+                                            <Link
+                                                style={
+                                                    {
 
+                                                        color: '#797979',
+                                                        'font-size': '18px',
+                                                        'font-weight': 'bold'
+                                                    }
+                                                }
+                                                to="/Registrar/">¡Regístrese!
+                                            </Link>
+                                        </div>
+                                    </Col>
+                                </InputGroup>
                             </Col>
-                                 <Row>
-                                <div className="col-sm-12 offset-2">
-                                <Button type="submit" disabled={ pristine || submitting }>
-                                    Sign Up
-                                </Button>
-                                <Button className="btn btn-primary" type="button" disabled={pristine || submitting} onClick={reset}>
-                                    <Link tag={Link} color="info" to='login'>Clear Values</Link>
-                                </Button>
-                                <Button className="btn btn-primary" type="button" disabled={pristine || submitting} onClick={reset}>
-                                    <Link  tag={Link} color="info" to='registrar'>Registrar</Link>
-                                </Button>
-                                </div>
-                                </Row>
                         </Card>
                     </Col>
                 </Row>
