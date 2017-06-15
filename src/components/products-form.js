@@ -337,7 +337,7 @@ class NewProductForm extends React.Component{
 					<Link to="/">
 						<BreadcrumbItem tag="a">Inicio</BreadcrumbItem>
 					</Link>
-					<BreadcrumbItem active tag="span">/Nuevo Producto</BreadcrumbItem>
+					<BreadcrumbItem active tag="span">{ initialValues && initialValues.get('id') ? '/Editar Producto' : '/Nuevo Producto' }</BreadcrumbItem>
 				</Breadcrumb>
 				<form onSubmit={ handleSubmit(actionSubmit) }>
 					<Container>
@@ -392,15 +392,15 @@ class NewProductForm extends React.Component{
 								<Button
 									type="button"
 									disabled={pristine || submitting}
-									onClick={reset}><i className="fa fa-eraser "/> Limpiar
+									onClick={reset}><i className="fa fa-eraser fa-fw"/>Limpiar
 								</Button>
 								<br/><br/>
 								<Link to="/Listado" >
-									<Button type="button"><i className="fa fa-th-list"/> Listado Publico</Button>
+									<Button type="button"><i className="fa fa-th-list fa-fw"/>Productos</Button>
 								</Link>
 								<br/><br/>
 								<Link to="/ListadoAdmin" >
-									<Button type="button"><i className="fa fa-list"/> Listado Administrativo</Button>
+									<Button type="button"><i className="fa fa-wrench fa-fw"/>Administrar Productos</Button>
 								</Link>
 							</Col>
 						</Row>
