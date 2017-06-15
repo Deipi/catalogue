@@ -18,6 +18,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 import ProductsReducer, { errorVariantReducer, updateProduct } from './reducers/products';
 import InsertarProductos from './containers/products-form'
 import ProductLogin from './containers/products-login'
+import NewUser from './containers/new-user'
 import ListaProductosAdministrador from './containers/products-list-admin'
 import ListaProductosPublico from './containers/products-list-public'
 import DetailProducts from './containers/Details';
@@ -57,53 +58,85 @@ const routes = [
   { path: '/Detalles/:name' ,
 	sidebar: () => <div>Details!</div>,
 	main: DetailProducts,
+  },
+  {path: '/Registrar/',
+	sidebar: () => <div>Register!</div>,
+	main: ()=> <NewUser/>,
   }
 ]
 
 
 class Menu extends React.Component {
+
 	constructor(props) {
-		super(props);
+	super(props);
 
-		this.toggleNavbar = this.toggleNavbar.bind(this);
-		this.state = {
-			collapsed: true
-		};
-	}
-
-	toggleNavbar() {
-		this.setState({
-			collapsed: !this.state.collapsed
-		});
-	}
+	this.toggle = this.toggle.bind(this);
+	this.state = {
+	  isOpen: false
+	};
+  }
+  toggle() {
+	this.setState({
+	  isOpen: !this.state.isOpen
+	});
+  }
 	render(){
 		const { props: { dispatch } } = this;
 		return(
-
-			<Navbar color="faded" light>
+			<div>
+				<Navbar style={{'background-color':'#F2F2F2'}} light toggleable>
+					<NavbarToggler right onClick={this.toggle} />
+					<NavbarBrand>
+						<Link
+							style={{'color':'#666666'}}
+							to="/Listado" >
+							<i className="fa fa-th-list fa-fw"></i>
+							Productos
+						</Link>
+					</NavbarBrand>
+					<Collapse isOpen={this.state.isOpen} navbar>
+						<Nav className="ml-auto fa-1x" navbar>
+							<NavItem >
+								<NavLink>
+									<Link style={{'color':'#666666'}} to="/" >
+										<i className="fa fa-sign-in fa-fw"></i>
+										Login
+									</Link>
+								</NavLink>
+							</NavItem>
+							<NavItem>
+								<NavLink>
+									<Link
+										style={{'color':'#666666'}}
+										to="/ListadoAdmin">
+										<i className="fa fa-wrench fa-fw"></i>
+										Administrar Productos
+									</Link>
+								</NavLink>
+							</NavItem>
+							<NavItem>
+								<NavLink>
+									<Link
+										style={{'color':'#666666'}}
+										onClick={ () => dispatch({ type: 'CLEAN_PRODUCT', payload: {} }) }
+										to="/Nuevo Producto" >
+										<i className="fa fa-fw fa-plus-circle"></i>
+										Nuevo Producto
+									</Link>
+								</NavLink>
+							</NavItem>
+						</Nav>
+					</Collapse>
+				</Navbar>
 				<Row>
-					<NavbarToggler onClick={this.toggleNavbar} />
 					<h5 className="mx-auto">
 						<i className="fa fa-shopping-bag fa-spin text-info" aria-hidden="true"/>
 						{'  '}
 						<strong>Catálogo de Productos</strong>
 					</h5>
 				</Row>
-			<Collapse className="navbar-toggleable-md" isOpen={!this.state.collapsed}>
-				<NavbarBrand><Link  to="/" >Inicio</Link></NavbarBrand>
-				<Nav navbar>
-					<NavItem>
-						<NavLink><Link  to="/Listado" >Lista de Productos</Link></NavLink>
-					</NavItem>
-					<NavItem>
-						<NavLink><Link to="/ListadoAdmin" >Lista de Productos(Administrador)</Link></NavLink>
-					</NavItem>
-					<NavItem>
-						<NavLink><Link onClick={ () => dispatch({ type: 'CLEAN_PRODUCT', payload: {} }) } to="/Nuevo Producto" >Nuevo Producto</Link></NavLink>
-					</NavItem>
-				</Nav>
-			</Collapse>
-			</Navbar>
+			</div>
 
 		);
 	}
