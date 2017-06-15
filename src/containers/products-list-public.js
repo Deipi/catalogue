@@ -57,7 +57,7 @@ class PublicList extends Component {
 					<Link to="/">
 						<BreadcrumbItem tag="a">Inicio</BreadcrumbItem>
 					</Link>
-					<BreadcrumbItem active tag="span">/Listado de Productos</BreadcrumbItem>
+					<BreadcrumbItem active tag="span">/Productos</BreadcrumbItem>
 				</Breadcrumb>
 				<Griddle
 					data={listProducts.toJS()}
@@ -75,7 +75,7 @@ class PublicList extends Component {
 									src="https://425degree-3eea.kxcdn.com/wp-content/uploads/2012/12/02-iphone-6s.jpg"
 									width="75"
 									heigth="75" />}
-					/>
+						/>
 						<ColumnDefinition
 							customComponent = {CustomColumn}
 							id="name"
